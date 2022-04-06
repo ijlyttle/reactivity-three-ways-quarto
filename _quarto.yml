@@ -23,6 +23,6 @@ format:
   html:
     theme:
       light: sandstone
-      dark: slate
+      dark: [slate, theme-dark.scss]
     include-in-header:
       - img-filter.html
