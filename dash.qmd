@@ -38,7 +38,7 @@ For example, one place to store the state is the user's browser, in the web-page
 
 ### Everything that exists is a component
 
-These first two subsections are an homage to the famous John Chambers quotes:
+These first two subsections are an homage to the famous John Chambers quote:
 
 > To understand computations in R, two slogans are helpful:
 >
@@ -265,9 +265,10 @@ That way, when I'm building the components and the callbacks, I can narrow down 
 ```{r}
 # using only to demonstrate code; not used in Python Dash.
 library("reticulate")
+use_virtualenv("./venv")
 ```
 
-I'm reproducing this code in an RMarkdown document, so I'm using the reticulate package to run Python.
+I'm reproducing this code in an Quarto document using the R engine, so I'm using the reticulate package to run Python.
 You will not need to do this to create a Dash app; you can work in a purely Python environment.
 
 In fact, if you are newish to Python, you might find the "Field Guide" appendix useful to get things set up.
