@@ -119,27 +119,40 @@
     // wait for the DOM to finish loading, then run function
     window.addEventListener('DOMContentLoaded', (event) => {
 
-      // we want to set some element styles depending on light-mode/dark-mode
-      //   - the theme of the document depends on class 'alternate' being present
-      //       true: dark-mode
-      //       false: light-mode
+      // This document uses SVG images: line diagrams with transparent background.
+      // I want to serve the document natively in either light-mode or dark-mode,
+      // so I want to "invert" these images according to the mode.
+      //
+      // I need a way to:
+      //  - determine the mode of the document
+      //  - invert an image, if needed
+      //  - run this function whenever the mode changes
 
-      // see: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+      // In Quarto, the mode of the document can be determined by looking at the
+      // class of the elmenent that has a class "quarto-color-scheme-toggle":
+      //
+      //  - if that class contains "alternate", the document uses dark-mode
+      //  - otherwise, it uses light-mode
+
+      // To invert an image, use a CSS filter:
+      //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+      // We apply the CSS filter to all <img> elements with a class "filter".
+
+      // To execute a function in response to something changing, use an observer:
+      //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+
       // identify an element to observe
       const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
 
-      // create a new instance of `MutationObserver` named `observer`,
-      // passing it a callback function
       const observer = new MutationObserver(function() {
 
-        // img elements with src attribute that end in '.svg'
-        const selImageSvg = 'img[src$=".svg"]';
+        // img elements with class "filter"
+        const selImageSvg = 'img.filter';
 
         // create a callback function for an element to change its style.filter
-        const setFilter = (value) => {
-          return (element) => element.style.filter = value;
+        const setFilter = (x) => {
+          return (element) => element.style.filter = x;
         }
-
 
         let filter = 'invert(0%)';
         if (elementToObserve.classList.contains('alternate')) {
@@ -151,8 +164,7 @@
         document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
       });
 
-      // call `observe()` on that MutationObserver instance,
-      // passing it the element to observe, and the options object
+      // attach observer to element
       observer.observe(elementToObserve, {attributeFilter: ['class']});
 
       // touch class to initiate observe event
@@ -354,26 +366,18 @@
 <h2 data-number="3.2" class="anchored" data-anchor-id="demonstration-app"><span class="header-section-number">3.2</span> Demonstration app</h2>
 <p>Here’s the link to the now-familar <a href="https://observablehq.com/@ijlyttle/aggregate-local">aggregator app</a>.</p>
 <p>In Observable, there is not a clear distiction between an input and an output. I find it helpful to think of <em>everything</em> in Observable as a reactive varriable.</p>
-<div class="cell">
-<div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/observable-aggregate-local.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Reactivity diagram</figcaption><p></p>
+<p><img src="images/observable-aggregate-local.svg" class="filter img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Reactivity diagram for Observable demo-app</figcaption><p></p>
 </figure>
-</div>
-</div>
 </div>
 <p>As noted above, and as we’ll see in greater detail, we use the <code>viewof</code> interface often to display things to the screen, while keeping track of the value. This is such an important concept that I indicate which of the variables in the app use the <code>viewof</code> interface.</p>
-<div class="cell">
-<div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/observable-legend.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Legend</figcaption><p></p>
+<p><img src="images/observable-legend.svg" class="filter img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Legend: Reactivity diagram for Observable demo-app</figcaption><p></p>
 </figure>
-</div>
-</div>
 </div>
 <p>Observable does not require variables to be defined in any particular order. As a result, I have adapted a style (I’ve see others do it, too) where a notebook has three sections:</p>
 <ul>
@@ -384,7 +388,7 @@
 <p>In this chapter, we’ll go over this “backwards”.</p>
 <section id="appendix" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="appendix"><span class="header-section-number">3.2.1</span> Appendix</h3>
-<p>Here’s where wee import stuff into our notebook.</p>
+<p>Here’s where we import stuff into our notebook.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { aq<span class="op">,</span> op } <span class="im">from</span> <span class="st">"@uwdata/arquero"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Here, we’re importing objects from another notebook, in this case, a notebook that features the arquero library.</p>
 <p>Arquero contains functionality along the lines of dplyr and tidyr.</p>

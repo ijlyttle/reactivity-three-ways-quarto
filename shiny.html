@@ -119,27 +119,40 @@
     // wait for the DOM to finish loading, then run function
     window.addEventListener('DOMContentLoaded', (event) => {
 
-      // we want to set some element styles depending on light-mode/dark-mode
-      //   - the theme of the document depends on class 'alternate' being present
-      //       true: dark-mode
-      //       false: light-mode
+      // This document uses SVG images: line diagrams with transparent background.
+      // I want to serve the document natively in either light-mode or dark-mode,
+      // so I want to "invert" these images according to the mode.
+      //
+      // I need a way to:
+      //  - determine the mode of the document
+      //  - invert an image, if needed
+      //  - run this function whenever the mode changes
 
-      // see: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+      // In Quarto, the mode of the document can be determined by looking at the
+      // class of the elmenent that has a class "quarto-color-scheme-toggle":
+      //
+      //  - if that class contains "alternate", the document uses dark-mode
+      //  - otherwise, it uses light-mode
+
+      // To invert an image, use a CSS filter:
+      //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+      // We apply the CSS filter to all <img> elements with a class "filter".
+
+      // To execute a function in response to something changing, use an observer:
+      //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+
       // identify an element to observe
       const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
 
-      // create a new instance of `MutationObserver` named `observer`,
-      // passing it a callback function
       const observer = new MutationObserver(function() {
 
-        // img elements with src attribute that end in '.svg'
-        const selImageSvg = 'img[src$=".svg"]';
+        // img elements with class "filter"
+        const selImageSvg = 'img.filter';
 
         // create a callback function for an element to change its style.filter
-        const setFilter = (value) => {
-          return (element) => element.style.filter = value;
+        const setFilter = (x) => {
+          return (element) => element.style.filter = x;
         }
-
 
         let filter = 'invert(0%)';
         if (elementToObserve.classList.contains('alternate')) {
@@ -151,8 +164,7 @@
         document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
       });
 
-      // call `observe()` on that MutationObserver instance,
-      // passing it the element to observe, and the options object
+      // attach observer to element
       observer.observe(elementToObserve, {attributeFilter: ['class']});
 
       // touch class to initiate observe event
@@ -361,26 +373,18 @@
 <section id="description" class="level3" data-number="1.2.1">
 <h3 data-number="1.2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">1.2.1</span> Description</h3>
 <p>To start with, spend a few minutes playing with the <a href="https://github.com/ijlyttle/reactivity-demo-shiny">app</a>, while referring back to these diagrams:</p>
-<div class="cell">
-<div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/shiny-aggregate-local.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Reactivity diagram</figcaption><p></p>
+<p><img src="images/shiny-aggregate-local.svg" class="filter img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Reactivity diagram for Shiny demo-app</figcaption><p></p>
 </figure>
-</div>
-</div>
 </div>
 <p>Each <code>input</code> and <code>output</code> you see in the diagram is a part of the UI of the app. The reactive expressions, in this case: <code>inp</code> and <code>agg</code>, are found only in the app’s server-function.</p>
-<div class="cell">
-<div class="cell-output-display">
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="images/shiny-legend.svg" class="img-fluid figure-img"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Legend</figcaption><p></p>
+<p><img src="images/shiny-legend.svg" class="filter img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Legend: Reactivity diagram for Shiny demo-app</figcaption><p></p>
 </figure>
-</div>
-</div>
 </div>
 <p>The solid lines indicate immediate downstream-evaluation if the upstream value changes; this is what we think of when we hear “reactivity”. The dashed lines indicate that downstream-evaluation does not immediate follow an upstream change. For example, the reactive-expression <code>agg</code> is updated only when the <code>button</code> is pushed.</p>
 <p>Spend some time to study the app, to make sure that these diagrams agree with your understanding of how the app operates. In the following sections, we’ll discuss how to implement in your Shiny code.</p>

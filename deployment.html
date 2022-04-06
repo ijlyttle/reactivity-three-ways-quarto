@@ -56,27 +56,40 @@
     // wait for the DOM to finish loading, then run function
     window.addEventListener('DOMContentLoaded', (event) => {
 
-      // we want to set some element styles depending on light-mode/dark-mode
-      //   - the theme of the document depends on class 'alternate' being present
-      //       true: dark-mode
-      //       false: light-mode
+      // This document uses SVG images: line diagrams with transparent background.
+      // I want to serve the document natively in either light-mode or dark-mode,
+      // so I want to "invert" these images according to the mode.
+      //
+      // I need a way to:
+      //  - determine the mode of the document
+      //  - invert an image, if needed
+      //  - run this function whenever the mode changes
 
-      // see: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+      // In Quarto, the mode of the document can be determined by looking at the
+      // class of the elmenent that has a class "quarto-color-scheme-toggle":
+      //
+      //  - if that class contains "alternate", the document uses dark-mode
+      //  - otherwise, it uses light-mode
+
+      // To invert an image, use a CSS filter:
+      //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+      // We apply the CSS filter to all <img> elements with a class "filter".
+
+      // To execute a function in response to something changing, use an observer:
+      //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+
       // identify an element to observe
       const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
 
-      // create a new instance of `MutationObserver` named `observer`,
-      // passing it a callback function
       const observer = new MutationObserver(function() {
 
-        // img elements with src attribute that end in '.svg'
-        const selImageSvg = 'img[src$=".svg"]';
+        // img elements with class "filter"
+        const selImageSvg = 'img.filter';
 
         // create a callback function for an element to change its style.filter
-        const setFilter = (value) => {
-          return (element) => element.style.filter = value;
+        const setFilter = (x) => {
+          return (element) => element.style.filter = x;
         }
-
 
         let filter = 'invert(0%)';
         if (elementToObserve.classList.contains('alternate')) {
@@ -88,8 +101,7 @@
         document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
       });
 
-      // call `observe()` on that MutationObserver instance,
-      // passing it the element to observe, and the options object
+      // attach observer to element
       observer.observe(elementToObserve, {attributeFilter: ['class']});
 
       // touch class to initiate observe event
