@@ -1,0 +1,17 @@
+# Deployment
+
+In time, I will reconstruct from my code (and my notes) the tricks and sorcery I used to deploy these apps.
+
+## Shiny
+
+Not a lot of trickery here; I got an shinyapps account and I used the deployment service built into the RStudio IDE.
+
+## Dash
+
+Some trickery here to deploy to Heroku.
+
+## Observable
+
+The code is developed in a "deployed" state; I hit the "Publish" button.
+
+That said, there are some interesting embedding possibilities and, as of Spring 2021, capability to run interactively via Quarto.

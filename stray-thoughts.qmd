@@ -1,0 +1,19 @@
+# Stray Thoughts
+
+Putting the code together, I have had a lot of stray thoughts that I want to get into the text.
+I'm thinking to collect them here, then remove them as they get expressed more concretely elsewhere in this book.
+
+Shiny and Observable are more opinionated than Dash.
+
+Shiny and Observable manage the reactive graph for you; Dash makes you spell it out explicitly.
+
+Being more opinionated lets you code more concisely. 
+Being less opinionated gives you more flexibility in what you create, at the price of more code.
+
+Shiny lets you store the state at the server; Dash and Observable do not.
+
+Dash and Observable use React under the hood.
+
+Shiny and Dash both offer a UI/server framework; in Observable, it's all notebook.
+
+Observable supports (and encourages) the idea of importing functions from other published notebooks.

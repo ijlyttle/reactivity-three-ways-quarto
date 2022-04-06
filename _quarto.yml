@@ -6,6 +6,13 @@ book:
   author: "Ian Lyttle"
   chapters:
     - index.qmd
+    - shiny.qmd
+    - dash.qmd
+    - observable.qmd
+  appendices:
+    - field-guide-python.qmd
+    - deployment.qmd
+    - stray-thoughts.qmd
 
 date: today
 date-format: "YYYY-MM-DD"

@@ -1,0 +1,628 @@
+# Dash
+
+Although it is a gross oversimplification, at first glance Dash seems like Python's answer to Shiny.
+
+Accordingly, the goals of this chapter are:
+
+ - to show the ways the Dash is like Shiny.
+ - to introduce the ways Dash is different from Shiny.
+ - to help you form strategies for how to "think" about Dash.
+ 
+To provide some context, we will use this [demonstration app](https://aggregate-local.herokuapp.com), and examine [its code](https://github.com/ijlyttle/reactivity-demo-dash).
+
+## Principles
+
+Both Shiny and Dash use the idea of a reactive graph, which indicates what things depend on what other things:
+
+ - In Shiny, the reactive graph (what depends on what) is inferred using the code in reactive expressions.
+
+ - In Dash, it is explicit, which is a mixed blessing. 
+   
+For Dash, this explicitness provides the flexibility to do a lot of things, but the price is that *you* have to specify:
+
+  - all the DOM components (UI elements) in the layout.
+  - each connection between components is governed by a callback function that you provide.
+
+This is substantially similar to Shiny: part of the Dash app is used to define the UI; the rest defines what happens on the server.
+
+However, there are a couple of big considerations:
+
+  - the state of the app **cannot** be stored in the server application.
+  - it is easiest to move you data around using JSON and base64-encoded data.
+
+This is different from Shiny, which stores the state of the application in the server function. 
+Further, Shiny manages the serialization/de-serialization of data to/from the UI; with Dash, you have to manage that yourself.
+
+These are not insurmountable obstacles, as well see in the rest of this section. 
+For example, one place to store the state is the user's browser, in the web-page (DOM) itself.
+
+### Everything that exists is a component
+
+These first two subsections are an homage to the famous John Chambers quotes:
+
+> To understand computations in R, two slogans are helpful:
+>
+>  - Everything that exists is an object.
+>  - Everything that happens is a function call.
+
+Similarly, everything that exists on Dash app's web page is a component.
+
+As we'll see in the demo, a Dash app contains a layout that you specify:
+
+```{python, eval=FALSE}
+app.layout = html.div(...)
+```
+
+You need to fill in the `...`.
+A component might be a straightforward HTML element, or it might be a Dash component, where you define the attributes.
+
+The `html` object (imported from the `dash` package) behaves very similarly to R's htmltools package; they are both based on the HTML5 spec.
+
+We'll see more in the demo, but here's an example of a Dash component:
+
+```{python eval=FALSE}
+dcc.Dropdown(id='cols-group', multi=True)
+```
+
+This is a [dropdown component](https://dash.plotly.com/dash-core-components/dropdown); we define the `id` and `multi` properties at definition.
+In this case, we don't define the `options` or `value` properties. We'll update the `options` dynamically, and let the user set the `value`.
+
+Like other components, dropdowns have a number of [properties](https://dash.plotly.com/dash-core-components/dropdown#dropdown-properties); we can set them either at initialization, as we did here, or we can set them using a callback.
+
+### Everything that happens is a callback
+
+If you want something to happen in a Dash app, it has to happen in a callback function.
+Dash lets you write callbacks using Python. 
+It also lets you write callbacks in JavaScript, but that gets beyond the scope of this book.
+
+We'll see this in more detail in the demo app, but a callback is a standard Python function with a decorator:
+
+```{python eval=FALSE}
+@app.callback(Output('cols-group', 'options'),
+              Input('inp', 'data'))
+def update_cols_group(data_records):
+    return cols_choice(data_records, 'object')
+```
+
+The decorator, `@app.callback(...)` tells Dash which layout components to map to the function's inputs and outputs.
+When an `Input()` changes:
+
+ - the browser calls the Dash server to run the callback function.
+ - the Dash server runs the Python function.
+ - the Dash server sends the `Output()` to the browser.
+ - the browser updates the DOM.
+
+### Server cannot store state
+
+Managing state is a pain.
+However, by remaining stateless, Dash is able to easily scale to as many server instances it needs because it does not matter which instance of a callback-function responds to which browser (user) making the call.
+
+Coming from Shiny, this might seem like a show-stopper; we are used to manipulating, then storing data using the server side of an app.
+But there are ways around this. 
+It's not that you can't store the state - you just can't store it "here". 
+Your options are:
+
+ - store data in the DOM, then send it when needed.
+ - store data in an external database, or the like.
+
+We'll use the first option here. 
+Here's one of the components in our layout:
+
+```{python eval=FALSE}
+dcc.Store(id='inp', data=penguins.to_dict('records'))
+```
+
+Note that this component is initialized using the `penguins` data, but that we are using pandas' `to_dict()` method.
+This is because the component will receive the data using JSON; it is stored in the DOM as a JavaScript object.
+
+### Use JSON or base64
+
+The final thing to keep in mind is that when we communicate data between the browser DOM and the callback functions, it does not use native Python objects. Instead, from the Python callback-functions' perspective, data is serialized to JSON when sent to the DOM, and deserialized from JSON when received from the DOM.
+
+For Python dictionaries and lists containing numbers and strings, the serialization process is implied. 
+
+There are (at least) a couple of conventions for serializing a data frame to JSON: by row or by column.
+
+Coming from R, you may think of a data frame as a list of vectors, each of the same length. 
+This is column-based, for example: 
+
+```json
+{
+  "species": ["Adelie", "Adelie"],
+  "bill_length_mm": [39.1, 18.7]
+}
+```
+
+Alternatively, the row-based approach:
+
+```json
+[
+  {"species": "Adelie", "bill_length_mm": 39.1},
+  {"species": "Adelie", "bill_length_mm": 18.7}
+]
+```
+
+The row-based approach seems to be the convention in Dash; this is the approach used by D3.
+Here, we think of a data frame as a collection of *records*. 
+To serialize from Pandas, we'll use `to_dict('records')`; to deserialize (import) into Pandas, we'll use `from_dict()`.
+
+In the context of the Python code, I'll refer to data formats as either:
+
+ - *data-frame* format, i.e. Pandas data frame
+ - *records* format, i.e. JSON collection of records
+
+The other option is to use base64 encoding; I have seen this used for uploading/downloading text files, e.g. CSV or JSON files.
+
+## Demonstration app
+
+I've tried to outline, briefly, some of the principles used to build a Dash app; I think they will make more sense in the context of the Dash demo-app.
+
+### Description
+
+Here is the reactive graph for the demonstration app.
+
+It's a little busier than the Shiny app; Dash forces the developer to be explicit, Shiny makes some things implicit.
+
+```{r echo=FALSE, fig.cap="Reactivity diagram for Dash"}
+knitr::include_graphics("images/dash-aggregate-local.svg")
+```
+
+A few things to note about this diagram:
+
+ - Each rectangle is a layout component; each circle is a callback function.
+ 
+ - Components have properties, which are associated with arguments to callback functions.
+ 
+ - When an argument to a callback function changes, the function is (re-)run.
+ 
+ - The output(s) of callback functions are used to update the properties of components.
+ 
+ - Functions are run, properties are updated, and so on, until the app "comes to rest".
+
+There are a few more things formalized in the diagram, but we'll get to them as we discuss the demo app:
+
+```{r echo=FALSE, fig.cap="Legend: reactivity diagram for Dash"}
+knitr::include_graphics("images/dash-legend.svg")
+```
+
+### Prelims
+
+Like we did with Shiny, in the rest of this chapter, we'll highlight the code used to make app, and the design choices behind the code.
+In the [repository](https://github.com/ijlyttle/reactivity-demo-dash), there are a some files to pay attention to:
+
+```
+app-aggregate-local.py
+helpers/
+  __init__.py
+  aggregate.py
+  cols.py
+```
+
+Here's the app file, `app-aggregate-local.py`, with the components and callbacks removed:
+
+```{python eval=FALSE}
+# Run this app with `python app-aggregate-local.py` and
+# visit http://127.0.0.1:8050/ in your web browser.
+
+import dash
+from dash.dependencies import Input, Output, State
+from dash import dash_table
+from dash import html
+from dash import dcc
+import dash_bootstrap_components as dbc
+
+import pandas as pd
+from palmerpenguins import load_penguins
+
+from helpers.aggregate import aggregate_df, agg_function_choices
+from helpers.cols import cols_choice, cols_header
+
+penguins = load_penguins()
+
+app = dash.Dash(
+    __name__, 
+    external_stylesheets=[dbc.themes.BOOTSTRAP]
+)
+
+# make `server` available to Heroku
+server = app.server
+
+# <component layout>
+
+# <callback functions>
+
+if __name__ == '__main__':
+    app.run_server(debug=True)
+```
+
+The first part of the file handles the imports. 
+You will need to have installed (hopefully in your virtual environment): `dash`, `dash_bootstrap_components`, `pandas`, and `palmerpenguins`.
+For example:
+
+```
+> pip install dash
+```
+
+The remaining bits of the file set up our app:
+
+  - Load the `penguins` data.
+
+  - Create the `app`.
+    This is the standard way to create a Dash app; note that we are using the Bootstrap styling.
+    
+  - We make the `app.server` available at the top level as `server`.
+    This goes a little beyond the scope of this chapter, but we are doing this as a part of deploying the app on Heroku.
+    
+  - Components and callbacks, we'll look at these in detail in following sections.
+  
+  - A standard bit of code that tells Python to `app.runServer()` when we execute this file.
+
+We also have a `helpers` directory with some files. 
+The `__init__.py` file is empty; its purpose is to signal to Python that there are `.py` files in this directory with functions that can be imported.
+  
+### Helper functions
+
+Just like in R, I like to write as much "vanilla" Python code as I can.
+I want to demonstrate to myself, as much as I can, that the "guts" of the app behaves as I expect.
+That way, when I'm building the components and the callbacks, I can narrow down the things that might be going wrong.
+
+```{r}
+# using only to demonstrate code; not used in Python Dash.
+library("reticulate")
+```
+
+I'm reproducing this code in an RMarkdown document, so I'm using the reticulate package to run Python.
+You will not need to do this to create a Dash app; you can work in a purely Python environment.
+
+In fact, if you are newish to Python, you might find the "Field Guide" appendix useful to get things set up.
+For Python programming, there is a great introduction at reticulate.
+
+Our first step is to get a look at the `penguins` dataset, to verify it's the same as we use in R.
+
+```{python}
+# importing into RMarkdown environment for exposition
+import pandas as pd
+from palmerpenguins import load_penguins
+
+penguins = load_penguins()
+print(penguins)
+```
+
+Because we will tell Dash to move data back and forth using a dictionary, we'll make a variable that stores `penguins` as records:
+
+```{python}
+penguins_records = penguins.to_dict('records')
+print(penguins_records[0:2]) # just to get a flavor
+```
+
+The first function we'll verify is used to tell us, for a given a data frame and a given Pandas type, which columns are of that type.
+(In the app, we'll convert to records-format in the callback function.)
+
+```{python}
+def cols_choice (df, include):
+
+    return df.select_dtypes(include=include).columns.to_list()
+```
+
+Let's test the function.
+In Pandas, strings have type `'object'`:
+
+```{python}  
+cols_choice(penguins, 'object')
+```
+
+Numbers have type `'number'`:
+
+```{python}
+cols_choice(penguins, 'number')
+```
+
+So far, so good.
+
+Next, we need a function to generate the (display) table properties. 
+We need to return a list where each element is dictionary that describes a column in the data frame.
+As we'll see later, this is the format we need to specify the table headers.
+
+Note that we are *not* using the data-frame format in this function, so we can keep everything in records format.
+We use a trick by looking at only the first (well, zeroth) record.
+
+```{python}
+def cols_header (data_records):
+  
+    if (len(data_records) == 0):
+        return []
+
+    return [{'name': v, 'id': v} for v in data_records[0].keys()]
+```
+
+There's all sorts of ways to do this in Python.
+I'm a sucker for functional programming, so here's how to use a `map()` function.
+This returns a map object, so we need to change it to a list.
+
+```{python eval=FALSE}
+list(
+    map(lambda v: {'name': v, 'id': v}, data_records[0].keys())
+)
+```
+
+This works largely like R's `purrr::map()`, but in Python, we provide the function first, then the thing we are iterating over.
+Here's a purrr equivalent:
+
+```{r eval=FALSE}
+purrr::map(names(data_records[1]), ~list(name = .x, id = .x))
+```
+
+Anyhow, let's try out our Python function:
+
+```{python}
+cols_header(penguins_records)  
+```
+
+This seems OK. 
+
+Finally, we need an aggregation function. 
+We send a data frame, then some lists of column-names, and a string naming an aggregation-function.
+This is an exercise in Pandas - I think this works, but my lack of experience in Pandas suggests there may be a "better" way.
+We'll write this as in terms of data frames; we'll convert to/from records-format in the callback function. 
+
+```{python}
+agg_function_choices = ['mean', 'min', 'max']
+
+def aggregate_df (df, cols_group, cols_agg, func_agg,
+                  str_fn_choices = agg_function_choices):
+    
+    if not func_agg in str_fn_choices:
+        raise AssertionError(f"{func_agg} not a legal function-choice")
+  
+    if (cols_group != None):
+        df = df.groupby(cols_group)
+
+    if (cols_agg == None or len(cols_agg) == 0):
+        return []
+    
+    # dictionary, keys: column-names, values: function-name
+    dict_agg = {i: func_agg for i in cols_agg}
+    
+    df = df.agg(dict_agg).reset_index()
+
+    return df
+  
+aggregate_df(
+  penguins, 
+  cols_group = "island", 
+  cols_agg = ["bill_length_mm", "bill_depth_mm"],
+  func_agg = "mean"
+)  
+```
+
+This may be interesting only to me, but there is a more "functional" way to write the statement:
+
+```{python eval=FALSE}
+dict_agg = {i: func_agg for i in cols_agg}
+```
+
+Using a reducer:
+
+```{python eval=FALSE} 
+from functools import reduce
+
+dict_agg = reduce(lambda acc, val: dict(acc, **{val: func_agg}), cols_agg, {})
+```
+
+In this situation, it's more verbose and, I think, less clear what is going on unless you are into functional programming.
+Please pardon this diversion.
+
+Confident that the "guts" of the app works, we move onto the components and the callbacks.
+
+### Compmonent layout
+
+Let's start with the formatting. 
+In the app, we need to create an `app.layout`, which will be the HTML used to render our app in the browser.
+Just like with Shiny, we're using Bootstrap, but we have to be a little more explicit.
+In Shiny, Bootstrap is "baked in"; in Dash, it's an add-on.
+
+Here's the "formatting" bits of the layout; the `...` represent Dash components that we'll discuss presently:
+
+```{python eval=FALSE}
+app.layout = html.Div(
+    className='container-fluid',
+    children=[
+        ...
+        html.H2('Aggregator'),
+        html.Div(
+            className='row',
+            children =[
+                html.Div(
+                    className='col-sm-4',
+                    children=[
+                        dbc.Card([
+                            dbc.CardHeader('Aggregation'),
+                            dbc.CardBody([
+                              ...
+                            ])
+                        ])
+                    ]
+                ),
+                html.Div(
+                    className='col-sm-8',
+                    children=[
+                        html.H3('Input data'),
+                        ...
+                        html.Hr(),
+                        html.H3('Aggregated data'),
+                        ...
+                    ]
+                )
+            ]
+        )
+    ]
+) 
+```
+
+#### Data stores
+
+The first parts I want to highlight are the data stores:
+
+```{python eval=FALSE}
+dcc.Store(id='inp', data=penguins.to_dict('records')),
+dcc.Store(id='agg', data=[])
+```
+
+Recall that the server part of a Dash app cannot store its state. 
+Instead, we will store the state, in our case: the input and aggregated data, in the DOM.
+Dash provides a `dcc.Store()` component; in its `data` property, we store the records-based data (note the use of `.to_dict('records')`.
+Also note that, just like Shiny, components each have an `id` property.
+
+
+#### Inputs
+
+Let's look at the components that specify the aggregation:
+
+```{python eval=FALSE}
+dcc.Dropdown(id='cols-group', multi=True),
+dcc.Dropdown(id='cols-agg', multi=True),
+dbc.Select(
+    id='func-agg',
+    options=[{'label': v, 'value': v} for v in agg_function_choices],
+    value=agg_function_choices[0]
+),
+dbc.Button(id='button-agg', children='Submit', class_name='btn btn-secondary')
+```
+
+Here, we're using a couple of "standard" (`dcc`) dropdowns and a couple of Bootstrap (`dbc`) components.
+
+With the dropdowns, other than providing the `id`, we specify that multiple selections can be made.
+We don't populate the options; we'll do this using a callback. 
+If we were only ever going to use one input-dataset, in this case `penguins`, it might make sense to populate the `options` when defining the component.
+Populating using a callback function makes our code more general, allowing the case where we could upload an abitrary dataset.
+Perhaps it wasn't necessary to follow the more-general approach here, but it allowed me to learn more about how Dash works.
+
+We define our `dbc.Select()` component completely in the layout. 
+
+Note also that we can apply Bootstrap classes to`dbc.Button()`.
+What we might think of as a label is specified as the `children` of the button element.
+
+#### Outputs
+
+It remains to look at the data tables. 
+There are two tables, identical in form; we will examine only one of them:
+
+```{python eval=FALSE}
+dash_table.DataTable(
+    id='table-inp',
+    page_size=10,
+    sort_action='native'
+)
+```
+
+The properties here are straightforward: we need an `id`, we want to show ten entries at a time, `sort_action='native'` indicates that we want sorting to be available (and for Dash to take care of it).
+
+We will populate the data tables using callback functions.
+
+### Callback functions
+
+In Dash, callback functions are just regular functions with decorators. 
+Here's a very generic example:
+
+```{python eval=FALSE}
+@app.callback(Output('output-component', 'output-property'),
+              Input('input-component', 'input-property'))
+def some_function_name(x):
+    y = some_function(x)
+    
+    return y
+```
+
+The decorator tells Dash how to build a function that wraps the "actual" function.
+We are not concerned with the implementation; we are interested in the interface.
+
+The decorator is this bit of code: `@app.callback()`. 
+It takes a series of arguments which map to the function's parameters and return values:
+
+  - `Output('output-component', 'output-property')` is mapped to the return value.
+  - `Input('input-component', 'input-property')` is mapped to the `x` parameter.
+
+This tells Dash that whenever the `input-property` of the `input-component` changes, it should:
+
+  - run the function using the `input-property` as an argument, then 
+  - send the return value to the `output-property` of the `output-component`
+
+We'll see some more-complex cases in the following examples.
+
+#### Inputs
+
+We have a couple of input components that need updating: the grouping columns and the aggregation columns.
+Each has its own callback, but they are virtually identical, so I'll describe only one.
+
+```{python eval=FALSE}
+@app.callback(Output('cols-group', 'options'),
+              Input('inp', 'data'))
+def update_cols_group(data_records):
+    df = pd.DataFrame.from_dict(data_records)
+    return cols_choice(df, 'object')
+```
+
+Whenever the `inp` `data` changes:
+
+- the function is called using the input data (in records form).
+- the function converts to data-frame format, then 
+- uses our helper function to determine the columns that have string values.
+- it returns a list of column names, which Dash uses to update the `cols-group` `options`.
+
+#### Calculations
+
+The callback that performs the aggregation has more going on, but we'll get to the bottom of it.
+
+```{python eval=FALSE}
+@app.callback(Output('agg', 'data'),
+              Input('button-agg', 'n_clicks'),
+              State('inp', 'data'),
+              State('cols-group', 'value'),
+              State('cols-agg', 'value'),
+              State('func-agg', 'value'),
+              prevent_initial_call=True)
+def aggregate(n_clicks, data_records, cols_group, cols_agg, func_agg):
+    # create DataFrame
+    df = pd.DataFrame.from_dict(data_records)
+
+    # aggregate
+    df_new = aggregate_df(df, cols_group, cols_agg, func_agg)
+
+    # serialize DataFrame
+    return df_new.to_dict('records')
+```
+
+A couple of things to sort through:
+
+ - The function has five parameters; the decorator has one `Input()` and four instances of `State()`.
+
+ - The decorator is provided an additional argument: `prevent_initial_call`.
+
+A `State()` is similar to an `Input()`; the difference that the function is **not** run in response to a `State()` change.
+In this case, the function is run *only* in response to the value of the button changing, i.e. being clicked.
+
+The `prevent_inital_call` argument describes itself well. 
+By setting it to `True`, we ensure that the only way the aggregation function will be run is when the button is clicked.
+
+Finally note that we convert our input records into a data frame, then use records-format for the return value.
+
+#### Outputs
+
+The final set of callbacks is for our data tables. 
+Again, although we have two data tables, the callbacks are virtually identical, so I'll highlight only one.
+
+```{python eval=FALSE}
+@app.callback(Output('table-inp', 'columns'),
+              Output('table-inp', 'data'),
+              Input('inp', 'data'))
+def update_table_inp(data_records):
+     return cols_header(data_records), data_records  
+```
+
+The thing to note there is that Dash and Python support multiple return-values, mapping each to an `Output()`.
+
+This situation merits multiple return-values because a Dash data table has a properties for `data` and `columns` (headers).
+This information comes from the same source, so it made sense to use multiple return-values.
+
+Certainly, you could write two callbacks to do the same things; writing a single callback made more sense to me.
+Of course, you should do what makes sense to you.

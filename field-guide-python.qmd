@@ -1,0 +1,111 @@
+# Field Guide to Python
+
+In this appendix, we focus on how to get up-and-running in Python, and how you can make your Python environment reprodicible.
+Once you have established this, RStudio have a useful [guide for how to "think" in Python](https://rstudio.github.io/reticulate/articles/python_primer.html), knowing R.
+
+
+## Python installation
+
+The first order of business is to make sure that you have a recent version of Python installed.
+By recent, I mean one of the last two minor version; as of February 2022, these are versions 3.10 and 3.9.
+
+To check your default Python version, just type `python -V` (note the captial) at the terminal command line (not the R command line).
+This is what I see:
+
+```
+> python -V
+Python 3.10.2
+```
+
+There is a variety of strategies for managing Python on your computer, perhaps the simplest is to go to the [Python downloads page](https://www.python.org/downloads/), then go from there. 
+
+## Project management
+
+### Git
+
+If you are creating your project directory from scratch, you will likely want to initialize a git repository in your newly-created directory:
+
+```
+> git init
+```
+
+You will also want a `.gitignore` file for your project.
+Here's my `.gitignore` file for the Dash demo app; I include some RStudio stuff for if/when I open the project in RStudio.
+
+```
+# RStudio stuff
+.Rproj.user
+*.Rproj
+.Rhistory
+.Rdata
+
+# virtual environment
+venv
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+```
+
+You may wish to adapt the virtual-environment entry to your situation.
+
+### Virtual Environment
+
+Python virtual environments are used to manage dependencies so that they are local to a project.
+This is a different from the classic R idea of having a single library of packages used for all projects.
+
+The idea of a project-based is also used in JavaScript (e.g. npm, yarn) and is gaining popularity in R with the [renv](https://rstudio.github.io/renv/index.html) package.
+In fact, this book is build using renv.
+
+The goal here is to show you how to establish and manage a virtual environment for a Dash project.
+
+In your newly-created project directory, from the terminal command-line:
+
+```
+> python -m venv ./venv
+```
+
+This creates your Python virtual environment by creating a directory in the root of your project called `venv`.
+The name of the directory is determined by the last argument, in this case `./venv`.
+There are a number of "standard" ways to name virtual environments; `"venv"` is one of them. 
+It's really up to you and your collaborators. 
+
+The important thing is to make sure that you have a `.gitignore` entry for the virtual-environment directory.
+
+Next, let's activate the environment.
+This tells your terminal that *this* is what you want to run when you invoke `python`.
+
+In your project directory, from the terminal command-line:
+
+```
+> source ./venv/bin/activate
+```
+
+At this point, you might want to install packages into your virtual enviromment.
+Which packages will depend on the particulars of your project, but you can start with Dash:
+
+```
+> pip install dash
+```
+
+Every so often, you will want to catpure which packages have been installed into your virtual environment:
+
+```
+> pip freeze > requirements.txt
+```
+
+You will want to commit `requirements.txt` to your git repository, as this contains the instructions for someone to reproduce your virtual environment.
+
+To reproduce it, a colleague (perhaps you!) will have to create and activate a virtual environment, then:
+
+```
+> pip install -r requirements.txt
+```
+
+These are the very basics for how to set up and maintain a Python project. 
+As you gain experience, you will likely adpat these ideas to your evolving needs.
+
+
+
+
