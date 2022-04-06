@@ -30,6 +30,7 @@ jobs:
         # Add any command line argument needed
         run: |
           quarto render
+
       - name: Deploy 🚀
         # only deploy when push to main
         if: github.event_name != 'pull_request'
