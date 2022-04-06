@@ -3,8 +3,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.9.194">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="author" content="Ian Lyttle">
-  <title>Data-Science Reactivity: Three Ways</title>
+  <title>Data-Science Reactivity: Three Ways - Appendix A — Field Guide to Python</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -21,7 +20,8 @@
   <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="site_libs/quarto-search/fuse.min.js"></script>
   <script src="site_libs/quarto-search/quarto-search.js"></script>
-  <link href="./shiny.html" rel="next">
+  <link href="./deployment.html" rel="next">
+  <link href="./observable.html" rel="prev">
   <script src="site_libs/quarto-html/quarto.js"></script>
   <script src="site_libs/quarto-html/popper.min.js"></script>
   <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -59,7 +59,7 @@
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Data-Science Reactivity: Three Ways</h1>
+      <h1 class="quarto-secondary-nav-title">Appendix A — Field Guide to Python</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -84,7 +84,7 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -112,7 +112,7 @@
     <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./field-guide-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Field Guide to Python</span></a>
+  <a href="./field-guide-python.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Field Guide to Python</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -135,9 +135,11 @@
         <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">Table of contents</h2>
 <ul>
-<li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+<li><a href="#python-installation" id="toc-python-installation" class="nav-link active" data-scroll-target="#python-installation"> <span class="header-section-number">A.1</span> Python installation</a></li>
+<li><a href="#project-management" id="toc-project-management" class="nav-link" data-scroll-target="#project-management"> <span class="header-section-number">A.2</span> Project management</a>
 <ul class="collapse">
-<li><a href="#other-resources" id="toc-other-resources" class="nav-link" data-scroll-target="#other-resources">Other resources</a></li>
+<li><a href="#git" id="toc-git" class="nav-link" data-scroll-target="#git"> <span class="header-section-number">A.2.1</span> Git</a></li>
+<li><a href="#virtual-environment" id="toc-virtual-environment" class="nav-link" data-scroll-target="#virtual-environment"> <span class="header-section-number">A.2.2</span> Virtual Environment</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -147,55 +149,59 @@
 <header id="title-block-header" class="quarto-title-block default">
 
 
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix A — Field Guide to Python</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Data-Science Reactivity: Three Ways</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><div><div>
-<p>Ian Lyttle</p>
-</div></div></div></div></div><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
+<p>In this appendix, we focus on how to get up-and-running in Python, and how you can make your Python environment reprodicible. Once you have established this, RStudio have a useful <a href="https://rstudio.github.io/reticulate/articles/python_primer.html">guide for how to “think” in Python</a>, knowing R.</p>
+<section id="python-installation" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="python-installation"><span class="header-section-number">A.1</span> Python installation</h2>
+<p>The first order of business is to make sure that you have a recent version of Python installed. By recent, I mean one of the last two minor version; as of February 2022, these are versions 3.10 and 3.9.</p>
+<p>To check your default Python version, just type <code>python -V</code> (note the captial) at the terminal command line (not the R command line). This is what I see:</p>
+<pre><code>&gt; python -V
+Python 3.10.2</code></pre>
+<p>There is a variety of strategies for managing Python on your computer, perhaps the simplest is to go to the <a href="https://www.python.org/downloads/">Python downloads page</a>, then go from there.</p>
+</section>
+<section id="project-management" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="project-management"><span class="header-section-number">A.2</span> Project management</h2>
+<section id="git" class="level3" data-number="A.2.1">
+<h3 data-number="A.2.1" class="anchored" data-anchor-id="git"><span class="header-section-number">A.2.1</span> Git</h3>
+<p>If you are creating your project directory from scratch, you will likely want to initialize a git repository in your newly-created directory:</p>
+<pre><code>&gt; git init</code></pre>
+<p>You will also want a <code>.gitignore</code> file for your project. Here’s my <code>.gitignore</code> file for the Dash demo app; I include some RStudio stuff for if/when I open the project in RStudio.</p>
+<pre><code># RStudio stuff
+.Rproj.user
+*.Rproj
+.Rhistory
+.Rdata
 
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:</p>
-<ul>
-<li>R: <a href="https://shiny.rstudio.com/">Shiny</a></li>
-<li>Python: <a href="https://dash.plotly.com/">Dash</a></li>
-<li>JavaScript: <a href="https://observablehq.com/@observablehq/five-minute-introduction">Observable</a></li>
-</ul>
-<p>An example app is created for each framework:</p>
-<ul>
-<li>starting with the <code>penguins</code> data-frame from <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a>:
-<ul>
-<li>show it as a table.</li>
-<li>specify grouping columns, aggregation columns, and an aggregation function.</li>
-</ul></li>
-<li>create an aggregated data-frame from the input, using the specification.
-<ul>
-<li>show the aggregated data-frame as a table.</li>
-</ul></li>
-</ul>
-<p>This book is written for folks who know how to develop basic Shiny apps, and wish to extend their knowledge to Dash (Python) or Observable (JavaScript). I will assume you have:</p>
-<ul>
-<li>basic knowledge of how to build a Shiny app.</li>
-<li>some familiarity with the tidyverse, in particular, dplyr.</li>
-</ul>
-<p>In this book:</p>
-<ul>
-<li><p>we’ll review a <a href="https://ijlyttle.shinyapps.io/aggregate-local">Shiny app</a>, highlighting parts of its <a href="https://github.com/ijlyttle/reactivity-demo-shiny">code</a>.</p></li>
-<li><p>we’ll look at a <a href="https://aggregate-local.herokuapp.com">Dash app</a> and the <a href="https://github.com/ijlyttle/reactivity-demo-dash">code</a>.</p></li>
-<li><p>we’ll look at an Observable Notebook, where the <a href="https://observablehq.com/@ijlyttle/aggregate-local">app is the code</a>.</p></li>
-</ul>
-<p>The goal is to give you the confidence to take the next steps to learn more about each of these frameworks.</p>
-<section id="other-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="other-resources">Other resources</h2>
-<p>Here are some resources I have found useful:</p>
-<ul>
-<li>Shiny’s <a href="https://shiny.rstudio.com/tutorial/">tutorials</a>.</li>
-<li>Once you have built a few Shiny apps, it can be helpful to get a better sense of what makes Shiny “tick”. Joe Cheng gave an outstanding tutorial at the precursor to rstudio::conf() in 2016: <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/">Part 1</a>, <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/">Part 2</a>.</li>
-<li>Hadley Wickham’s <a href="https://mastering-shiny.org/">Mastering Shiny</a>.</li>
-<li>Appsilon has a handy blog post: <a href="https://appsilon.com/dash-vs-shiny/">Dash vs.&nbsp;Shiny</a>.</li>
-<li>Dash’s <a href="https://dash.plotly.com/">documentation</a>.</li>
-<li>For an introduction to Observable, this <a href="https://observablehq.com/tutorials">tutorial page</a> is a great start.</li>
-<li>If you are comfortable with JavaScript and want to get a quick sense of Observable: the somewhat distractingly-named <a href="https://observablehq.com/@observablehq/observables-not-javascript">Observable’s not JavaScript</a>.</li>
-</ul>
+# virtual environment
+venv
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class</code></pre>
+<p>You may wish to adapt the virtual-environment entry to your situation.</p>
+</section>
+<section id="virtual-environment" class="level3" data-number="A.2.2">
+<h3 data-number="A.2.2" class="anchored" data-anchor-id="virtual-environment"><span class="header-section-number">A.2.2</span> Virtual Environment</h3>
+<p>Python virtual environments are used to manage dependencies so that they are local to a project. This is a different from the classic R idea of having a single library of packages used for all projects.</p>
+<p>The idea of a project-based is also used in JavaScript (e.g.&nbsp;npm, yarn) and is gaining popularity in R with the <a href="https://rstudio.github.io/renv/index.html">renv</a> package. In fact, this book is build using renv.</p>
+<p>The goal here is to show you how to establish and manage a virtual environment for a Dash project.</p>
+<p>In your newly-created project directory, from the terminal command-line:</p>
+<pre><code>&gt; python -m venv ./venv</code></pre>
+<p>This creates your Python virtual environment by creating a directory in the root of your project called <code>venv</code>. The name of the directory is determined by the last argument, in this case <code>./venv</code>. There are a number of “standard” ways to name virtual environments; <code>"venv"</code> is one of them. It’s really up to you and your collaborators.</p>
+<p>The important thing is to make sure that you have a <code>.gitignore</code> entry for the virtual-environment directory.</p>
+<p>Next, let’s activate the environment. This tells your terminal that <em>this</em> is what you want to run when you invoke <code>python</code>.</p>
+<p>In your project directory, from the terminal command-line:</p>
+<pre><code>&gt; source ./venv/bin/activate</code></pre>
+<p>At this point, you might want to install packages into your virtual enviromment. Which packages will depend on the particulars of your project, but you can start with Dash:</p>
+<pre><code>&gt; pip install dash</code></pre>
+<p>Every so often, you will want to catpure which packages have been installed into your virtual environment:</p>
+<pre><code>&gt; pip freeze &gt; requirements.txt</code></pre>
+<p>You will want to commit <code>requirements.txt</code> to your git repository, as this contains the instructions for someone to reproduce your virtual environment.</p>
+<p>To reproduce it, a colleague (perhaps you!) will have to create and activate a virtual environment, then:</p>
+<pre><code>&gt; pip install -r requirements.txt</code></pre>
+<p>These are the very basics for how to set up and maintain a Python project. As you gain experience, you will likely adpat these ideas to your evolving needs.</p>
 
 
 
@@ -280,10 +286,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./observable.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Observable</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./shiny.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./deployment.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Deployment</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

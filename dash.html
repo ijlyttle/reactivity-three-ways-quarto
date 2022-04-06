@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.194">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Data-Science Reactivity: Three Ways - 2&nbsp; Dash</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <link href="./observable.html" rel="next">
+  <link href="./shiny.html" rel="prev">
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "sidebar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "start",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="floating">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data-Science Reactivity: Three Ways</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./shiny.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dash.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./observable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Observable</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./field-guide-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Field Guide to Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./deployment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Deployment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./stray-thoughts.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Stray Thoughts</span></a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#principles" id="toc-principles" class="nav-link active" data-scroll-target="#principles"> <span class="header-section-number">2.1</span> Principles</a>
+<ul class="collapse">
+<li><a href="#everything-that-exists-is-a-component" id="toc-everything-that-exists-is-a-component" class="nav-link" data-scroll-target="#everything-that-exists-is-a-component"> <span class="header-section-number">2.1.1</span> Everything that exists is a component</a></li>
+<li><a href="#everything-that-happens-is-a-callback" id="toc-everything-that-happens-is-a-callback" class="nav-link" data-scroll-target="#everything-that-happens-is-a-callback"> <span class="header-section-number">2.1.2</span> Everything that happens is a callback</a></li>
+<li><a href="#server-cannot-store-state" id="toc-server-cannot-store-state" class="nav-link" data-scroll-target="#server-cannot-store-state"> <span class="header-section-number">2.1.3</span> Server cannot store state</a></li>
+<li><a href="#use-json-or-base64" id="toc-use-json-or-base64" class="nav-link" data-scroll-target="#use-json-or-base64"> <span class="header-section-number">2.1.4</span> Use JSON or base64</a></li>
+</ul></li>
+<li><a href="#demonstration-app" id="toc-demonstration-app" class="nav-link" data-scroll-target="#demonstration-app"> <span class="header-section-number">2.2</span> Demonstration app</a>
+<ul class="collapse">
+<li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"> <span class="header-section-number">2.2.1</span> Description</a></li>
+<li><a href="#prelims" id="toc-prelims" class="nav-link" data-scroll-target="#prelims"> <span class="header-section-number">2.2.2</span> Prelims</a></li>
+<li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions"> <span class="header-section-number">2.2.3</span> Helper functions</a></li>
+<li><a href="#compmonent-layout" id="toc-compmonent-layout" class="nav-link" data-scroll-target="#compmonent-layout"> <span class="header-section-number">2.2.4</span> Compmonent layout</a></li>
+<li><a href="#callback-functions" id="toc-callback-functions" class="nav-link" data-scroll-target="#callback-functions"> <span class="header-section-number">2.2.5</span> Callback functions</a></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
+
+<p>Although it is a gross oversimplification, at first glance Dash seems like Python’s answer to Shiny.</p>
+<p>Accordingly, the goals of this chapter are:</p>
+<ul>
+<li>to show the ways the Dash is like Shiny.</li>
+<li>to introduce the ways Dash is different from Shiny.</li>
+<li>to help you form strategies for how to “think” about Dash.</li>
+</ul>
+<p>To provide some context, we will use this <a href="https://aggregate-local.herokuapp.com">demonstration app</a>, and examine <a href="https://github.com/ijlyttle/reactivity-demo-dash">its code</a>.</p>
+<section id="principles" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="principles"><span class="header-section-number">2.1</span> Principles</h2>
+<p>Both Shiny and Dash use the idea of a reactive graph, which indicates what things depend on what other things:</p>
+<ul>
+<li><p>In Shiny, the reactive graph (what depends on what) is inferred using the code in reactive expressions.</p></li>
+<li><p>In Dash, it is explicit, which is a mixed blessing.</p></li>
+</ul>
+<p>For Dash, this explicitness provides the flexibility to do a lot of things, but the price is that <em>you</em> have to specify:</p>
+<ul>
+<li>all the DOM components (UI elements) in the layout.</li>
+<li>each connection between components is governed by a callback function that you provide.</li>
+</ul>
+<p>This is substantially similar to Shiny: part of the Dash app is used to define the UI; the rest defines what happens on the server.</p>
+<p>However, there are a couple of big considerations:</p>
+<ul>
+<li>the state of the app <strong>cannot</strong> be stored in the server application.</li>
+<li>it is easiest to move you data around using JSON and base64-encoded data.</li>
+</ul>
+<p>This is different from Shiny, which stores the state of the application in the server function. Further, Shiny manages the serialization/de-serialization of data to/from the UI; with Dash, you have to manage that yourself.</p>
+<p>These are not insurmountable obstacles, as well see in the rest of this section. For example, one place to store the state is the user’s browser, in the web-page (DOM) itself.</p>
+<section id="everything-that-exists-is-a-component" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="everything-that-exists-is-a-component"><span class="header-section-number">2.1.1</span> Everything that exists is a component</h3>
+<p>These first two subsections are an homage to the famous John Chambers quotes:</p>
+<blockquote class="blockquote">
+<p>To understand computations in R, two slogans are helpful:</p>
+<ul>
+<li>Everything that exists is an object.</li>
+<li>Everything that happens is a function call.</li>
+</ul>
+</blockquote>
+<p>Similarly, everything that exists on Dash app’s web page is a component.</p>
+<p>As we’ll see in the demo, a Dash app contains a layout that you specify:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>app.layout <span class="op">=</span> html.div(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You need to fill in the <code>...</code>. A component might be a straightforward HTML element, or it might be a Dash component, where you define the attributes.</p>
+<p>The <code>html</code> object (imported from the <code>dash</code> package) behaves very similarly to R’s htmltools package; they are both based on the HTML5 spec.</p>
+<p>We’ll see more in the demo, but here’s an example of a Dash component:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-group'</span>, multi<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This is a <a href="https://dash.plotly.com/dash-core-components/dropdown">dropdown component</a>; we define the <code>id</code> and <code>multi</code> properties at definition. In this case, we don’t define the <code>options</code> or <code>value</code> properties. We’ll update the <code>options</code> dynamically, and let the user set the <code>value</code>.</p>
+<p>Like other components, dropdowns have a number of <a href="https://dash.plotly.com/dash-core-components/dropdown#dropdown-properties">properties</a>; we can set them either at initialization, as we did here, or we can set them using a callback.</p>
+</section>
+<section id="everything-that-happens-is-a-callback" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="everything-that-happens-is-a-callback"><span class="header-section-number">2.1.2</span> Everything that happens is a callback</h3>
+<p>If you want something to happen in a Dash app, it has to happen in a callback function. Dash lets you write callbacks using Python. It also lets you write callbacks in JavaScript, but that gets beyond the scope of this book.</p>
+<p>We’ll see this in more detail in the demo app, but a callback is a standard Python function with a decorator:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'cols-group'</span>, <span class="st">'options'</span>),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'inp'</span>, <span class="st">'data'</span>))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_cols_group(data_records):</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cols_choice(data_records, <span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The decorator, <code>@app.callback(...)</code> tells Dash which layout components to map to the function’s inputs and outputs. When an <code>Input()</code> changes:</p>
+<ul>
+<li>the browser calls the Dash server to run the callback function.</li>
+<li>the Dash server runs the Python function.</li>
+<li>the Dash server sends the <code>Output()</code> to the browser.</li>
+<li>the browser updates the DOM.</li>
+</ul>
+</section>
+<section id="server-cannot-store-state" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="server-cannot-store-state"><span class="header-section-number">2.1.3</span> Server cannot store state</h3>
+<p>Managing state is a pain. However, by remaining stateless, Dash is able to easily scale to as many server instances it needs because it does not matter which instance of a callback-function responds to which browser (user) making the call.</p>
+<p>Coming from Shiny, this might seem like a show-stopper; we are used to manipulating, then storing data using the server side of an app. But there are ways around this. It’s not that you can’t store the state - you just can’t store it “here”. Your options are:</p>
+<ul>
+<li>store data in the DOM, then send it when needed.</li>
+<li>store data in an external database, or the like.</li>
+</ul>
+<p>We’ll use the first option here. Here’s one of the components in our layout:</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'inp'</span>, data<span class="op">=</span>penguins.to_dict(<span class="st">'records'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that this component is initialized using the <code>penguins</code> data, but that we are using pandas’ <code>to_dict()</code> method. This is because the component will receive the data using JSON; it is stored in the DOM as a JavaScript object.</p>
+</section>
+<section id="use-json-or-base64" class="level3" data-number="2.1.4">
+<h3 data-number="2.1.4" class="anchored" data-anchor-id="use-json-or-base64"><span class="header-section-number">2.1.4</span> Use JSON or base64</h3>
+<p>The final thing to keep in mind is that when we communicate data between the browser DOM and the callback functions, it does not use native Python objects. Instead, from the Python callback-functions’ perspective, data is serialized to JSON when sent to the DOM, and deserialized from JSON when received from the DOM.</p>
+<p>For Python dictionaries and lists containing numbers and strings, the serialization process is implied.</p>
+<p>There are (at least) a couple of conventions for serializing a data frame to JSON: by row or by column.</p>
+<p>Coming from R, you may think of a data frame as a list of vectors, each of the same length. This is column-based, for example:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"species"</span><span class="fu">:</span> <span class="ot">[</span><span class="st">"Adelie"</span><span class="ot">,</span> <span class="st">"Adelie"</span><span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"bill_length_mm"</span><span class="fu">:</span> <span class="ot">[</span><span class="fl">39.1</span><span class="ot">,</span> <span class="fl">18.7</span><span class="ot">]</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Alternatively, the row-based approach:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ot">[</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span><span class="dt">"species"</span><span class="fu">:</span> <span class="st">"Adelie"</span><span class="fu">,</span> <span class="dt">"bill_length_mm"</span><span class="fu">:</span> <span class="fl">39.1</span><span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">{</span><span class="dt">"species"</span><span class="fu">:</span> <span class="st">"Adelie"</span><span class="fu">,</span> <span class="dt">"bill_length_mm"</span><span class="fu">:</span> <span class="fl">18.7</span><span class="fu">}</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="ot">]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>The row-based approach seems to be the convention in Dash; this is the approach used by D3. Here, we think of a data frame as a collection of <em>records</em>. To serialize from Pandas, we’ll use <code>to_dict('records')</code>; to deserialize (import) into Pandas, we’ll use <code>from_dict()</code>.</p>
+<p>In the context of the Python code, I’ll refer to data formats as either:</p>
+<ul>
+<li><em>data-frame</em> format, i.e.&nbsp;Pandas data frame</li>
+<li><em>records</em> format, i.e.&nbsp;JSON collection of records</li>
+</ul>
+<p>The other option is to use base64 encoding; I have seen this used for uploading/downloading text files, e.g.&nbsp;CSV or JSON files.</p>
+</section>
+</section>
+<section id="demonstration-app" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="demonstration-app"><span class="header-section-number">2.2</span> Demonstration app</h2>
+<p>I’ve tried to outline, briefly, some of the principles used to build a Dash app; I think they will make more sense in the context of the Dash demo-app.</p>
+<section id="description" class="level3" data-number="2.2.1">
+<h3 data-number="2.2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.2.1</span> Description</h3>
+<p>Here is the reactive graph for the demonstration app.</p>
+<p>It’s a little busier than the Shiny app; Dash forces the developer to be explicit, Shiny makes some things implicit.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dash-aggregate-local.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Reactivity diagram for Dash</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>A few things to note about this diagram:</p>
+<ul>
+<li><p>Each rectangle is a layout component; each circle is a callback function.</p></li>
+<li><p>Components have properties, which are associated with arguments to callback functions.</p></li>
+<li><p>When an argument to a callback function changes, the function is (re-)run.</p></li>
+<li><p>The output(s) of callback functions are used to update the properties of components.</p></li>
+<li><p>Functions are run, properties are updated, and so on, until the app “comes to rest”.</p></li>
+</ul>
+<p>There are a few more things formalized in the diagram, but we’ll get to them as we discuss the demo app:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/dash-legend.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Legend: reactivity diagram for Dash</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="prelims" class="level3" data-number="2.2.2">
+<h3 data-number="2.2.2" class="anchored" data-anchor-id="prelims"><span class="header-section-number">2.2.2</span> Prelims</h3>
+<p>Like we did with Shiny, in the rest of this chapter, we’ll highlight the code used to make app, and the design choices behind the code. In the <a href="https://github.com/ijlyttle/reactivity-demo-dash">repository</a>, there are a some files to pay attention to:</p>
+<pre><code>app-aggregate-local.py
+helpers/
+  __init__.py
+  aggregate.py
+  cols.py</code></pre>
+<p>Here’s the app file, <code>app-aggregate-local.py</code>, with the components and callbacks removed:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this app with `python app-aggregate-local.py` and</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># visit http://127.0.0.1:8050/ in your web browser.</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dash</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dash.dependencies <span class="im">import</span> Input, Output, State</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dash <span class="im">import</span> dash_table</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dash <span class="im">import</span> html</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> dash <span class="im">import</span> dcc</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dash_bootstrap_components <span class="im">as</span> dbc</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> helpers.aggregate <span class="im">import</span> aggregate_df, agg_function_choices</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> helpers.cols <span class="im">import</span> cols_choice, cols_header</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> dash.Dash(</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="va">__name__</span>, </span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    external_stylesheets<span class="op">=</span>[dbc.themes.BOOTSTRAP]</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co"># make `server` available to Heroku</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>server <span class="op">=</span> app.server</span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;component layout&gt;</span></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="co"># &lt;callback functions&gt;</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">'__main__'</span>:</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    app.run_server(debug<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The first part of the file handles the imports. You will need to have installed (hopefully in your virtual environment): <code>dash</code>, <code>dash_bootstrap_components</code>, <code>pandas</code>, and <code>palmerpenguins</code>. For example:</p>
+<pre><code>&gt; pip install dash</code></pre>
+<p>The remaining bits of the file set up our app:</p>
+<ul>
+<li><p>Load the <code>penguins</code> data.</p></li>
+<li><p>Create the <code>app</code>. This is the standard way to create a Dash app; note that we are using the Bootstrap styling.</p></li>
+<li><p>We make the <code>app.server</code> available at the top level as <code>server</code>. This goes a little beyond the scope of this chapter, but we are doing this as a part of deploying the app on Heroku.</p></li>
+<li><p>Components and callbacks, we’ll look at these in detail in following sections.</p></li>
+<li><p>A standard bit of code that tells Python to <code>app.runServer()</code> when we execute this file.</p></li>
+</ul>
+<p>We also have a <code>helpers</code> directory with some files. The <code>__init__.py</code> file is empty; its purpose is to signal to Python that there are <code>.py</code> files in this directory with functions that can be imported.</p>
+</section>
+<section id="helper-functions" class="level3" data-number="2.2.3">
+<h3 data-number="2.2.3" class="anchored" data-anchor-id="helper-functions"><span class="header-section-number">2.2.3</span> Helper functions</h3>
+<p>Just like in R, I like to write as much “vanilla” Python code as I can. I want to demonstrate to myself, as much as I can, that the “guts” of the app behaves as I expect. That way, when I’m building the components and the callbacks, I can narrow down the things that might be going wrong.</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using only to demonstrate code; not used in Python Dash.</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"reticulate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>I’m reproducing this code in an RMarkdown document, so I’m using the reticulate package to run Python. You will not need to do this to create a Dash app; you can work in a purely Python environment.</p>
+<p>In fact, if you are newish to Python, you might find the “Field Guide” appendix useful to get things set up. For Python programming, there is a great introduction at reticulate.</p>
+<p>Our first step is to get a look at the <code>penguins</code> dataset, to verify it’s the same as we use in R.</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing into RMarkdown environment for exposition</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>       species     island  bill_length_mm  ...  body_mass_g     sex  year
+0       Adelie  Torgersen            39.1  ...       3750.0    male  2007
+1       Adelie  Torgersen            39.5  ...       3800.0  female  2007
+2       Adelie  Torgersen            40.3  ...       3250.0  female  2007
+3       Adelie  Torgersen             NaN  ...          NaN     NaN  2007
+4       Adelie  Torgersen            36.7  ...       3450.0  female  2007
+..         ...        ...             ...  ...          ...     ...   ...
+339  Chinstrap      Dream            55.8  ...       4000.0    male  2009
+340  Chinstrap      Dream            43.5  ...       3400.0  female  2009
+341  Chinstrap      Dream            49.6  ...       3775.0    male  2009
+342  Chinstrap      Dream            50.8  ...       4100.0    male  2009
+343  Chinstrap      Dream            50.2  ...       3775.0  female  2009
+
+[344 rows x 8 columns]</code></pre>
+</div>
+</div>
+<p>Because we will tell Dash to move data back and forth using a dictionary, we’ll make a variable that stores <code>penguins</code> as records:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>penguins_records <span class="op">=</span> penguins.to_dict(<span class="st">'records'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins_records[<span class="dv">0</span>:<span class="dv">2</span>]) <span class="co"># just to get a flavor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[{'species': 'Adelie', 'island': 'Torgersen', 'bill_length_mm': 39.1, 'bill_depth_mm': 18.7, 'flipper_length_mm': 181.0, 'body_mass_g': 3750.0, 'sex': 'male', 'year': 2007}, {'species': 'Adelie', 'island': 'Torgersen', 'bill_length_mm': 39.5, 'bill_depth_mm': 17.4, 'flipper_length_mm': 186.0, 'body_mass_g': 3800.0, 'sex': 'female', 'year': 2007}]</code></pre>
+</div>
+</div>
+<p>The first function we’ll verify is used to tell us, for a given a data frame and a given Pandas type, which columns are of that type. (In the app, we’ll convert to records-format in the callback function.)</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cols_choice (df, include):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.select_dtypes(include<span class="op">=</span>include).columns.to_list()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s test the function. In Pandas, strings have type <code>'object'</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cols_choice(penguins, <span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>['species', 'island', 'sex']</code></pre>
+</div>
+</div>
+<p>Numbers have type <code>'number'</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cols_choice(penguins, <span class="st">'number'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g', 'year']</code></pre>
+</div>
+</div>
+<p>So far, so good.</p>
+<p>Next, we need a function to generate the (display) table properties. We need to return a list where each element is dictionary that describes a column in the data frame. As we’ll see later, this is the format we need to specify the table headers.</p>
+<p>Note that we are <em>not</em> using the data-frame format in this function, so we can keep everything in records format. We use a trick by looking at only the first (well, zeroth) record.</p>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cols_header (data_records):</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">len</span>(data_records) <span class="op">==</span> <span class="dv">0</span>):</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> [{<span class="st">'name'</span>: v, <span class="st">'id'</span>: v} <span class="cf">for</span> v <span class="kw">in</span> data_records[<span class="dv">0</span>].keys()]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There’s all sorts of ways to do this in Python. I’m a sucker for functional programming, so here’s how to use a <code>map()</code> function. This returns a map object, so we need to change it to a list.</p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">map</span>(<span class="kw">lambda</span> v: {<span class="st">'name'</span>: v, <span class="st">'id'</span>: v}, data_records[<span class="dv">0</span>].keys())</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>This works largely like R’s <code>purrr::map()</code>, but in Python, we provide the function first, then the thing we are iterating over. Here’s a purrr equivalent:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map</span>(<span class="fu">names</span>(data_records[<span class="dv">1</span>]), <span class="sc">~</span><span class="fu">list</span>(<span class="at">name =</span> .x, <span class="at">id =</span> .x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Anyhow, let’s try out our Python function:</p>
+<div class="cell">
+<div class="sourceCode" id="cb23"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cols_header(penguins_records)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[{'name': 'species', 'id': 'species'}, {'name': 'island', 'id': 'island'}, {'name': 'bill_length_mm', 'id': 'bill_length_mm'}, {'name': 'bill_depth_mm', 'id': 'bill_depth_mm'}, {'name': 'flipper_length_mm', 'id': 'flipper_length_mm'}, {'name': 'body_mass_g', 'id': 'body_mass_g'}, {'name': 'sex', 'id': 'sex'}, {'name': 'year', 'id': 'year'}]</code></pre>
+</div>
+</div>
+<p>This seems OK.</p>
+<p>Finally, we need an aggregation function. We send a data frame, then some lists of column-names, and a string naming an aggregation-function. This is an exercise in Pandas - I think this works, but my lack of experience in Pandas suggests there may be a “better” way. We’ll write this as in terms of data frames; we’ll convert to/from records-format in the callback function.</p>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>agg_function_choices <span class="op">=</span> [<span class="st">'mean'</span>, <span class="st">'min'</span>, <span class="st">'max'</span>]</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> aggregate_df (df, cols_group, cols_agg, func_agg,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                  str_fn_choices <span class="op">=</span> agg_function_choices):</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> func_agg <span class="kw">in</span> str_fn_choices:</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">raise</span> <span class="pp">AssertionError</span>(<span class="ss">f"</span><span class="sc">{</span>func_agg<span class="sc">}</span><span class="ss"> not a legal function-choice"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (cols_group <span class="op">!=</span> <span class="va">None</span>):</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>        df <span class="op">=</span> df.groupby(cols_group)</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (cols_agg <span class="op">==</span> <span class="va">None</span> <span class="kw">or</span> <span class="bu">len</span>(cols_agg) <span class="op">==</span> <span class="dv">0</span>):</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># dictionary, keys: column-names, values: function-name</span></span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    dict_agg <span class="op">=</span> {i: func_agg <span class="cf">for</span> i <span class="kw">in</span> cols_agg}</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> df.agg(dict_agg).reset_index()</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>aggregate_df(</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>  penguins, </span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  cols_group <span class="op">=</span> <span class="st">"island"</span>, </span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  cols_agg <span class="op">=</span> [<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>],</span>
+<span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>  func_agg <span class="op">=</span> <span class="st">"mean"</span></span>
+<span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>      island  bill_length_mm  bill_depth_mm
+0     Biscoe       45.257485      15.874850
+1      Dream       44.167742      18.344355
+2  Torgersen       38.950980      18.429412</code></pre>
+</div>
+</div>
+<p>This may be interesting only to me, but there is a more “functional” way to write the statement:</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dict_agg <span class="op">=</span> {i: func_agg <span class="cf">for</span> i <span class="kw">in</span> cols_agg}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Using a reducer:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>dict_agg <span class="op">=</span> <span class="bu">reduce</span>(<span class="kw">lambda</span> acc, val: <span class="bu">dict</span>(acc, <span class="op">**</span>{val: func_agg}), cols_agg, {})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In this situation, it’s more verbose and, I think, less clear what is going on unless you are into functional programming. Please pardon this diversion.</p>
+<p>Confident that the “guts” of the app works, we move onto the components and the callbacks.</p>
+</section>
+<section id="compmonent-layout" class="level3" data-number="2.2.4">
+<h3 data-number="2.2.4" class="anchored" data-anchor-id="compmonent-layout"><span class="header-section-number">2.2.4</span> Compmonent layout</h3>
+<p>Let’s start with the formatting. In the app, we need to create an <code>app.layout</code>, which will be the HTML used to render our app in the browser. Just like with Shiny, we’re using Bootstrap, but we have to be a little more explicit. In Shiny, Bootstrap is “baked in”; in Dash, it’s an add-on.</p>
+<p>Here’s the “formatting” bits of the layout; the <code>...</code> represent Dash components that we’ll discuss presently:</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>app.layout <span class="op">=</span> html.Div(</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    className<span class="op">=</span><span class="st">'container-fluid'</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    children<span class="op">=</span>[</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>        html.H2(<span class="st">'Aggregator'</span>),</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        html.Div(</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>            className<span class="op">=</span><span class="st">'row'</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>            children <span class="op">=</span>[</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>                html.Div(</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>                    className<span class="op">=</span><span class="st">'col-sm-4'</span>,</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>                    children<span class="op">=</span>[</span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a>                        dbc.Card([</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>                            dbc.CardHeader(<span class="st">'Aggregation'</span>),</span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>                            dbc.CardBody([</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>                              ...</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>                            ])</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>                        ])</span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>                    ]</span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a>                ),</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>                html.Div(</span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>                    className<span class="op">=</span><span class="st">'col-sm-8'</span>,</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>                    children<span class="op">=</span>[</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>                        html.H3(<span class="st">'Input data'</span>),</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>                        ...</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>                        html.Hr(),</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>                        html.H3(<span class="st">'Aggregated data'</span>),</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>                        ...</span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>                    ]</span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>                )</span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>            ]</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="data-stores" class="level4" data-number="2.2.4.1">
+<h4 data-number="2.2.4.1" class="anchored" data-anchor-id="data-stores"><span class="header-section-number">2.2.4.1</span> Data stores</h4>
+<p>The first parts I want to highlight are the data stores:</p>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'inp'</span>, data<span class="op">=</span>penguins.to_dict(<span class="st">'records'</span>)),</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'agg'</span>, data<span class="op">=</span>[])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Recall that the server part of a Dash app cannot store its state. Instead, we will store the state, in our case: the input and aggregated data, in the DOM. Dash provides a <code>dcc.Store()</code> component; in its <code>data</code> property, we store the records-based data (note the use of <code>.to_dict('records')</code>. Also note that, just like Shiny, components each have an <code>id</code> property.</p>
+</section>
+<section id="inputs" class="level4" data-number="2.2.4.2">
+<h4 data-number="2.2.4.2" class="anchored" data-anchor-id="inputs"><span class="header-section-number">2.2.4.2</span> Inputs</h4>
+<p>Let’s look at the components that specify the aggregation:</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-group'</span>, multi<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-agg'</span>, multi<span class="op">=</span><span class="va">True</span>),</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>dbc.Select(</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">id</span><span class="op">=</span><span class="st">'func-agg'</span>,</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>    options<span class="op">=</span>[{<span class="st">'label'</span>: v, <span class="st">'value'</span>: v} <span class="cf">for</span> v <span class="kw">in</span> agg_function_choices],</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    value<span class="op">=</span>agg_function_choices[<span class="dv">0</span>]</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>),</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>dbc.Button(<span class="bu">id</span><span class="op">=</span><span class="st">'button-agg'</span>, children<span class="op">=</span><span class="st">'Submit'</span>, class_name<span class="op">=</span><span class="st">'btn btn-secondary'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Here, we’re using a couple of “standard” (<code>dcc</code>) dropdowns and a couple of Bootstrap (<code>dbc</code>) components.</p>
+<p>With the dropdowns, other than providing the <code>id</code>, we specify that multiple selections can be made. We don’t populate the options; we’ll do this using a callback. If we were only ever going to use one input-dataset, in this case <code>penguins</code>, it might make sense to populate the <code>options</code> when defining the component. Populating using a callback function makes our code more general, allowing the case where we could upload an abitrary dataset. Perhaps it wasn’t necessary to follow the more-general approach here, but it allowed me to learn more about how Dash works.</p>
+<p>We define our <code>dbc.Select()</code> component completely in the layout.</p>
+<p>Note also that we can apply Bootstrap classes to<code>dbc.Button()</code>. What we might think of as a label is specified as the <code>children</code> of the button element.</p>
+</section>
+<section id="outputs" class="level4" data-number="2.2.4.3">
+<h4 data-number="2.2.4.3" class="anchored" data-anchor-id="outputs"><span class="header-section-number">2.2.4.3</span> Outputs</h4>
+<p>It remains to look at the data tables. There are two tables, identical in form; we will examine only one of them:</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dash_table.DataTable(</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">id</span><span class="op">=</span><span class="st">'table-inp'</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    page_size<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    sort_action<span class="op">=</span><span class="st">'native'</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The properties here are straightforward: we need an <code>id</code>, we want to show ten entries at a time, <code>sort_action='native'</code> indicates that we want sorting to be available (and for Dash to take care of it).</p>
+<p>We will populate the data tables using callback functions.</p>
+</section>
+</section>
+<section id="callback-functions" class="level3" data-number="2.2.5">
+<h3 data-number="2.2.5" class="anchored" data-anchor-id="callback-functions"><span class="header-section-number">2.2.5</span> Callback functions</h3>
+<p>In Dash, callback functions are just regular functions with decorators. Here’s a very generic example:</p>
+<div class="cell">
+<div class="sourceCode" id="cb33"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'output-component'</span>, <span class="st">'output-property'</span>),</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'input-component'</span>, <span class="st">'input-property'</span>))</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> some_function_name(x):</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> some_function(x)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> y</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The decorator tells Dash how to build a function that wraps the “actual” function. We are not concerned with the implementation; we are interested in the interface.</p>
+<p>The decorator is this bit of code: <code>@app.callback()</code>. It takes a series of arguments which map to the function’s parameters and return values:</p>
+<ul>
+<li><code>Output('output-component', 'output-property')</code> is mapped to the return value.</li>
+<li><code>Input('input-component', 'input-property')</code> is mapped to the <code>x</code> parameter.</li>
+</ul>
+<p>This tells Dash that whenever the <code>input-property</code> of the <code>input-component</code> changes, it should:</p>
+<ul>
+<li>run the function using the <code>input-property</code> as an argument, then</li>
+<li>send the return value to the <code>output-property</code> of the <code>output-component</code></li>
+</ul>
+<p>We’ll see some more-complex cases in the following examples.</p>
+<section id="inputs-1" class="level4" data-number="2.2.5.1">
+<h4 data-number="2.2.5.1" class="anchored" data-anchor-id="inputs-1"><span class="header-section-number">2.2.5.1</span> Inputs</h4>
+<p>We have a couple of input components that need updating: the grouping columns and the aggregation columns. Each has its own callback, but they are virtually identical, so I’ll describe only one.</p>
+<div class="cell">
+<div class="sourceCode" id="cb34"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'cols-group'</span>, <span class="st">'options'</span>),</span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'inp'</span>, <span class="st">'data'</span>))</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_cols_group(data_records):</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame.from_dict(data_records)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cols_choice(df, <span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Whenever the <code>inp</code> <code>data</code> changes:</p>
+<ul>
+<li>the function is called using the input data (in records form).</li>
+<li>the function converts to data-frame format, then</li>
+<li>uses our helper function to determine the columns that have string values.</li>
+<li>it returns a list of column names, which Dash uses to update the <code>cols-group</code> <code>options</code>.</li>
+</ul>
+</section>
+<section id="calculations" class="level4" data-number="2.2.5.2">
+<h4 data-number="2.2.5.2" class="anchored" data-anchor-id="calculations"><span class="header-section-number">2.2.5.2</span> Calculations</h4>
+<p>The callback that performs the aggregation has more going on, but we’ll get to the bottom of it.</p>
+<div class="cell">
+<div class="sourceCode" id="cb35"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'agg'</span>, <span class="st">'data'</span>),</span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'button-agg'</span>, <span class="st">'n_clicks'</span>),</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>              State(<span class="st">'inp'</span>, <span class="st">'data'</span>),</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>              State(<span class="st">'cols-group'</span>, <span class="st">'value'</span>),</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>              State(<span class="st">'cols-agg'</span>, <span class="st">'value'</span>),</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>              State(<span class="st">'func-agg'</span>, <span class="st">'value'</span>),</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>              prevent_initial_call<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> aggregate(n_clicks, data_records, cols_group, cols_agg, func_agg):</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># create DataFrame</span></span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame.from_dict(data_records)</span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># aggregate</span></span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>    df_new <span class="op">=</span> aggregate_df(df, cols_group, cols_agg, func_agg)</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># serialize DataFrame</span></span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_new.to_dict(<span class="st">'records'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>A couple of things to sort through:</p>
+<ul>
+<li><p>The function has five parameters; the decorator has one <code>Input()</code> and four instances of <code>State()</code>.</p></li>
+<li><p>The decorator is provided an additional argument: <code>prevent_initial_call</code>.</p></li>
+</ul>
+<p>A <code>State()</code> is similar to an <code>Input()</code>; the difference that the function is <strong>not</strong> run in response to a <code>State()</code> change. In this case, the function is run <em>only</em> in response to the value of the button changing, i.e.&nbsp;being clicked.</p>
+<p>The <code>prevent_inital_call</code> argument describes itself well. By setting it to <code>True</code>, we ensure that the only way the aggregation function will be run is when the button is clicked.</p>
+<p>Finally note that we convert our input records into a data frame, then use records-format for the return value.</p>
+</section>
+<section id="outputs-1" class="level4" data-number="2.2.5.3">
+<h4 data-number="2.2.5.3" class="anchored" data-anchor-id="outputs-1"><span class="header-section-number">2.2.5.3</span> Outputs</h4>
+<p>The final set of callbacks is for our data tables. Again, although we have two data tables, the callbacks are virtually identical, so I’ll highlight only one.</p>
+<div class="cell">
+<div class="sourceCode" id="cb36"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'table-inp'</span>, <span class="st">'columns'</span>),</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>              Output(<span class="st">'table-inp'</span>, <span class="st">'data'</span>),</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'inp'</span>, <span class="st">'data'</span>))</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_table_inp(data_records):</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>     <span class="cf">return</span> cols_header(data_records), data_records  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The thing to note there is that Dash and Python support multiple return-values, mapping each to an <code>Output()</code>.</p>
+<p>This situation merits multiple return-values because a Dash data table has a properties for <code>data</code> and <code>columns</code> (headers). This information comes from the same source, so it made sense to use multiple return-values.</p>
+<p>Certainly, you could write two callbacks to do the same things; writing a single callback made more sense to me. Of course, you should do what makes sense to you.</p>
+
+
+
+</section>
+</section>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./shiny.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./observable.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Observable</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

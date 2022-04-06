@@ -3,8 +3,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.9.194">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="author" content="Ian Lyttle">
-  <title>Data-Science Reactivity: Three Ways</title>
+  <title>Data-Science Reactivity: Three Ways - Appendix C — Stray Thoughts</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -21,7 +20,7 @@
   <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="site_libs/quarto-search/fuse.min.js"></script>
   <script src="site_libs/quarto-search/quarto-search.js"></script>
-  <link href="./shiny.html" rel="next">
+  <link href="./deployment.html" rel="prev">
   <script src="site_libs/quarto-html/quarto.js"></script>
   <script src="site_libs/quarto-html/popper.min.js"></script>
   <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -54,12 +53,12 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
 </head>
-<body class="floating">
+<body class="floating fullcontent">
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Data-Science Reactivity: Three Ways</h1>
+      <h1 class="quarto-secondary-nav-title">Appendix C — Stray Thoughts</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -84,7 +83,7 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -122,7 +121,7 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./stray-thoughts.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Stray Thoughts</span></a>
+  <a href="./stray-thoughts.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Stray Thoughts</span></a>
   </div>
 </li>
     </ul>
@@ -131,76 +130,24 @@
     </div>
 </nav>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc">
-<h2 id="toc-title">Table of contents</h2>
-<ul>
-<li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
-<ul class="collapse">
-<li><a href="#other-resources" id="toc-other-resources" class="nav-link" data-scroll-target="#other-resources">Other resources</a></li>
-</ul></li>
-</ul>
-</nav>
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <header id="title-block-header" class="quarto-title-block default">
 
 
-
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Data-Science Reactivity: Three Ways</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><div><div>
-<p>Ian Lyttle</p>
-</div></div></div></div></div><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
-
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:</p>
-<ul>
-<li>R: <a href="https://shiny.rstudio.com/">Shiny</a></li>
-<li>Python: <a href="https://dash.plotly.com/">Dash</a></li>
-<li>JavaScript: <a href="https://observablehq.com/@observablehq/five-minute-introduction">Observable</a></li>
-</ul>
-<p>An example app is created for each framework:</p>
-<ul>
-<li>starting with the <code>penguins</code> data-frame from <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a>:
-<ul>
-<li>show it as a table.</li>
-<li>specify grouping columns, aggregation columns, and an aggregation function.</li>
-</ul></li>
-<li>create an aggregated data-frame from the input, using the specification.
-<ul>
-<li>show the aggregated data-frame as a table.</li>
-</ul></li>
-</ul>
-<p>This book is written for folks who know how to develop basic Shiny apps, and wish to extend their knowledge to Dash (Python) or Observable (JavaScript). I will assume you have:</p>
-<ul>
-<li>basic knowledge of how to build a Shiny app.</li>
-<li>some familiarity with the tidyverse, in particular, dplyr.</li>
-</ul>
-<p>In this book:</p>
-<ul>
-<li><p>we’ll review a <a href="https://ijlyttle.shinyapps.io/aggregate-local">Shiny app</a>, highlighting parts of its <a href="https://github.com/ijlyttle/reactivity-demo-shiny">code</a>.</p></li>
-<li><p>we’ll look at a <a href="https://aggregate-local.herokuapp.com">Dash app</a> and the <a href="https://github.com/ijlyttle/reactivity-demo-dash">code</a>.</p></li>
-<li><p>we’ll look at an Observable Notebook, where the <a href="https://observablehq.com/@ijlyttle/aggregate-local">app is the code</a>.</p></li>
-</ul>
-<p>The goal is to give you the confidence to take the next steps to learn more about each of these frameworks.</p>
-<section id="other-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="other-resources">Other resources</h2>
-<p>Here are some resources I have found useful:</p>
-<ul>
-<li>Shiny’s <a href="https://shiny.rstudio.com/tutorial/">tutorials</a>.</li>
-<li>Once you have built a few Shiny apps, it can be helpful to get a better sense of what makes Shiny “tick”. Joe Cheng gave an outstanding tutorial at the precursor to rstudio::conf() in 2016: <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/">Part 1</a>, <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/">Part 2</a>.</li>
-<li>Hadley Wickham’s <a href="https://mastering-shiny.org/">Mastering Shiny</a>.</li>
-<li>Appsilon has a handy blog post: <a href="https://appsilon.com/dash-vs-shiny/">Dash vs.&nbsp;Shiny</a>.</li>
-<li>Dash’s <a href="https://dash.plotly.com/">documentation</a>.</li>
-<li>For an introduction to Observable, this <a href="https://observablehq.com/tutorials">tutorial page</a> is a great start.</li>
-<li>If you are comfortable with JavaScript and want to get a quick sense of Observable: the somewhat distractingly-named <a href="https://observablehq.com/@observablehq/observables-not-javascript">Observable’s not JavaScript</a>.</li>
-</ul>
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix C — Stray Thoughts</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
+<p>Putting the code together, I have had a lot of stray thoughts that I want to get into the text. I’m thinking to collect them here, then remove them as they get expressed more concretely elsewhere in this book.</p>
+<p>Shiny and Observable are more opinionated than Dash.</p>
+<p>Shiny and Observable manage the reactive graph for you; Dash makes you spell it out explicitly.</p>
+<p>Being more opinionated lets you code more concisely. Being less opinionated gives you more flexibility in what you create, at the price of more code.</p>
+<p>Shiny lets you store the state at the server; Dash and Observable do not.</p>
+<p>Dash and Observable use React under the hood.</p>
+<p>Shiny and Dash both offer a UI/server framework; in Observable, it’s all notebook.</p>
+<p>Observable supports (and encourages) the idea of importing functions from other published notebooks.</p>
 
 
 
-</section>
-</section>
 </main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -280,11 +227,11 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./deployment.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Deployment</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./shiny.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.194">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Data-Science Reactivity: Three Ways - 1&nbsp; Shiny</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <link href="./dash.html" rel="next">
+  <link href="./index.html" rel="prev">
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "sidebar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "start",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="floating">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data-Science Reactivity: Three Ways</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./shiny.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./dash.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./observable.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Observable</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+    <div class="sidebar-item-container"> 
+        <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Appendices</a>
+      <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+        <i class="bi bi-chevron-right ms-2"></i>
+      </a>
+    </div>
+    <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./field-guide-python.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Field Guide to Python</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./deployment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Deployment</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./stray-thoughts.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Stray Thoughts</span></a>
+  </div>
+</li>
+    </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#principles" id="toc-principles" class="nav-link active" data-scroll-target="#principles"> <span class="header-section-number">1.1</span> Principles</a>
+<ul class="collapse">
+<li><a href="#pure-functions-vs.-side-effects" id="toc-pure-functions-vs.-side-effects" class="nav-link" data-scroll-target="#pure-functions-vs.-side-effects"> <span class="header-section-number">1.1.1</span> Pure functions vs.&nbsp;side effects</a></li>
+<li><a href="#reactives-vs.-observers" id="toc-reactives-vs.-observers" class="nav-link" data-scroll-target="#reactives-vs.-observers"> <span class="header-section-number">1.1.2</span> Reactives vs.&nbsp;observers</a></li>
+<li><a href="#using-tidyverse-functions" id="toc-using-tidyverse-functions" class="nav-link" data-scroll-target="#using-tidyverse-functions"> <span class="header-section-number">1.1.3</span> Using tidyverse functions</a></li>
+</ul></li>
+<li><a href="#demonstration-app" id="toc-demonstration-app" class="nav-link" data-scroll-target="#demonstration-app"> <span class="header-section-number">1.2</span> Demonstration App</a>
+<ul class="collapse">
+<li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"> <span class="header-section-number">1.2.1</span> Description</a></li>
+<li><a href="#prelims" id="toc-prelims" class="nav-link" data-scroll-target="#prelims"> <span class="header-section-number">1.2.2</span> Prelims</a></li>
+<li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions"> <span class="header-section-number">1.2.3</span> Helper functions</a></li>
+<li><a href="#ui" id="toc-ui" class="nav-link" data-scroll-target="#ui"> <span class="header-section-number">1.2.4</span> UI</a></li>
+<li><a href="#server-function" id="toc-server-function" class="nav-link" data-scroll-target="#server-function"> <span class="header-section-number">1.2.5</span> Server function</a></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
+
+<p>Shiny was my introduction to reactive programming. Like many folks, I started by hacking to “get stuff working”; this is a perfectly-honorable path. Then, I watched Joe Cheng’s tutorials (<a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/">Part 1</a>, <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/">Part 2</a>), in which he explained some of the theory behind Shiny. These talks started me on a path that completely changed my persepective and, eventually, my abilities as a programmer.</p>
+<p>This chapter is meant to be a review of Shiny; we will:</p>
+<ul>
+<li>touch on some of the principles I learned from Joe’s talks.</li>
+<li>show how these principles are implemented the <a href="https://ijlyttle.shinyapps.io/aggregate-local">demonstration app</a>.</li>
+</ul>
+<section id="principles" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="principles"><span class="header-section-number">1.1</span> Principles</h2>
+<p>These are some things to keep in mind to help you write more-understandable and predictable Shiny apps.</p>
+<section id="pure-functions-vs.-side-effects" class="level3" data-number="1.1.1">
+<h3 data-number="1.1.1" class="anchored" data-anchor-id="pure-functions-vs.-side-effects"><span class="header-section-number">1.1.1</span> Pure functions vs.&nbsp;side effects</h3>
+<p>This is the single biggest concept I have learned as a programmer, and I learned it relatively late in my career.</p>
+<p>A pure function has two properties:</p>
+<ul>
+<li>given the same set of arguments, it <em>always</em> returns the same value.</li>
+<li>it makes no changes outside of its scope.</li>
+</ul>
+<p>This can provide us some big benefits:</p>
+<ul>
+<li>it doesn’t matter where or how the return value is computed, we can rely on getting the same answer.</li>
+<li>we don’t have to worry about the environment changing as a result of calling the function.</li>
+</ul>
+<p>Here’s a couple of examples of pure functions:</p>
+<div class="cell">
+<div class="sourceCode" id="cb1"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">**</span><span class="dv">2</span> <span class="sc">-</span> <span class="dv">1</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(x) {</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">paste</span>(x, <span class="st">" using a pure function."</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pure functions are relatively striaghtforward to test because the output depends only on the inputs.</p>
+<p><em>Side effects</em> is a catch-all term for when a function’s behavior either:</p>
+<ul>
+<li>depends on something not passed in as an argument.</li>
+<li>changes the something outside of its scope, e.g.: writes a file, displays a plot.</li>
+</ul>
+<p>Here’s a couple of functions that either depend on or cause side effects:</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># return value depends on the *contents* of the file, not just file_name</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(file_name) {</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">read.csv</span>(file_name)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># this might make a change in a remote service</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">function</span>(url, data) {</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  h <span class="ot">&lt;-</span> curl<span class="sc">::</span><span class="fu">new_handle</span>()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  curl<span class="sc">::</span><span class="fu">handle_setform</span>(h, data)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  curl<span class="sc">::</span><span class="fu">curl</span>(url)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Aside from being non-deterministic, functions with side effects can take a long time to execute.</p>
+<p>Of course, side effects are not necessarily bad things, but we need to be aware of them. Your Shiny server-function will make much more sense, and be much easier to debug, if you recognize pure functions and side effects.</p>
+</section>
+<section id="reactives-vs.-observers" class="level3" data-number="1.1.2">
+<h3 data-number="1.1.2" class="anchored" data-anchor-id="reactives-vs.-observers"><span class="header-section-number">1.1.2</span> Reactives vs.&nbsp;observers</h3>
+<p>Shiny server-functions provide two broad mechanisms for updating the state of your app:</p>
+<ul>
+<li><p><code>reactive()</code>: these return values, and work well with pure functions. In other words, the returned value depends only on the reactive values it depends on.</p></li>
+<li><p><code>observe()</code>: there is no return value; instead, these cause side-effects. Very often, the effect is to change something in the UI, such as the choices in an input, or to render a plot.</p></li>
+</ul>
+<p>In Shiny, reactive expressions are designed to run quickly and often; observers are designed to be run sparingly.</p>
+</section>
+<section id="using-tidyverse-functions" class="level3" data-number="1.1.3">
+<h3 data-number="1.1.3" class="anchored" data-anchor-id="using-tidyverse-functions"><span class="header-section-number">1.1.3</span> Using tidyverse functions</h3>
+<p>The tidyverse is designed with interactive programming in mind. It is meant to support code like this, without a lot of quotes or namespace qualifiers:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>penguins <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island, sex) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">bill_length_mm =</span> <span class="fu">mean</span>(bill_length_mm))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In Shiny, variable (column) names in data frames are expressed as strings, rather than as bare variable-names. As well, in Shiny, we may want to <code>summarise()</code> an arbitrary set of variables. Thus, it can be a challenge to use tidyverse code in Shiny.</p>
+<p>It should not surprise us that the tidyverse offers tools to address this situation:</p>
+<ul>
+<li><code>&lt;tidy-select&gt;</code> is a set of tools to select variables within a data frame. Functions that use <code>&lt;tidy-select&gt;</code> include <code>dplyr::select()</code>, <code>tidyr::pivot_longer()</code>. Of particular use in Shiny are the selection helpers for strings: <code>dplyr::any_of()</code> and <code>dplyr::all_of()</code>.</li>
+<li><code>across()</code> lets us use a <code>&lt;tidy-select&gt;</code> specification in a data-masking function. More concretely, it lets us <code>group_by()</code> or <code>summarize()</code> over an arbitrary set of variables in a data frame.</li>
+<li>If you need to use data-masking with (by definition) a single variable, you can use subsetting with the <code>.data</code> pronoun, e.g.&nbsp;<code>ggplot2::aes(x = .data[[str_var_x]])</code>.</li>
+</ul>
+</section>
+</section>
+<section id="demonstration-app" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="demonstration-app"><span class="header-section-number">1.2</span> Demonstration App</h2>
+<p>The goal of this chapter is to highlight some design choices in the <a href="https://github.com/ijlyttle/reactivity-demo-shiny">source code</a> of this <a href="https://ijlyttle.shinyapps.io/aggregate-local">demonstration Shiny app</a>.</p>
+<section id="description" class="level3" data-number="1.2.1">
+<h3 data-number="1.2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">1.2.1</span> Description</h3>
+<p>To start with, spend a few minutes playing with the <a href="https://github.com/ijlyttle/reactivity-demo-shiny">app</a>, while referring back to these diagrams:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/shiny-aggregate-local.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Reactivity diagram</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Each <code>input</code> and <code>output</code> you see in the diagram is a part of the UI of the app. The reactive expressions, in this case: <code>inp</code> and <code>agg</code>, are found only in the app’s server-function.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="images/shiny-legend.svg" class="img-fluid figure-img"></p>
+<p></p><figcaption aria-hidden="true" class="figure-caption">Legend</figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The solid lines indicate immediate downstream-evaluation if the upstream value changes; this is what we think of when we hear “reactivity”. The dashed lines indicate that downstream-evaluation does not immediate follow an upstream change. For example, the reactive-expression <code>agg</code> is updated only when the <code>button</code> is pushed.</p>
+<p>Spend some time to study the app, to make sure that these diagrams agree with your understanding of how the app operates. In the following sections, we’ll discuss how to implement in your Shiny code.</p>
+</section>
+<section id="prelims" class="level3" data-number="1.2.2">
+<h3 data-number="1.2.2" class="anchored" data-anchor-id="prelims"><span class="header-section-number">1.2.2</span> Prelims</h3>
+<p>In the rest of this chapter, we’ll highlight the code used to make app, and the design choices behind the code. In the <a href="https://github.com/ijlyttle/reactivity-demo-shiny">repository</a>, there are a couple of files to pay attention to:</p>
+<pre><code>app-aggregate-local.R
+R/
+  aggregate-local.R</code></pre>
+<p>Here’s the start of the app file, <code>app-aggregate-local.R</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"shiny"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------- </span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># global functions</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co"># ------------------- </span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># created outside of reactive environment, making it easier:</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#   - to test</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#   - to migrate to a package</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"./R/aggregate-local.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As you can see, it sources <code>R/aggregate-local.R</code>, which contains our helper functions.</p>
+</section>
+<section id="helper-functions" class="level3" data-number="1.2.3">
+<h3 data-number="1.2.3" class="anchored" data-anchor-id="helper-functions"><span class="header-section-number">1.2.3</span> Helper functions</h3>
+<p>Before writing a Shiny app, I like to write out a set of non-reactive functions that will do the “heavy lifting”. To the extent possible, these are pure functions, which makes it easier to test. I keep these functions in an <code>R</code> folder alongside my app; here’s a <a href="https://github.com/ijlyttle/reactivity-demo-shiny/blob/main/R/aggregate-local.R">link</a> to the actual code.</p>
+<p>Just like in the app, we’ll use the <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a> dataset:</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># this is not part of the helper functions - it's for exposition here</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"palmerpenguins"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"tibble"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>penguins</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 344 × 8
+   species island    bill_length_mm bill_depth_mm flipper_length_mm body_mass_g
+   &lt;fct&gt;   &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;             &lt;int&gt;       &lt;int&gt;
+ 1 Adelie  Torgersen           39.1          18.7               181        3750
+ 2 Adelie  Torgersen           39.5          17.4               186        3800
+ 3 Adelie  Torgersen           40.3          18                 195        3250
+ 4 Adelie  Torgersen           NA            NA                  NA          NA
+ 5 Adelie  Torgersen           36.7          19.3               193        3450
+ 6 Adelie  Torgersen           39.3          20.6               190        3650
+ 7 Adelie  Torgersen           38.9          17.8               181        3625
+ 8 Adelie  Torgersen           39.2          19.6               195        4675
+ 9 Adelie  Torgersen           34.1          18.1               193        3475
+10 Adelie  Torgersen           42            20.2               190        4250
+# … with 334 more rows, and 2 more variables: sex &lt;fct&gt;, year &lt;int&gt;</code></pre>
+</div>
+</div>
+<p>In fact, the first bit of code is not even a function. It is an enumeration of the choices for the aggregation function:</p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># choices for aggregation functions</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>agg_function_choices <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"mean"</span>, <span class="st">"min"</span>, <span class="st">"max"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ll use it in a few places, so I want to define it only once.</p>
+<p>Next, a couple of functions that, given a data frame, return the names of:</p>
+<ul>
+<li>numerical variables</li>
+<li>categorical variables</li>
+</ul>
+<p>You might quibble with how I’ve defined these here, but it works for me, for this example.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># given a data frame, return the names of numeric columns</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cols_number <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  df_select <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(df, <span class="fu">where</span>(<span class="sc">~</span><span class="fu">is.numeric</span>(.x) <span class="sc">|</span> <span class="fu">is.integer</span>(.x)) ) </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(df_select)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># given a data frame, return the names of string and factor columns</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>cols_category <span class="ot">&lt;-</span> <span class="cf">function</span>(df) {</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  df_select <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">select</span>(df, <span class="fu">where</span>(<span class="sc">~</span><span class="fu">is.character</span>(.x) <span class="sc">|</span> <span class="fu">is.factor</span>(.x)) ) </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">names</span>(df_select)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>You may have noticed that I refer to functions using the package name, e.g.&nbsp;<code>dplyr::select()</code>. This is a habit I learned following Hadley Wickham; basically:</p>
+<ul>
+<li><p>I like to be as explicit as possible when writing functions. It provides fewer opportunities for strange things to happen; I provide enough opportunities as it is.</p></li>
+<li><p>The function is more ready to be included in a package.</p></li>
+</ul>
+<p>As advertised, testing (or at least spot-verification) is straightforward:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cols_number</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "bill_length_mm"    "bill_depth_mm"     "flipper_length_mm"
+[4] "body_mass_g"       "year"             </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cols_category</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] "species" "island"  "sex"    </code></pre>
+</div>
+</div>
+<p>Let’s look at the aggregation function:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>group_aggregate <span class="ot">&lt;-</span> <span class="cf">function</span>(df, str_group, str_agg, str_fn_agg, </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>                            <span class="at">str_fn_choices =</span> agg_function_choices) {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># validate the aggregation function</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stopifnot</span>(</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    str_fn_agg <span class="sc">%in%</span> str_fn_choices</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="co"># get the aggregation function</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  func <span class="ot">&lt;-</span> <span class="fu">get</span>(str_fn_agg)</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>  df <span class="sc">|&gt;</span></span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">group_by</span>(dplyr<span class="sc">::</span><span class="fu">across</span>(dplyr<span class="sc">::</span><span class="fu">all_of</span>(str_group))) <span class="sc">|&gt;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">across</span>(dplyr<span class="sc">::</span><span class="fu">all_of</span>(str_agg), func, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There’s a few things I want to point out about this function:</p>
+<ul>
+<li><p>Aside from the data frame, all the arguments are strings. It is designed for use with Shiny, not for interactive use.</p></li>
+<li><p>We are using <code>agg_function_choices</code> to make sure that we won’t execute arbitrary code. We turn the string into binding to a function using <code>get()</code>.</p></li>
+<li><p>We use dplyr’s <code>across()</code> function, which lets us use <code>select()</code> semantics in “data-masking” functions, e.g.&nbsp;<code>group_by()</code>, <code>summarise()</code>.</p></li>
+<li><p>To select data-frame variables using strings, we use <code>all_of()</code>.</p></li>
+</ul>
+<p>For example if we were grouping by <code>"island"</code>, then aggregating over <code>"bill_length_mm"</code> and <code>"bill_depth_mm"</code> using <code>"mean"</code>, our interactive code might look like:</p>
+<div class="cell">
+<div class="sourceCode" id="cb16"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"dplyr"</span>, <span class="at">quietly =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>aggregate_interactive <span class="ot">&lt;-</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  penguins <span class="sc">|&gt;</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(island) <span class="sc">|&gt;</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">bill_length_mm =</span> <span class="fu">mean</span>(bill_length_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">bill_depth_mm =</span> <span class="fu">mean</span>(bill_depth_mm, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>aggregate_interactive</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  island    bill_length_mm bill_depth_mm
+  &lt;fct&gt;              &lt;dbl&gt;         &lt;dbl&gt;
+1 Biscoe              45.3          15.9
+2 Dream               44.2          18.3
+3 Torgersen           39.0          18.4</code></pre>
+</div>
+</div>
+<p>We can use this result to help verify that our “string” version is working:</p>
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>aggregate_string <span class="ot">&lt;-</span> <span class="fu">group_aggregate</span>(</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  penguins, </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">str_group =</span> <span class="st">"island"</span>, </span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">str_agg =</span> <span class="fu">c</span>(<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">str_fn_agg =</span> <span class="st">"mean"</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="fu">identical</span>(aggregate_interactive, aggregate_string)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-stdout">
+<pre><code>[1] TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="ui" class="level3" data-number="1.2.4">
+<h3 data-number="1.2.4" class="anchored" data-anchor-id="ui"><span class="header-section-number">1.2.4</span> UI</h3>
+<p>The UI object is relatively straightforward; we use a <code>fluidPage()</code> with a narrower column for inputs and a wider column for outputs.</p>
+<p>To give a clearer view of the high-level structure of the page, I replaced the code for the inputs and outputs with <code>...</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb24"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"shiny"</span>)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>ui <span class="ot">&lt;-</span> <span class="fu">fluidPage</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">titlePanel</span>(<span class="st">"Aggregator"</span>),</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fluidRow</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column</span>(</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="dv">4</span>, </span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>      <span class="fu">wellPanel</span>(</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">h3</span>(<span class="st">"Aggregation"</span>),</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>        ...</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>      )s</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">column</span>(</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">width =</span> <span class="dv">8</span>,</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>      <span class="fu">h3</span>(<span class="st">"Input data"</span>),</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>      ...</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>      <span class="fu">hr</span>(),</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>      <span class="fu">h3</span>(<span class="st">"Aggregated data"</span>),</span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>      ...</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="inputs" class="level4" data-number="1.2.4.1">
+<h4 data-number="1.2.4.1" class="anchored" data-anchor-id="inputs"><span class="header-section-number">1.2.4.1</span> Inputs</h4>
+<div class="cell">
+<div class="sourceCode" id="cb25"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wellPanel</span>(</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">h3</span>(<span class="st">"Aggregation"</span>),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"cols_group"</span>,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Grouping columns"</span>,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> <span class="fu">c</span>(),</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  ),        </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"cols_agg"</span>,</span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Aggregation columns"</span>,</span>
+<span id="cb25-12"><a href="#cb25-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> <span class="fu">c</span>(),</span>
+<span id="cb25-13"><a href="#cb25-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb25-14"><a href="#cb25-14" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb25-15"><a href="#cb25-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">selectizeInput</span>(</span>
+<span id="cb25-16"><a href="#cb25-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"func_agg"</span>,</span>
+<span id="cb25-17"><a href="#cb25-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Aggregation function"</span>,</span>
+<span id="cb25-18"><a href="#cb25-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> agg_function_choices,</span>
+<span id="cb25-19"><a href="#cb25-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">multiple =</span> <span class="cn">FALSE</span></span>
+<span id="cb25-20"><a href="#cb25-20" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb25-21"><a href="#cb25-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">actionButton</span>(</span>
+<span id="cb25-22"><a href="#cb25-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"button"</span>,</span>
+<span id="cb25-23"><a href="#cb25-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">label =</span> <span class="st">"Submit"</span></span>
+<span id="cb25-24"><a href="#cb25-24" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s look more closely at <code>input$cols_group</code> (this also applies to <code>input$cols_agg</code>):</p>
+<div class="cell">
+<div class="sourceCode" id="cb26"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">selectizeInput</span>(</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">inputId =</span> <span class="st">"cols_group"</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">label =</span> <span class="st">"Grouping columns"</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">choices =</span> <span class="fu">c</span>(),</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">multiple =</span> <span class="cn">TRUE</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that <code>choices</code> is specified, initially, as an empty vector. The reactivity diagram for <code>cols_group</code> indicates that, we use an observer function to update this input. We’ll do this in the server function, where we update the <code>choices</code>.</p>
+</section>
+<section id="outputs" class="level4" data-number="1.2.4.2">
+<h4 data-number="1.2.4.2" class="anchored" data-anchor-id="outputs"><span class="header-section-number">1.2.4.2</span> Outputs</h4>
+<p>The outputs are fairly strightforward; we are using <code>DT::DTOutput()</code> as placeholders for <a href="https://rstudio.github.io/DT/">DT DataTables</a>.</p>
+<div class="cell">
+<div class="sourceCode" id="cb27"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">column</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">width =</span> <span class="dv">8</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">h3</span>(<span class="st">"Input data"</span>),</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">DTOutput</span>(</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">outputId =</span> <span class="st">"table_inp"</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hr</span>(),</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">h3</span>(<span class="st">"Aggregated data"</span>),</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  DT<span class="sc">::</span><span class="fu">DTOutput</span>(</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">outputId =</span> <span class="st">"table_agg"</span></span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  )      </span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="server-function" class="level3" data-number="1.2.5">
+<h3 data-number="1.2.5" class="anchored" data-anchor-id="server-function"><span class="header-section-number">1.2.5</span> Server function</h3>
+<p>This may be a habit particular to me, but I like to organize a server-function into groups:</p>
+<div class="cell">
+<div class="sourceCode" id="cb28"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>server <span class="ot">&lt;-</span> <span class="cf">function</span>(input, output, session) {</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># input observers</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># reactive expressions and values</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="co"># outputs</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>}  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="input-observers" class="level4" data-number="1.2.5.1">
+<h4 data-number="1.2.5.1" class="anchored" data-anchor-id="input-observers"><span class="header-section-number">1.2.5.1</span> Input observers</h4>
+<p>There are two inputs: <code>cols_group</code> and <code>cols_agg</code>, whose <code>choices</code> change when the input data-frame changes.</p>
+<p>To make such a change, we use a Shiny <code>observe()</code>, which runs when any of its reactive dependencies change. An <code>observe()</code> does not return a value; instead, it causes a side-effect. In this case, it changes an input element in the DOM.</p>
+<p>The observers are substantially similar, so I’ll show only <code>cols_group</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb29"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">observe</span>({</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># this runs whenever the parsed input data changes</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">updateSelectizeInput</span>(</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    session,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">inputId =</span> <span class="st">"cols_group"</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">choices =</span> <span class="fu">cols_category</span>(<span class="fu">inp</span>())</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>}) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Note that one of our helper functions, <code>cols_category()</code>, makes an appearance. The <code>choices</code> for the <code>cols_group</code> input are updated according to the names of the categorical variables in the data frame returned by <code>inp()</code>.</p>
+</section>
+<section id="reactive-expressions" class="level4" data-number="1.2.5.2">
+<h4 data-number="1.2.5.2" class="anchored" data-anchor-id="reactive-expressions"><span class="header-section-number">1.2.5.2</span> Reactive expressions</h4>
+<p>This app uses two reactive expressions:</p>
+<ul>
+<li><code>inp()</code>, which returns the input data-frame.</li>
+<li><code>agg()</code>, which returns the aggregated data-frame.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb30"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>inp <span class="ot">&lt;-</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reactive</span>({ </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>    palmerpenguins<span class="sc">::</span>penguins</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  }) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For this app, we probably did not need to wrap <code>palmerpenguins::penguins</code> in a <code>reactive()</code>. I did this with future expansion in mind, where <code>inp()</code> could also return a data frame according to a choice, or even a data frame parsed from an uploaded CSV file.</p>
+<p>The reactive expression for <code>agg()</code>, the aggregated data-frame, is more interesting:</p>
+<div class="cell">
+<div class="sourceCode" id="cb31"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>agg <span class="ot">&lt;-</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">reactive</span>({</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>         </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">req</span>(input<span class="sc">$</span>func_agg <span class="sc">%in%</span> agg_function_choices)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_aggregate</span>(</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>      <span class="fu">inp</span>(), </span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">str_group =</span> input<span class="sc">$</span>cols_group, </span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">str_agg =</span> input<span class="sc">$</span>cols_agg, </span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">str_fn_agg =</span> input<span class="sc">$</span>func_agg</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  }) <span class="sc">|&gt;</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">bindEvent</span>(input<span class="sc">$</span>button, <span class="at">ignoreNULL =</span> <span class="cn">TRUE</span>, <span class="at">ignoreInit =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The first thing we do in the reactive is make sure that the value of <code>input$func_agg</code> is among the choices we specified. I’m sure you noticed that this is an extra check. Although redundant, I am careful to validate using the same values: <code>agg_function_choices</code>. You can read more about input validation in the <a href="https://mastering-shiny.org/scaling-security.html">security chapter</a> of Mastering Shiny.</p>
+<p>Then, we use our <code>group_aggregate()</code> helper function. For me, having tested it outside of Shiny helped me focus on getting the rest of the code working.</p>
+<p>The <code>reactive()</code> expression returns the data; the expression itself is piped to <code>bindEvent()</code>, which will run the <code>reactive()</code>, and return its value, only when the value of <code>input$button</code> changes. This is a relatively new pattern in Shiny; it appeared in v1.6.0.</p>
+<p><code>bindEvent()</code> has a couple of options:</p>
+<ul>
+<li><code>ignoreNULL = FALSE</code>: the <code>reactive()</code> is not evaluated if <code>input$button</code> is zero.</li>
+<li><code>ignoreInit = FALSE</code>: the <code>reactive()</code> is not evaluated when the app is first initialized.</li>
+</ul>
+<p>In this case, the <code>reactive()</code> is evaluated only in response to a button-click. This can be a useful pattern if the <code>reactive()</code> contains a long-running computation, or a call to an external resource. You may also be interested in Shiny’s <code>bindCache()</code> function.</p>
+</section>
+<section id="outputs-1" class="level4" data-number="1.2.5.3">
+<h4 data-number="1.2.5.3" class="anchored" data-anchor-id="outputs-1"><span class="header-section-number">1.2.5.3</span> Outputs</h4>
+<p>There two outputs: one for the <code>inp()</code> data, the other for the <code>agg()</code> data; each is a table output.</p>
+<p>These outputs are similar to one another; we’ll focus on <code>output$table_inp</code>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb32"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>output<span class="sc">$</span>table_inp <span class="ot">&lt;-</span> DT<span class="sc">::</span><span class="fu">renderDT</span>(<span class="fu">inp</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The table output is a straightforward use of <code>DT::renderDT()</code>.</p>
+
+
+
+</section>
+</section>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./index.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Preface</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./dash.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+</body></html>

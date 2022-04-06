@@ -3,8 +3,7 @@
   <meta charset="utf-8">
   <meta name="generator" content="quarto-0.9.194">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <meta name="author" content="Ian Lyttle">
-  <title>Data-Science Reactivity: Three Ways</title>
+  <title>Data-Science Reactivity: Three Ways - Appendix B — Deployment</title>
   <style>
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
@@ -21,7 +20,8 @@
   <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
   <script src="site_libs/quarto-search/fuse.min.js"></script>
   <script src="site_libs/quarto-search/quarto-search.js"></script>
-  <link href="./shiny.html" rel="next">
+  <link href="./stray-thoughts.html" rel="next">
+  <link href="./field-guide-python.html" rel="prev">
   <script src="site_libs/quarto-html/quarto.js"></script>
   <script src="site_libs/quarto-html/popper.min.js"></script>
   <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -59,7 +59,7 @@
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Data-Science Reactivity: Three Ways</h1>
+      <h1 class="quarto-secondary-nav-title">Appendix B — Deployment</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -84,7 +84,7 @@
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Preface</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -117,7 +117,7 @@
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./deployment.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Deployment</span></a>
+  <a href="./deployment.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Deployment</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -135,10 +135,9 @@
         <nav id="TOC" role="doc-toc">
 <h2 id="toc-title">Table of contents</h2>
 <ul>
-<li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
-<ul class="collapse">
-<li><a href="#other-resources" id="toc-other-resources" class="nav-link" data-scroll-target="#other-resources">Other resources</a></li>
-</ul></li>
+<li><a href="#shiny" id="toc-shiny" class="nav-link active" data-scroll-target="#shiny"> <span class="header-section-number">B.1</span> Shiny</a></li>
+<li><a href="#dash" id="toc-dash" class="nav-link" data-scroll-target="#dash"> <span class="header-section-number">B.2</span> Dash</a></li>
+<li><a href="#observable" id="toc-observable" class="nav-link" data-scroll-target="#observable"> <span class="header-section-number">B.3</span> Observable</a></li>
 </ul>
 </nav>
     </div>
@@ -147,59 +146,24 @@
 <header id="title-block-header" class="quarto-title-block default">
 
 
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix B — Deployment</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Data-Science Reactivity: Three Ways</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><div><div>
-<p>Ian Lyttle</p>
-</div></div></div></div></div><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
-
-<section id="preface" class="level1 unnumbered">
-<h1 class="unnumbered">Preface</h1>
-<p>The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:</p>
-<ul>
-<li>R: <a href="https://shiny.rstudio.com/">Shiny</a></li>
-<li>Python: <a href="https://dash.plotly.com/">Dash</a></li>
-<li>JavaScript: <a href="https://observablehq.com/@observablehq/five-minute-introduction">Observable</a></li>
-</ul>
-<p>An example app is created for each framework:</p>
-<ul>
-<li>starting with the <code>penguins</code> data-frame from <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a>:
-<ul>
-<li>show it as a table.</li>
-<li>specify grouping columns, aggregation columns, and an aggregation function.</li>
-</ul></li>
-<li>create an aggregated data-frame from the input, using the specification.
-<ul>
-<li>show the aggregated data-frame as a table.</li>
-</ul></li>
-</ul>
-<p>This book is written for folks who know how to develop basic Shiny apps, and wish to extend their knowledge to Dash (Python) or Observable (JavaScript). I will assume you have:</p>
-<ul>
-<li>basic knowledge of how to build a Shiny app.</li>
-<li>some familiarity with the tidyverse, in particular, dplyr.</li>
-</ul>
-<p>In this book:</p>
-<ul>
-<li><p>we’ll review a <a href="https://ijlyttle.shinyapps.io/aggregate-local">Shiny app</a>, highlighting parts of its <a href="https://github.com/ijlyttle/reactivity-demo-shiny">code</a>.</p></li>
-<li><p>we’ll look at a <a href="https://aggregate-local.herokuapp.com">Dash app</a> and the <a href="https://github.com/ijlyttle/reactivity-demo-dash">code</a>.</p></li>
-<li><p>we’ll look at an Observable Notebook, where the <a href="https://observablehq.com/@ijlyttle/aggregate-local">app is the code</a>.</p></li>
-</ul>
-<p>The goal is to give you the confidence to take the next steps to learn more about each of these frameworks.</p>
-<section id="other-resources" class="level2 unnumbered">
-<h2 class="unnumbered anchored" data-anchor-id="other-resources">Other resources</h2>
-<p>Here are some resources I have found useful:</p>
-<ul>
-<li>Shiny’s <a href="https://shiny.rstudio.com/tutorial/">tutorials</a>.</li>
-<li>Once you have built a few Shiny apps, it can be helpful to get a better sense of what makes Shiny “tick”. Joe Cheng gave an outstanding tutorial at the precursor to rstudio::conf() in 2016: <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/">Part 1</a>, <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/">Part 2</a>.</li>
-<li>Hadley Wickham’s <a href="https://mastering-shiny.org/">Mastering Shiny</a>.</li>
-<li>Appsilon has a handy blog post: <a href="https://appsilon.com/dash-vs-shiny/">Dash vs.&nbsp;Shiny</a>.</li>
-<li>Dash’s <a href="https://dash.plotly.com/">documentation</a>.</li>
-<li>For an introduction to Observable, this <a href="https://observablehq.com/tutorials">tutorial page</a> is a great start.</li>
-<li>If you are comfortable with JavaScript and want to get a quick sense of Observable: the somewhat distractingly-named <a href="https://observablehq.com/@observablehq/observables-not-javascript">Observable’s not JavaScript</a>.</li>
-</ul>
-
-
-
+<p>In time, I will reconstruct from my code (and my notes) the tricks and sorcery I used to deploy these apps.</p>
+<section id="shiny" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="shiny"><span class="header-section-number">B.1</span> Shiny</h2>
+<p>Not a lot of trickery here; I got an shinyapps account and I used the deployment service built into the RStudio IDE.</p>
 </section>
+<section id="dash" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="dash"><span class="header-section-number">B.2</span> Dash</h2>
+<p>Some trickery here to deploy to Heroku.</p>
+</section>
+<section id="observable" class="level2" data-number="B.3">
+<h2 data-number="B.3" class="anchored" data-anchor-id="observable"><span class="header-section-number">B.3</span> Observable</h2>
+<p>The code is developed in a “deployed” state; I hit the “Publish” button.</p>
+<p>That said, there are some interesting embedding possibilities and, as of Spring 2021, capability to run interactively via Quarto.</p>
+
+
+
 </section>
 </main> <!-- /main -->
 <script type="application/javascript">
@@ -280,10 +244,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
+      <a href="./field-guide-python.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Field Guide to Python</span></span>
+      </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./shiny.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Shiny</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./stray-thoughts.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Stray Thoughts</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
