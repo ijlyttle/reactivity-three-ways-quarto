@@ -34,5 +34,5 @@ You may notice diagrams specified in the document like this:
     ![Reactivity diagram for Shiny demo-app](images/shiny-aggregate-local.svg){.filter}
 
 The `{.filter}` adds a class `"filter"` to the `<img>` element. 
-The class is used by a bit of added JavaScript, [`img-filter.html\`](https://github.com/ijlyttle/reactivity-three-ways-quarto/blob/main/img-filter.html), to identify images to be inverted in dark-mode.
+The class is used by a bit of added JavaScript, [`img-filter.html`](https://github.com/ijlyttle/reactivity-three-ways-quarto/blob/main/img-filter.html), to identify images to be inverted in dark-mode.
 These images are line diagrams with transparent backgrounds.
