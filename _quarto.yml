@@ -1,0 +1,17 @@
+project:
+  type: book
+
+book:
+  title: "Data-Science Reactivity: Three Ways"
+  author: "Ian Lyttle"
+  chapters:
+    - index.qmd
+
+date: today
+date-format: "YYYY-MM-DD"
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo

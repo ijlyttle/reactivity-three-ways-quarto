@@ -1,0 +1,44 @@
+# Preface {.unnumbered}
+
+The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:
+
+-   R: [Shiny](https://shiny.rstudio.com/)
+-   Python: [Dash](https://dash.plotly.com/)
+-   JavaScript: [Observable](https://observablehq.com/@observablehq/five-minute-introduction)
+
+An example app is created for each framework:
+
+ - starting with the `penguins` data-frame from [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/):
+   - show it as a table.
+   - specify grouping columns, aggregation columns, and an aggregation function.
+ - create an aggregated data-frame from the input, using the specification.
+   - show the aggregated data-frame as a table.
+   
+This book is written for folks who know how to develop basic Shiny apps, and wish to extend their knowledge to Dash (Python) or Observable (JavaScript). I will assume you have:
+
+ - basic knowledge of how to build a Shiny app.
+ - some familiarity with the tidyverse, in particular, dplyr.
+
+In this book:
+
+ - we'll review a [Shiny app](https://ijlyttle.shinyapps.io/aggregate-local), highlighting parts of its [code](https://github.com/ijlyttle/reactivity-demo-shiny).
+ 
+ - we'll look at a [Dash app](https://aggregate-local.herokuapp.com) and the [code](https://github.com/ijlyttle/reactivity-demo-dash).
+ 
+ - we'll look at an Observable Notebook, where the [app is the code](https://observablehq.com/@ijlyttle/aggregate-local).
+
+
+The goal is to give you the confidence to take the next steps to learn more about each of these frameworks.
+
+## Other resources {.unnumbered}
+
+Here are some resources I have found useful:
+
+ - Shiny's [tutorials](https://shiny.rstudio.com/tutorial/).
+ - Once you have built a few Shiny apps, it can be helpful to get a better sense of what makes Shiny "tick". 
+   Joe Cheng gave an outstanding tutorial at the precursor to rstudio::conf() in 2016: [Part 1](https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/), [Part 2](https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/).
+ - Hadley Wickham's [Mastering Shiny](https://mastering-shiny.org/).
+ - Appsilon has a handy blog post: [Dash vs. Shiny](https://appsilon.com/dash-vs-shiny/).
+ - Dash's [documentation](https://dash.plotly.com/).
+ - For an introduction to Observable, this [tutorial page](https://observablehq.com/tutorials) is a great start.
+ - If you are comfortable with JavaScript and want to get a quick sense of Observable: the somewhat distractingly-named [Observable's not JavaScript](https://observablehq.com/@observablehq/observables-not-javascript).
