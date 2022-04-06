@@ -25,4 +25,4 @@ format:
       light: sandstone
       dark: slate
     include-in-header:
-      - svg-invert.html
+      - img-filter.html

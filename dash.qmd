@@ -163,9 +163,7 @@ Here is the reactive graph for the demonstration app.
 
 It's a little busier than the Shiny app; Dash forces the developer to be explicit, Shiny makes some things implicit.
 
-```{r echo=FALSE, fig.cap="Reactivity diagram for Dash"}
-knitr::include_graphics("images/dash-aggregate-local.svg")
-```
+![Reactivity diagram for Dash demo-app](images/dash-aggregate-local.svg){.filter}
 
 A few things to note about this diagram:
 
@@ -181,9 +179,7 @@ A few things to note about this diagram:
 
 There are a few more things formalized in the diagram, but we'll get to them as we discuss the demo app:
 
-```{r echo=FALSE, fig.cap="Legend: reactivity diagram for Dash"}
-knitr::include_graphics("images/dash-legend.svg")
-```
+![Legend: Reactivity diagram for Dash demo-app](images/dash-legend.svg){.filter}
 
 ### Prelims
 

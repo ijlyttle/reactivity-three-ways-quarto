@@ -119,16 +119,12 @@ Here's the link to the now-familar [aggregator app](https://observablehq.com/@ij
 In Observable, there is not a clear distiction between an input and an output. 
 I find it helpful to think of *everything* in Observable as a reactive varriable.
 
-```{r echo=FALSE, fig.cap="Reactivity diagram"}
-knitr::include_graphics("images/observable-aggregate-local.svg")
-```
+![Reactivity diagram for Observable demo-app](images/observable-aggregate-local.svg){.filter}
 
 As noted above, and as we'll see in greater detail, we use the `viewof` interface often to display things to the screen, while keeping track of the value.
 This is such an important concept that I indicate which of the variables in the app use the `viewof` interface.
 
-```{r echo=FALSE, fig.cap="Legend"}
-knitr::include_graphics("images/observable-legend.svg")
-```
+![Legend: Reactivity diagram for Observable demo-app](images/observable-legend.svg){.filter}
 
 Observable does not require variables to be defined in any particular order.
 As a result, I have adapted a style (I've see others do it, too) where a notebook has three sections:
@@ -141,7 +137,7 @@ In this chapter, we'll go over this "backwards".
 
 ### Appendix
 
-Here's where wee import stuff into our notebook.
+Here's where we import stuff into our notebook.
 
 ```js
 import { aq, op } from "@uwdata/arquero"

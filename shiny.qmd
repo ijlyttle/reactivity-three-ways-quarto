@@ -1,14 +1,11 @@
 # Shiny
 
-Shiny was my introduction to reactive programming.
-Like many folks, I started by hacking to "get stuff working"; this is a perfectly-honorable path.
-Then, I watched Joe Cheng's tutorials ([Part 1](https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/), [Part 2](https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/)), in which he explained some of the theory behind Shiny. 
-These talks started me on a path that completely changed my persepective and, eventually, my abilities as a programmer.
+Shiny was my introduction to reactive programming. Like many folks, I started by hacking to "get stuff working"; this is a perfectly-honorable path. Then, I watched Joe Cheng's tutorials ([Part 1](https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/), [Part 2](https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/)), in which he explained some of the theory behind Shiny. These talks started me on a path that completely changed my persepective and, eventually, my abilities as a programmer.
 
 This chapter is meant to be a review of Shiny; we will:
 
- - touch on some of the principles I learned from Joe's talks.
- - show how these principles are implemented the [demonstration app](https://ijlyttle.shinyapps.io/aggregate-local).
+-   touch on some of the principles I learned from Joe's talks.
+-   show how these principles are implemented the [demonstration app](https://ijlyttle.shinyapps.io/aggregate-local).
 
 ## Principles
 
@@ -20,13 +17,13 @@ This is the single biggest concept I have learned as a programmer, and I learned
 
 A pure function has two properties:
 
-- given the same set of arguments, it *always* returns the same value.
-- it makes no changes outside of its scope.
+-   given the same set of arguments, it *always* returns the same value.
+-   it makes no changes outside of its scope.
 
 This can provide us some big benefits:
 
-- it doesn't matter where or how the return value is computed, we can rely on getting the same answer.
-- we don't have to worry about the environment changing as a result of calling the function.
+-   it doesn't matter where or how the return value is computed, we can rely on getting the same answer.
+-   we don't have to worry about the environment changing as a result of calling the function.
 
 Here's a couple of examples of pure functions:
 
@@ -44,8 +41,8 @@ Pure functions are relatively striaghtforward to test because the output depends
 
 *Side effects* is a catch-all term for when a function's behavior either:
 
-- depends on something not passed in as an argument.
-- changes the something outside of its scope, e.g.: writes a file, displays a plot.
+-   depends on something not passed in as an argument.
+-   changes the something outside of its scope, e.g.: writes a file, displays a plot.
 
 Here's a couple of functions that either depend on or cause side effects:
 
@@ -67,25 +64,21 @@ function(url, data) {
 
 Aside from being non-deterministic, functions with side effects can take a long time to execute.
 
-Of course, side effects are not necessarily bad things, but we need to be aware of them. 
-Your Shiny server-function will make much more sense, and be much easier to debug, if you recognize pure functions and side effects.
+Of course, side effects are not necessarily bad things, but we need to be aware of them. Your Shiny server-function will make much more sense, and be much easier to debug, if you recognize pure functions and side effects.
 
 ### Reactives vs. observers
 
 Shiny server-functions provide two broad mechanisms for updating the state of your app:
 
-- `reactive()`: these return values, and work well with pure functions. 
-  In other words, the returned value depends only on the reactive values it depends on.
-  
-- `observe()`: there is no return value; instead, these cause side-effects. 
-  Very often, the effect is to change something in the UI, such as the choices in an input, or to render a plot.
+-   `reactive()`: these return values, and work well with pure functions. In other words, the returned value depends only on the reactive values it depends on.
+
+-   `observe()`: there is no return value; instead, these cause side-effects. Very often, the effect is to change something in the UI, such as the choices in an input, or to render a plot.
 
 In Shiny, reactive expressions are designed to run quickly and often; observers are designed to be run sparingly.
 
 ### Using tidyverse functions
 
-The tidyverse is designed with interactive programming in mind. 
-It is meant to support code like this, without a lot of quotes or namespace qualifiers:
+The tidyverse is designed with interactive programming in mind. It is meant to support code like this, without a lot of quotes or namespace qualifiers:
 
 ```{r tidy, eval=FALSE}
 penguins |>
@@ -93,18 +86,13 @@ penguins |>
   summarise(bill_length_mm = mean(bill_length_mm))
 ```
 
-In Shiny, variable (column) names in data frames are expressed as strings, rather than as bare variable-names.
-As well, in Shiny, we may want to `summarise()` an arbitrary set of variables.
-Thus, it can be a challenge to use tidyverse code in Shiny.
+In Shiny, variable (column) names in data frames are expressed as strings, rather than as bare variable-names. As well, in Shiny, we may want to `summarise()` an arbitrary set of variables. Thus, it can be a challenge to use tidyverse code in Shiny.
 
 It should not surprise us that the tidyverse offers tools to address this situation:
 
-- `<tidy-select>` is a set of tools to select variables within a data frame. 
-  Functions that use `<tidy-select>` include `dplyr::select()`, `tidyr::pivot_longer()`.
-  Of particular use in Shiny are the selection helpers for strings: `dplyr::any_of()` and `dplyr::all_of()`.
-- `across()` lets us use a `<tidy-select>` specification in a data-masking function.
-  More concretely, it lets us `group_by()` or `summarize()` over an arbitrary set of variables in a data frame.
-- If you need to use data-masking with (by definition) a single variable, you can use subsetting with the `.data` pronoun, e.g. `ggplot2::aes(x = .data[[str_var_x]])`.
+-   `<tidy-select>` is a set of tools to select variables within a data frame. Functions that use `<tidy-select>` include `dplyr::select()`, `tidyr::pivot_longer()`. Of particular use in Shiny are the selection helpers for strings: `dplyr::any_of()` and `dplyr::all_of()`.
+-   `across()` lets us use a `<tidy-select>` specification in a data-masking function. More concretely, it lets us `group_by()` or `summarize()` over an arbitrary set of variables in a data frame.
+-   If you need to use data-masking with (by definition) a single variable, you can use subsetting with the `.data` pronoun, e.g. `ggplot2::aes(x = .data[[str_var_x]])`.
 
 ## Demonstration App
 
@@ -114,35 +102,23 @@ The goal of this chapter is to highlight some design choices in the [source code
 
 To start with, spend a few minutes playing with the [app](https://github.com/ijlyttle/reactivity-demo-shiny), while referring back to these diagrams:
 
-```{r echo=FALSE, fig.cap="Reactivity diagram"}
-knitr::include_graphics("images/shiny-aggregate-local.svg")
-```
+![Reactivity diagram for Shiny demo-app](images/shiny-aggregate-local.svg){.filter}
 
-Each `input` and `output` you see in the diagram is a part of the UI of the app.
-The reactive expressions, in this case: `inp` and `agg`, are found only in the app's server-function.
+Each `input` and `output` you see in the diagram is a part of the UI of the app. The reactive expressions, in this case: `inp` and `agg`, are found only in the app's server-function.
 
-```{r echo=FALSE, fig.cap="Legend"}
-knitr::include_graphics("images/shiny-legend.svg")
-```
+![Legend: Reactivity diagram for Shiny demo-app](images/shiny-legend.svg){.filter}
 
+The solid lines indicate immediate downstream-evaluation if the upstream value changes; this is what we think of when we hear "reactivity". The dashed lines indicate that downstream-evaluation does not immediate follow an upstream change. For example, the reactive-expression `agg` is updated only when the `button` is pushed.
 
-The solid lines indicate immediate downstream-evaluation if the upstream value changes; this is what we think of when we hear "reactivity".
-The dashed lines indicate that downstream-evaluation does not immediate follow an upstream change. 
-For example, the reactive-expression `agg` is updated only when the `button` is pushed.
-
-Spend some time to study the app, to make sure that these diagrams agree with your understanding of how the app operates.
-In the following sections, we'll discuss how to implement in your Shiny code.
+Spend some time to study the app, to make sure that these diagrams agree with your understanding of how the app operates. In the following sections, we'll discuss how to implement in your Shiny code.
 
 ### Prelims
 
-In the rest of this chapter, we'll highlight the code used to make app, and the design choices behind the code.
-In the [repository](https://github.com/ijlyttle/reactivity-demo-shiny), there are a couple of files to pay attention to:
+In the rest of this chapter, we'll highlight the code used to make app, and the design choices behind the code. In the [repository](https://github.com/ijlyttle/reactivity-demo-shiny), there are a couple of files to pay attention to:
 
-```
-app-aggregate-local.R
-R/
-  aggregate-local.R
-```
+    app-aggregate-local.R
+    R/
+      aggregate-local.R
 
 Here's the start of the app file, `app-aggregate-local.R`:
 
@@ -163,9 +139,7 @@ As you can see, it sources `R/aggregate-local.R`, which contains our helper func
 
 ### Helper functions
 
-Before writing a Shiny app, I like to write out a set of non-reactive functions that will do the "heavy lifting". 
-To the extent possible, these are pure functions, which makes it easier to test. 
-I keep these functions in an `R` folder alongside my app; here's a [link](https://github.com/ijlyttle/reactivity-demo-shiny/blob/main/R/aggregate-local.R) to the actual code.
+Before writing a Shiny app, I like to write out a set of non-reactive functions that will do the "heavy lifting". To the extent possible, these are pure functions, which makes it easier to test. I keep these functions in an `R` folder alongside my app; here's a [link](https://github.com/ijlyttle/reactivity-demo-shiny/blob/main/R/aggregate-local.R) to the actual code.
 
 Just like in the app, we'll use the [palmerpenguins](https://allisonhorst.github.io/palmerpenguins/) dataset:
 
@@ -177,8 +151,7 @@ library("tibble")
 penguins
 ```
 
-In fact, the first bit of code is not even a function.
-It is an enumeration of the choices for the aggregation function:
+In fact, the first bit of code is not even a function. It is an enumeration of the choices for the aggregation function:
 
 ```{r agg_function_choices}
 # choices for aggregation functions
@@ -189,9 +162,9 @@ We'll use it in a few places, so I want to define it only once.
 
 Next, a couple of functions that, given a data frame, return the names of:
 
- - numerical variables
- - categorical variables
- 
+-   numerical variables
+-   categorical variables
+
 You might quibble with how I've defined these here, but it works for me, for this example.
 
 ```{r cols_number}
@@ -210,13 +183,11 @@ cols_category <- function(df) {
 }
 ```
 
-You may have noticed that I refer to functions using the package name, e.g. `dplyr::select()`.
-This is a habit I learned following Hadley Wickham; basically:
+You may have noticed that I refer to functions using the package name, e.g. `dplyr::select()`. This is a habit I learned following Hadley Wickham; basically:
 
- - I like to be as explicit as possible when writing functions.
-   It provides fewer opportunities for strange things to happen; I provide enough opportunities as it is.
-   
- - The function is more ready to be included in a package.
+-   I like to be as explicit as possible when writing functions. It provides fewer opportunities for strange things to happen; I provide enough opportunities as it is.
+
+-   The function is more ready to be included in a package.
 
 As advertised, testing (or at least spot-verification) is straightforward:
 
@@ -252,18 +223,15 @@ group_aggregate <- function(df, str_group, str_agg, str_fn_agg,
 
 There's a few things I want to point out about this function:
 
- - Aside from the data frame, all the arguments are strings. 
-   It is designed for use with Shiny, not for interactive use.
+-   Aside from the data frame, all the arguments are strings. It is designed for use with Shiny, not for interactive use.
 
- - We are using `agg_function_choices` to make sure that we won't execute arbitrary code.
-   We turn the string into binding to a function using `get()`.
+-   We are using `agg_function_choices` to make sure that we won't execute arbitrary code. We turn the string into binding to a function using `get()`.
 
- - We use dplyr's `across()` function, which lets us use `select()` semantics in "data-masking" functions, e.g. `group_by()`, `summarise()`.
- 
- - To select data-frame variables using strings, we use `all_of()`.
+-   We use dplyr's `across()` function, which lets us use `select()` semantics in "data-masking" functions, e.g. `group_by()`, `summarise()`.
 
-For example if we were grouping by `"island"`, then aggregating over `"bill_length_mm"` and `"bill_depth_mm"` using `"mean"`,
-our interactive code might look like:
+-   To select data-frame variables using strings, we use `all_of()`.
+
+For example if we were grouping by `"island"`, then aggregating over `"bill_length_mm"` and `"bill_depth_mm"` using `"mean"`, our interactive code might look like:
 
 ```{r aggregate_interactive}
 library("dplyr", quietly = TRUE)
@@ -364,9 +332,7 @@ selectizeInput(
 )
 ```
 
-Note that `choices` is specified, initially, as an empty vector.
-The reactivity diagram for `cols_group` indicates that, we use an observer function to update this input. 
-We'll do this in the server function, where we update the `choices`.
+Note that `choices` is specified, initially, as an empty vector. The reactivity diagram for `cols_group` indicates that, we use an observer function to update this input. We'll do this in the server function, where we update the `choices`.
 
 #### Outputs
 
@@ -403,9 +369,7 @@ server <- function(input, output, session) {
 
 There are two inputs: `cols_group` and `cols_agg`, whose `choices` change when the input data-frame changes.
 
-To make such a change, we use a Shiny `observe()`, which runs when any of its reactive dependencies change.
-An `observe()` does not return a value; instead, it causes a side-effect. 
-In this case, it changes an input element in the DOM.
+To make such a change, we use a Shiny `observe()`, which runs when any of its reactive dependencies change. An `observe()` does not return a value; instead, it causes a side-effect. In this case, it changes an input element in the DOM.
 
 The observers are substantially similar, so I'll show only `cols_group`:
 
@@ -420,15 +384,14 @@ observe({
 }) 
 ```
 
-Note that one of our helper functions, `cols_category()`, makes an appearance. 
-The `choices` for the `cols_group` input are updated according to the names of the categorical variables in the data frame returned by `inp()`.
+Note that one of our helper functions, `cols_category()`, makes an appearance. The `choices` for the `cols_group` input are updated according to the names of the categorical variables in the data frame returned by `inp()`.
 
 #### Reactive expressions
 
 This app uses two reactive expressions:
 
-- `inp()`, which returns the input data-frame.
-- `agg()`, which returns the aggregated data-frame.
+-   `inp()`, which returns the input data-frame.
+-   `agg()`, which returns the aggregated data-frame.
 
 ```{r inp, eval=FALSE}
 inp <- 
@@ -437,8 +400,7 @@ inp <-
   }) 
 ```
 
-For this app, we probably did not need to wrap `palmerpenguins::penguins` in a `reactive()`. 
-I did this with future expansion in mind, where `inp()` could also return a data frame according to a choice, or even a data frame parsed from an uploaded CSV file.
+For this app, we probably did not need to wrap `palmerpenguins::penguins` in a `reactive()`. I did this with future expansion in mind, where `inp()` could also return a data frame according to a choice, or even a data frame parsed from an uploaded CSV file.
 
 The reactive expression for `agg()`, the aggregated data-frame, is more interesting:
 
@@ -458,25 +420,18 @@ agg <-
   bindEvent(input$button, ignoreNULL = TRUE, ignoreInit = TRUE)
 ```
 
-The first thing we do in the reactive is make sure that the value of `input$func_agg` is among the choices we specified.
-I'm sure you noticed that this is an extra check.
-Although redundant, I am careful to validate using the same values: `agg_function_choices`.
-You can read more about input validation in the [security chapter](https://mastering-shiny.org/scaling-security.html) of Mastering Shiny.
+The first thing we do in the reactive is make sure that the value of `input$func_agg` is among the choices we specified. I'm sure you noticed that this is an extra check. Although redundant, I am careful to validate using the same values: `agg_function_choices`. You can read more about input validation in the [security chapter](https://mastering-shiny.org/scaling-security.html) of Mastering Shiny.
 
-Then, we use our `group_aggregate()` helper function. 
-For me, having tested it outside of Shiny helped me focus on getting the rest of the code working.
+Then, we use our `group_aggregate()` helper function. For me, having tested it outside of Shiny helped me focus on getting the rest of the code working.
 
-The `reactive()` expression returns the data; the expression itself is piped to `bindEvent()`, which will run the `reactive()`, and return its value, only when the value of `input$button` changes. 
-This is a relatively new pattern in Shiny; it appeared in v1.6.0.
+The `reactive()` expression returns the data; the expression itself is piped to `bindEvent()`, which will run the `reactive()`, and return its value, only when the value of `input$button` changes. This is a relatively new pattern in Shiny; it appeared in v1.6.0.
 
 `bindEvent()` has a couple of options:
 
-- `ignoreNULL = FALSE`: the `reactive()` is not evaluated if `input$button` is zero.
-- `ignoreInit = FALSE`: the `reactive()` is not evaluated when the app is first initialized.
+-   `ignoreNULL = FALSE`: the `reactive()` is not evaluated if `input$button` is zero.
+-   `ignoreInit = FALSE`: the `reactive()` is not evaluated when the app is first initialized.
 
-In this case, the `reactive()` is evaluated only in response to a button-click.
-This can be a useful pattern if the `reactive()` contains a long-running computation, or a call to an external resource.
-You may also be interested in Shiny's `bindCache()` function.
+In this case, the `reactive()` is evaluated only in response to a button-click. This can be a useful pattern if the `reactive()` contains a long-running computation, or a call to an external resource. You may also be interested in Shiny's `bindCache()` function.
 
 #### Outputs
 
@@ -488,5 +443,4 @@ These outputs are similar to one another; we'll focus on `output$table_inp`:
 output$table_inp <- DT::renderDT(inp())
 ```
 
-The table output is a straightforward use of `DT::renderDT()`. 
-
+The table output is a straightforward use of `DT::renderDT()`.
