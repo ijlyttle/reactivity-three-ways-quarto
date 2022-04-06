@@ -315,7 +315,7 @@
 <p>These are not insurmountable obstacles, as well see in the rest of this section. For example, one place to store the state is the user’s browser, in the web-page (DOM) itself.</p>
 <section id="everything-that-exists-is-a-component" class="level3" data-number="2.1.1">
 <h3 data-number="2.1.1" class="anchored" data-anchor-id="everything-that-exists-is-a-component"><span class="header-section-number">2.1.1</span> Everything that exists is a component</h3>
-<p>These first two subsections are an homage to the famous John Chambers quotes:</p>
+<p>These first two subsections are an homage to the famous John Chambers quote:</p>
 <blockquote class="blockquote">
 <p>To understand computations in R, two slogans are helpful:</p>
 <ul>
@@ -482,9 +482,10 @@ helpers/
 <p>Just like in R, I like to write as much “vanilla” Python code as I can. I want to demonstrate to myself, as much as I can, that the “guts” of the app behaves as I expect. That way, when I’m building the components and the callbacks, I can narrow down the things that might be going wrong.</p>
 <div class="cell">
 <div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using only to demonstrate code; not used in Python Dash.</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"reticulate"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"reticulate"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">use_virtualenv</span>(<span class="st">"./venv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>I’m reproducing this code in an RMarkdown document, so I’m using the reticulate package to run Python. You will not need to do this to create a Dash app; you can work in a purely Python environment.</p>
+<p>I’m reproducing this code in an Quarto document using the R engine, so I’m using the reticulate package to run Python. You will not need to do this to create a Dash app; you can work in a purely Python environment.</p>
 <p>In fact, if you are newish to Python, you might find the “Field Guide” appendix useful to get things set up. For Python programming, there is a great introduction at reticulate.</p>
 <p>Our first step is to get a look at the <code>penguins</code> dataset, to verify it’s the same as we use in R.</p>
 <div class="cell">
