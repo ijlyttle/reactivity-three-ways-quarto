@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.194">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <meta name="author" content="Ian Lyttle">
+  <title>Data-Science Reactivity: Three Ways</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+
+  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
+  <script src="site_libs/quarto-nav/headroom.min.js"></script>
+  <script src="site_libs/clipboard/clipboard.min.js"></script>
+  <meta name="quarto:offset" content="./">
+  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+  <script src="site_libs/quarto-search/fuse.min.js"></script>
+  <script src="site_libs/quarto-search/quarto-search.js"></script>
+  <script src="site_libs/quarto-html/quarto.js"></script>
+  <script src="site_libs/quarto-html/popper.min.js"></script>
+  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+  <script src="site_libs/quarto-html/anchor.min.js"></script>
+  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
+  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+  <link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+  <script id="quarto-search-options" type="application/json">{
+    "location": "sidebar",
+    "copy-button": false,
+    "collapse-after": 3,
+    "panel-placement": "start",
+    "type": "textbox",
+    "limit": 20,
+    "language": {
+      "search-no-results-text": "No results",
+      "search-matching-documents-text": "matching documents",
+      "search-copy-link-title": "Copy link to search",
+      "search-hide-matches-text": "Hide additional matches",
+      "search-more-match-text": "more match in this document",
+      "search-more-matches-text": "more matches in this document",
+      "search-clear-button-title": "Clear",
+      "search-detached-cancel-button-title": "Cancel",
+      "search-submit-button-title": "Submit"
+    }
+  }</script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body class="floating">
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Data-Science Reactivity: Three Ways</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Data-Science Reactivity: Three Ways</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link active">Preface</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc">
+<h2 id="toc-title">Table of contents</h2>
+<ul>
+<li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+<ul class="collapse">
+<li><a href="#other-resources" id="toc-other-resources" class="nav-link" data-scroll-target="#other-resources">Other resources</a></li>
+</ul></li>
+</ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<header id="title-block-header" class="quarto-title-block default">
+
+
+
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Data-Science Reactivity: Three Ways</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Author</div><div class="quarto-title-meta-contents"><div class="quarto-title-authors"><div><div>
+<p>Ian Lyttle</p>
+</div></div></div></div></div><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
+
+<section id="preface" class="level1 unnumbered">
+<h1 class="unnumbered">Preface</h1>
+<p>The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:</p>
+<ul>
+<li>R: <a href="https://shiny.rstudio.com/">Shiny</a></li>
+<li>Python: <a href="https://dash.plotly.com/">Dash</a></li>
+<li>JavaScript: <a href="https://observablehq.com/@observablehq/five-minute-introduction">Observable</a></li>
+</ul>
+<p>An example app is created for each framework:</p>
+<ul>
+<li>starting with the <code>penguins</code> data-frame from <a href="https://allisonhorst.github.io/palmerpenguins/">palmerpenguins</a>:
+<ul>
+<li>show it as a table.</li>
+<li>specify grouping columns, aggregation columns, and an aggregation function.</li>
+</ul></li>
+<li>create an aggregated data-frame from the input, using the specification.
+<ul>
+<li>show the aggregated data-frame as a table.</li>
+</ul></li>
+</ul>
+<p>This book is written for folks who know how to develop basic Shiny apps, and wish to extend their knowledge to Dash (Python) or Observable (JavaScript). I will assume you have:</p>
+<ul>
+<li>basic knowledge of how to build a Shiny app.</li>
+<li>some familiarity with the tidyverse, in particular, dplyr.</li>
+</ul>
+<p>In this book:</p>
+<ul>
+<li><p>we’ll review a <a href="https://ijlyttle.shinyapps.io/aggregate-local">Shiny app</a>, highlighting parts of its <a href="https://github.com/ijlyttle/reactivity-demo-shiny">code</a>.</p></li>
+<li><p>we’ll look at a <a href="https://aggregate-local.herokuapp.com">Dash app</a> and the <a href="https://github.com/ijlyttle/reactivity-demo-dash">code</a>.</p></li>
+<li><p>we’ll look at an Observable Notebook, where the <a href="https://observablehq.com/@ijlyttle/aggregate-local">app is the code</a>.</p></li>
+</ul>
+<p>The goal is to give you the confidence to take the next steps to learn more about each of these frameworks.</p>
+<section id="other-resources" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="other-resources">Other resources</h2>
+<p>Here are some resources I have found useful:</p>
+<ul>
+<li>Shiny’s <a href="https://shiny.rstudio.com/tutorial/">tutorials</a>.</li>
+<li>Once you have built a few Shiny apps, it can be helpful to get a better sense of what makes Shiny “tick”. Joe Cheng gave an outstanding tutorial at the precursor to rstudio::conf() in 2016: <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-1-joe-cheng/">Part 1</a>, <a href="https://www.rstudio.com/resources/shiny-dev-con/reactivity-pt-2/">Part 2</a>.</li>
+<li>Hadley Wickham’s <a href="https://mastering-shiny.org/">Mastering Shiny</a>.</li>
+<li>Appsilon has a handy blog post: <a href="https://appsilon.com/dash-vs-shiny/">Dash vs.&nbsp;Shiny</a>.</li>
+<li>Dash’s <a href="https://dash.plotly.com/">documentation</a>.</li>
+<li>For an introduction to Observable, this <a href="https://observablehq.com/tutorials">tutorial page</a> is a great start.</li>
+<li>If you are comfortable with JavaScript and want to get a quick sense of Observable: the somewhat distractingly-named <a href="https://observablehq.com/@observablehq/observables-not-javascript">Observable’s not JavaScript</a>.</li>
+</ul>
+
+
+
+</section>
+</section>
+</main> <!-- /main -->
+<script type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    setTimeout(function() {
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      let href = ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+</body></html>

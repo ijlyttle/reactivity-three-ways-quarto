@@ -1,0 +1,9 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Data-Science Reactivity: Three Ways",
+    "section": "",
+    "text": "The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:\n\nR: Shiny\nPython: Dash\nJavaScript: Observable\n\nAn example app is created for each framework:\n\nstarting with the penguins data-frame from palmerpenguins:\n\nshow it as a table.\nspecify grouping columns, aggregation columns, and an aggregation function.\n\ncreate an aggregated data-frame from the input, using the specification.\n\nshow the aggregated data-frame as a table.\n\n\nThis book is written for folks who know how to develop basic Shiny apps, and wish to extend their knowledge to Dash (Python) or Observable (JavaScript). I will assume you have:\n\nbasic knowledge of how to build a Shiny app.\nsome familiarity with the tidyverse, in particular, dplyr.\n\nIn this book:\n\nwe’ll review a Shiny app, highlighting parts of its code.\nwe’ll look at a Dash app and the code.\nwe’ll look at an Observable Notebook, where the app is the code.\n\nThe goal is to give you the confidence to take the next steps to learn more about each of these frameworks.\n\n\nHere are some resources I have found useful:\n\nShiny’s tutorials.\nOnce you have built a few Shiny apps, it can be helpful to get a better sense of what makes Shiny “tick”. Joe Cheng gave an outstanding tutorial at the precursor to rstudio::conf() in 2016: Part 1, Part 2.\nHadley Wickham’s Mastering Shiny.\nAppsilon has a handy blog post: Dash vs. Shiny.\nDash’s documentation.\nFor an introduction to Observable, this tutorial page is a great start.\nIf you are comfortable with JavaScript and want to get a quick sense of Observable: the somewhat distractingly-named Observable’s not JavaScript."
+  }
+]
