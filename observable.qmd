@@ -290,6 +290,7 @@ There are two operations in this query:
 -   `"groupby"`, where we use the `cols_group`.
 -   `"rollup"`, where we build another object to specify the aggregation.
 
+The rollup component is the one we want to make sure of. 
 If our aggregation function is `min`, and our aggregtion columns are `["bill_length_mm", "bill_depth_mm"]`, then the rollup specification should be:
 
 ``` js
@@ -303,10 +304,12 @@ First we'll test the function, then I'll (try to) explain it:
 
 ```{ojs}
 //| output: all
-buildQueryObject(["island"], ["bill_length_mm", "bill_depth_mm"], "min")
+testQuery = buildQueryObject(["island"], ["bill_length_mm", "bill_depth_mm"], "min")
 ```
 
-Using the object above and example, here's how we describe rollup (aggregation) operations:
+The `"rollup"` element seems to be working well.
+
+In arquero, for rollup (aggregation) operations:
 
 -   The object's names are column names in the resulting table.
 -   The object's values are expressed as functions.
@@ -343,6 +346,19 @@ values <- purrr::reduce(cols_agg, reducer, func = func_agg, .init = list())
 
 This gets heavy because we have to use `rlang::list2()` to interpolate the names: `"{val}" :=`.
 
+Let's try out this query, evaluating it using our `inp` data:
+
+```{ojs}
+//| output: all
+testAgg = aq
+  .queryFrom(testQuery)
+  .evaluate(inp);
+```
+
+```{ojs}
+Inputs.table(testAgg)
+```
+
 We don't have the same check here to validate the aggregation function.
 Security considerations are a little bit different when using Observable.
 Because Observable runs this app entirely in the user's browser, there is no server component.
@@ -352,44 +368,45 @@ There are some considerations around protecting secrets, but these do not apply 
 
 ### Showcase
 
-Here's where we show what the notebook can do.
-First, we display the `inp` table, using Observable's built-in `Inputs.Table()`:
+Here's where we show what the notebook can do. 
 
-``` js
+To give the full effect here, I'll hide the code (you can unhide):
+
+#### Input data {.unnumbered}
+
+```{ojs}
+//| code-fold: true
 viewof table_inp = Inputs.table(inp)
 ```
 
-`table_inp` has a value (we can select rows), but we don't use it.
+#### Controls {.unnumbered}
 
-Next, we have an input for the grouping columns.
-We are using the `columnNamesPredicate()` function using Lodash's `_.isString`:
-
-``` js
+```{ojs}
+//| code-fold: true
 viewof cols_group = Inputs.select(columnNamesPredicate(inp, _.isString), {
   label: "Grouping columns",
   multiple: true
 })
 ```
 
-The input for `cols_agg` is almost identical; there, we use `_.isNumber` as a predicate.
+```{ojs}
+//| code-fold: true
+viewof cols_agg = Inputs.select(columnNamesPredicate(inp, _.isNumber), {
+  label: "Aggregation columns",
+  multiple: true
+})
+```
 
-The input for `func_agg` is fairly straightforward:
-
-``` js
+```{ojs}
+//| code-fold: true
 viewof func_agg = Inputs.select(["mean", "min", "max"], {
   label: "Aggregation function",
   multiple: false
 })
 ```
 
-For each of these inputs: `cols_group`, `cols_agg`, and `func_agg`, the value is the selection.
-
-The button is less straightforward; we view is the button, but the value is the aggregated table.
-The two are joined by a `reduce` option, a function that is run whenever the button is clicked.
-
-In our case, the reduce function runs the query on the `inp` table, and returns the aggregated table.
-
-``` js
+```{ojs}
+//| code-fold: true
 viewof agg = Inputs.button("Submit", {
   value: aq.table(),
   reduce: () => {
@@ -400,8 +417,19 @@ viewof agg = Inputs.button("Submit", {
 })
 ```
 
-Finally, we display the `agg` table:
+#### Output data {.unnumbered}
 
-``` js
+```{ojs}
+//| code-fold: true
 viewof table_agg = Inputs.table(agg)
 ```
+
+---
+
+The button is less straightforward; we view is the button, but the value is the aggregated table.
+The two are joined by a `reduce` option, a function that is run whenever the button is clicked.
+
+In our case, the reduce function runs the query on the `inp` table, and returns the aggregated table.
+
+
+
