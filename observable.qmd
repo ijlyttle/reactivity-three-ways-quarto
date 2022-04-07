@@ -2,23 +2,23 @@
 
 Compared with Shiny and Dash, Observable seems like another world:
 
- - It is generally used as a hosted service.
- 
- - Virtually everything runs in the user's browser.
- 
- - Reactivity is baked in to everything.
- 
- - It uses (a very close approximation to) JavaScript.
- 
+-   It is generally used as a hosted service.
+
+-   Virtually everything runs in the user's browser.
+
+-   Reactivity is baked in to everything.
+
+-   It uses (a very close approximation to) JavaScript.
+
 That said, there's a few things from your R and tidyverse world that may help you get acquainted:
 
- - Functional-programming ideas translate well from R to JavaScript.
- 
- - There are a couple of "dplyr/tidyr"-like packages in JavaScript: arquero and tidyjs.
- 
- - There are a couple of JavaScript visualization packages that use grammar-of-graphics: Vega-Lite and Plot.
- 
-I try to keep in mind that the point of the exercise, largely, is to "do stuff to data frames".
+-   Functional-programming ideas translate well from R to JavaScript.
+
+-   There are a couple of "dplyr/tidyr"-like packages in JavaScript: [arquero](https://uwdata.github.io/arquero/) and [tidyjs](https://pbeshai.github.io/tidy/).
+
+-   There are a couple of JavaScript visualization packages that use grammar-of-graphics: [Vega-Lite](https://vega.github.io/vega-lite/) and [Observable Plot](https://observablehq.com/@observablehq/plot).
+
+When I find myself overwhelmed, I try to remember that the point is, largely, to "do stuff to data frames".
 Knowing how to "do stuff" and "think about stuff" using tidyverse makes it easier for me to figure out the same "stuff" elsewhere.
 
 ## Principles
@@ -29,33 +29,50 @@ The best-known use for Observable is at the site for which is is named: [Observa
 
 Like many hosted services, the Observable website is free to use if everything you are doing is open, i.e. the GitHub model.
 
-The Observable service uses the [Observable runtime](https://github.com/observablehq/runtime) and the [Observable standard-library](https://github.com/observablehq/stdlib); these are also available in the new [Quarto](https://quarto.org/) platform developed by RStudio.
+The Observable service uses the [Observable runtime](https://github.com/observablehq/runtime) and the [Observable standard-library](https://github.com/observablehq/stdlib); these are also available in the [Quarto](https://quarto.org/) platform developed by RStudio, which is used for this book.
 
 ### Reactivity baked in
 
-Generally, each cell in an Observable notebook returns a value that is bound to a variable. 
-Here's a straightforward example:
+Observable is like a "traditional" notebook (e.g. RMarkdown or Jupyter), crossed with Excel, and powered by JavaScript.
+How hard can that be?
+😅
 
-```js
-a = 3
+Following one of Mike Bostock's [examples](https://observablehq.com/@observablehq/introduction-to-generators#cell-844), let's define a variable where the value is updated every second.
+Don't worry about the JS syntax just yet; for now, let's just trust that it works:
+
+```{ojs}
+//| output: all
+a = {
+  let i = 0;
+  while (true) {
+    await Promises.delay(1000);
+    yield ++i;
+  }
+}
 ```
 
-```js
+The code runs in your browser, you should see the value of `a` changing.
+
+If we define another variable and set it equal to `a`, its value updates *with* `a`:
+
+```{ojs}
+//| output: all
 b = a
 ```
 
-If we change the first cell, such that `a = 4`, the value of `b` is automatically updated; we don't need to run any other cells.
+Furthermore, the order of execution depends on the reactive dependencies, not the order of appearance:
 
-Although an Observable notebook appears like a Jupyter notebook, or like an RMarkdown document, there are some important differences:
+```{ojs}
+c
+```
 
-- As mentioned above, values of cells are updated automatically, much like an Excel spreadsheet.
+```{ojs}
+//| output: all
+c = a + 10
+```
 
-- One consequence of this is that notebooks need not follow a linear order from top to bottom. 
-  A value set later in the notebook can be referenced earlier in the notebook.
-  
-- Just about everything you do in an Observable notebook is in a cell. 
-  A cell can be JavaScript, Markdown, HTML, TeX, or SQL. 
-  (The vast majority of cells in my notebooks are Markdown or JavaScript.)
+This ordering (or lack thereof) gives us great freedom, but also freedom to confuse ourselves.
+Often times, I put the headline result right at the top of an Observable notebook, then work backwards to show the supporting work.
 
 ### JavaScript
 
@@ -64,12 +81,12 @@ Or at least a close approximation to JavaScript.
 
 Coming from R, these are the biggest things I need to keep in mind:
 
-- Objects (analgous to R's named lists) and arrays (analgous to R's unnamed lists and vectors) are mutable.
-  If you pass an object as an argument to a function, then change the object in the function, the original object is changed.
-  This differs from R, and can lead to nasty surprises.
+-   Objects (analgous to R's named lists) and arrays (analgous to R's unnamed lists and vectors) are mutable.
+    If you pass an object as an argument to a function, then change the object in the function, the original object is changed.
+    This differs from R, and can lead to nasty surprises.
 
-- Strings and numbers are immutable. 
-  Also, a scalar value is different from an array containing a single scalar value.
+-   Strings and numbers are immutable.
+    Also, a scalar value is different from an array containing a single scalar value.
 
 ### Tidyverse thinking helps
 
@@ -87,26 +104,25 @@ It also helps to have the confidence of having done something similar using tidy
 This is something particular to Observable, not JavaScript in general.
 Once I started to get comfortable with `viewof`, Observable got easier for me.
 
-We'll see this pattern used many times in the example, but it may be useful to 
-Consider an Observable input (not operable in this book):
+Consider an Observable input:
 
-```{r echo=FALSE, fig.cap="Observable button"}
-knitr::include_graphics("images/observable-button-example.png")
+```{ojs}
+viewof clicks = Inputs.button("OK", {label: "Click me"})
 ```
 
-```js
-viewof clicks = Inputs.button("OK", {label: "Click me"})
+```{ojs}
+clicks
 ```
 
 In this context, the variable `clicks`:
 
-- has a *value*: number of times the button has been clicked.
-- has a *view*: the rendered view in the browser.
+-   has a *value*: number of times the button has been clicked.
+-   has a *view*: the rendered view in the browser.
 
 When we use `viewof clicks = ...`, we are telling Observable:
 
-- we want to view the button **here**
-- we want to bind the value of the button to the variable `clicks`
+-   we want to view the button **here**
+-   we want to bind the value of the button to the variable `clicks`
 
 We can use the variable `clicks` elsewhere in the notebook.
 
@@ -116,8 +132,8 @@ The *view* is a side-effect; the *value* is, well, a value.
 
 Here's the link to the now-familar [aggregator app](https://observablehq.com/@ijlyttle/aggregate-local).
 
-In Observable, there is not a clear distiction between an input and an output. 
-I find it helpful to think of *everything* in Observable as a reactive varriable.
+In Observable, there is not a clear distiction between an input and an output.
+I find it helpful to think of *everything* in Observable as a reactive variable.
 
 ![Reactivity diagram for Observable demo-app](images/observable-aggregate-local.svg){.filter}
 
@@ -129,9 +145,9 @@ This is such an important concept that I indicate which of the variables in the 
 Observable does not require variables to be defined in any particular order.
 As a result, I have adapted a style (I've see others do it, too) where a notebook has three sections:
 
-- Showcase: mostly graphical and/or interactive, aimed at a general audience.
-- Workshop: contains supporting code and explanations, aimed at a more-technical audience.
-- Appendix: import objects and offer functions for other notebooks to import.
+-   Showcase: mostly graphical and/or interactive, aimed at a general audience.
+-   Workshop: contains supporting code and explanations, aimed at a more-technical audience.
+-   Appendix: import objects and offer functions for other notebooks to import.
 
 In this chapter, we'll go over this "backwards".
 
@@ -139,7 +155,7 @@ In this chapter, we'll go over this "backwards".
 
 Here's where we import stuff into our notebook.
 
-```js
+```{ojs}
 import { aq, op } from "@uwdata/arquero"
 ```
 
@@ -150,17 +166,18 @@ Arquero contains functionality along the lines of dplyr and tidyr.
 Also tidyjs does much the same thing - it's a matter of preference which you use.
 Tidyjs is designed to be familiar to tidyverse users.
 
-I use a lot of Vega-Lite; arquero is made by the same group. 
+I use a lot of Vega-Lite; arquero is made by the same group.
 Also, [arquero is designed to work with Apache Arrow](https://observablehq.com/@uwdata/arquero-and-apache-arrow).
 
 ### Workshop
 
-Our first step is to import our data into the notebook. 
+Our first step is to import our data into the notebook.
 One way to do that is to use a file attachment, one of the few times we interact with Observable not using a cell.
 
 If we have the result of a multi-step process that we want to put into a variable, we can make put the code in some curly braces, then `return` the result:
 
-```js
+```{ojs}
+//| output: all
 inp = {
   const text = await FileAttachment("penguins.csv").text();
   const textRemoveNA = text.replaceAll(/,NA/gi, ",");
@@ -169,18 +186,22 @@ inp = {
 }
 ```
 
-Here, we see that we import the text, then remove instances of `"NA"`. 
+Here, we see that we import the text, then remove instances of `"NA"`.
 This puts the text in a format that can be parsed by `arquero.fromCSV()`, which returns an arquero `Table`.
+Observable offers a table input for easier digestion:
 
-The notebook is designed such that we can bind `inp` to any arquero `Table`, not just `penguins`, and it should work equally well.
+```{ojs}
+Inputs.table(inp)
+```
 
 Next, we need a function to help us determine which columns can be used for grouping, and which for aggregation.
 
-This is a personal habit since trying to be more aware of functional programming, but whenever I make a function in Observable, I like to make the signature as prominent as possible. 
+This is a personal habit since trying to be more aware of functional programming, but whenever I make a function in Observable, I like to make the signature as prominent as possible.
 I use a variation of [Hindley-Miller notation](https://drboolean.gitbooks.io/mostly-adequate-guide-old/content/ch7.html), which is a fancy way of saying that I want to keep track of the types for the parameters and return-value:
 
-```js
-/* (Table, (* -> Boolean)) -> [String]
+```{ojs}
+//| output: all
+/* Table, (* -> Boolean) -> [String]
  *
  * Given an arquero table and a predicate-function,
  * return an array of strings corresponding to names of
@@ -205,23 +226,37 @@ columnNamesPredicate = function (data, predicate) {
 ```
 
 Note that the second parameter, `predicate`, is a function that takes any type of value and returns a boolean.
-If I wanted to return the names of string-columns, I would supply the Lodash function `_.isString`.
+If I wanted to return the names of string-columns, I would supply the Lodash function `_.isString`. (Also note that [Lodash](https://lodash.com/), which includes some functional tools, is a part of the Observable standard library.)
 
 An arquero table is a object of arrays, just like R's data frame is a list of (most-often) vectors; it's a column-based approach.
 
 First, we get an array of `colNames`.
 Then we filter this array using another predicate function:
 
-- `data.array(x)`: given the array of values in the column named `x`,
-- `.filter((x) => !_.isNull(x))`: keep only those values that are not null,
-- `.every(predicate)`: return `true` if every value in the array satisfies the `predicate` function we supply.
+-   `data.array(x)`: given the array of values in the column named `x`,
+-   `.filter((x) => !_.isNull(x))`: keep only those values that are not null,
+-   `.every(predicate)`: return `true` if every value in the array satisfies the `predicate` function we supply.
 
 We return only those column names where our predicate function returns `true`.
 
+Let's try it out:
+
+```{ojs}
+//| output: all
+columnNamesPredicate(inp, _.isString)
+```
+
+
+```{ojs}
+//| output: all
+columnNamesPredicate(inp, _.isNumber)
+```
+
 We also need a function to build an arquero query-object based on our specification.
 
-```js
-/* ([String], [String], String) -> Object
+```{ojs}
+//| output: all
+/* [String], [String], String -> Object
  *
  * Given an array of column names for grouping, an array of
  * column names for aggregations, and the name of an aggregation
@@ -252,37 +287,47 @@ buildQueryObject = function (cols_group, cols_agg, func_agg) {
 
 There are two operations in this query:
 
-- `"groupby"`, where we use the `cols_group`.
-- `"rollup"`, where we build another object to specify the aggregation.
+-   `"groupby"`, where we use the `cols_group`.
+-   `"rollup"`, where we build another object to specify the aggregation.
 
+The rollup component is the one we want to make sure of. 
 If our aggregation function is `min`, and our aggregtion columns are `["bill_length_mm", "bill_depth_mm"]`, then the rollup specification should be:
 
-```js
+``` js
 {
   bill_length_mm: {expr: `(d) => op.min(d["bill_length_mm"])`, func: true },
   bill_depth_mm: {expr: `(d) => op.min(d["bill_depth_mm"])`, func: true }
 }
 ```
 
-Using the object above and example, here's how we describe rollup (aggregation) operations: 
+First we'll test the function, then I'll (try to) explain it:
 
- - The object's names are column names in the resulting table.
- - The object's values are expressed as functions.
-   - the function takes the "data frame" as an argument; you can subset the data frame by column-name.
-   - for security reasons, by default, arquero makes only certain operations available by default; these operations are contained in the `op` object.
+```{ojs}
+//| output: all
+testQuery = buildQueryObject(["island"], ["bill_length_mm", "bill_depth_mm"], "min")
+```
+
+The `"rollup"` element seems to be working well.
+
+In arquero, for rollup (aggregation) operations:
+
+-   The object's names are column names in the resulting table.
+-   The object's values are expressed as functions.
+    -   the function takes the "data frame" as an argument; you can subset the data frame by column-name.
+    -   for security reasons, by default, arquero makes only certain operations available by default; these operations are contained in the `op` object.
 
 We can build the rollup object by using a `reduce()` function on the `cols_group` array:
 
-- The accumulator is initalized with an empty object, `{}`.
-- For each value ,`val`, in the `cols_group` array, given the accumulator, `acc`:
-  - return a new object containing `acc` and a new named element.
-  
+-   The accumulator is initalized with an empty object, `{}`.
+-   For each value ,`val`, in the `cols_group` array, given the accumulator, `acc`:
+    -   return a new object containing `acc` and a new named element.
+
 It can be a lot to absorb JavaScript, functional programming, and the peculiarities of arquero *all at once*.
 Keep in mind that you can apply the functional programming you learned using purrr, and your knowledge of how `group_by()` and `summarise()` work in dplyr.
 
 Here's the equivalent in R, using purrr and rlang:
 
-```r
+``` r
 reducer <- function(acc, val, func) {
 
   mapped <- 
@@ -300,7 +345,20 @@ values <- purrr::reduce(cols_agg, reducer, func = func_agg, .init = list())
 ```
 
 This gets heavy because we have to use `rlang::list2()` to interpolate the names: `"{val}" :=`.
- 
+
+Let's try out this query, evaluating it using our `inp` data:
+
+```{ojs}
+//| output: all
+testAgg = aq
+  .queryFrom(testQuery)
+  .evaluate(inp);
+```
+
+```{ojs}
+Inputs.table(testAgg)
+```
+
 We don't have the same check here to validate the aggregation function.
 Security considerations are a little bit different when using Observable.
 Because Observable runs this app entirely in the user's browser, there is no server component.
@@ -310,44 +368,45 @@ There are some considerations around protecting secrets, but these do not apply 
 
 ### Showcase
 
-Here's where we show what the notebook can do.
-First, we display the `inp` table, using Observable's built-in `Inputs.Table()`:
+Here's where we show what the notebook can do. 
 
-```js
+To give the full effect here, I'll hide the code (you can unhide):
+
+#### Input data {.unnumbered}
+
+```{ojs}
+//| code-fold: true
 viewof table_inp = Inputs.table(inp)
 ```
 
-`table_inp` has a value (we can select rows), but we don't use it.
+#### Controls {.unnumbered}
 
-Next, we have an input for the grouping columns.
-We are using the `columnNamesPredicate()` function using Lodash's `_.isString`:
-
-```js
+```{ojs}
+//| code-fold: true
 viewof cols_group = Inputs.select(columnNamesPredicate(inp, _.isString), {
   label: "Grouping columns",
   multiple: true
 })
 ```
 
-The input for `cols_agg` is almost identical; there, we use `_.isNumber` as a predicate.
+```{ojs}
+//| code-fold: true
+viewof cols_agg = Inputs.select(columnNamesPredicate(inp, _.isNumber), {
+  label: "Aggregation columns",
+  multiple: true
+})
+```
 
-The input for `func_agg` is fairly straightforward:
-
-```js
+```{ojs}
+//| code-fold: true
 viewof func_agg = Inputs.select(["mean", "min", "max"], {
   label: "Aggregation function",
   multiple: false
 })
 ```
 
-For each of these inputs: `cols_group`, `cols_agg`, and `func_agg`, the value is the selection.
-
-The button is less straightforward; we view is the button, but the value is the aggregated table.
-The two are joined by a `reduce` option, a function that is run whenever the button is clicked.
-
-In our case, the reduce function runs the query on the `inp` table, and returns the aggregated table.
-
-```js
+```{ojs}
+//| code-fold: true
 viewof agg = Inputs.button("Submit", {
   value: aq.table(),
   reduce: () => {
@@ -358,11 +417,19 @@ viewof agg = Inputs.button("Submit", {
 })
 ```
 
-Finally, we display the `agg` table:
+#### Output data {.unnumbered}
 
-```js
+```{ojs}
+//| code-fold: true
 viewof table_agg = Inputs.table(agg)
 ```
+
+---
+
+The button is less straightforward; we view is the button, but the value is the aggregated table.
+The two are joined by a `reduce` option, a function that is run whenever the button is clicked.
+
+In our case, the reduce function runs the query on the `inp` table, and returns the aggregated table.
 
 
 
