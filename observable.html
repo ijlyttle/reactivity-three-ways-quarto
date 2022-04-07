@@ -172,6 +172,8 @@
 
     });
   </script>
+  <script type="module" src="site_libs/quarto-ojs/esbuild-bundle.js"></script>
+  <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
   <!--[if lt IE 9]>
     <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
   <![endif]-->
@@ -282,7 +284,7 @@
 <header id="title-block-header" class="quarto-title-block default">
 
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Observable</span></h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-06</p></div></div></div></header>
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Observable</span></h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-07</p></div></div></div></header>
 
 <p>Compared with Shiny and Dash, Observable seems like another world:</p>
 <ul>
@@ -294,30 +296,64 @@
 <p>That said, there’s a few things from your R and tidyverse world that may help you get acquainted:</p>
 <ul>
 <li><p>Functional-programming ideas translate well from R to JavaScript.</p></li>
-<li><p>There are a couple of “dplyr/tidyr”-like packages in JavaScript: arquero and tidyjs.</p></li>
-<li><p>There are a couple of JavaScript visualization packages that use grammar-of-graphics: Vega-Lite and Plot.</p></li>
+<li><p>There are a couple of “dplyr/tidyr”-like packages in JavaScript: <a href="https://uwdata.github.io/arquero/">arquero</a> and <a href="https://pbeshai.github.io/tidy/">tidyjs</a>.</p></li>
+<li><p>There are a couple of JavaScript visualization packages that use grammar-of-graphics: <a href="https://vega.github.io/vega-lite/">Vega-Lite</a> and <a href="https://observablehq.com/@observablehq/plot">Observable Plot</a>.</p></li>
 </ul>
-<p>I try to keep in mind that the point of the exercise, largely, is to “do stuff to data frames”. Knowing how to “do stuff” and “think about stuff” using tidyverse makes it easier for me to figure out the same “stuff” elsewhere.</p>
+<p>When I find myself overwhelmed, I try to remember that the point is, largely, to “do stuff to data frames”. Knowing how to “do stuff” and “think about stuff” using tidyverse makes it easier for me to figure out the same “stuff” elsewhere.</p>
 <section id="principles" class="level2" data-number="3.1">
 <h2 data-number="3.1" class="anchored" data-anchor-id="principles"><span class="header-section-number">3.1</span> Principles</h2>
 <section id="hosted-service-runs-in-browser" class="level3" data-number="3.1.1">
 <h3 data-number="3.1.1" class="anchored" data-anchor-id="hosted-service-runs-in-browser"><span class="header-section-number">3.1.1</span> Hosted service runs in browser</h3>
 <p>The best-known use for Observable is at the site for which is is named: <a href="https://observablehq.com/">Observable</a>.</p>
 <p>Like many hosted services, the Observable website is free to use if everything you are doing is open, i.e.&nbsp;the GitHub model.</p>
-<p>The Observable service uses the <a href="https://github.com/observablehq/runtime">Observable runtime</a> and the <a href="https://github.com/observablehq/stdlib">Observable standard-library</a>; these are also available in the new <a href="https://quarto.org/">Quarto</a> platform developed by RStudio.</p>
+<p>The Observable service uses the <a href="https://github.com/observablehq/runtime">Observable runtime</a> and the <a href="https://github.com/observablehq/stdlib">Observable standard-library</a>; these are also available in the <a href="https://quarto.org/">Quarto</a> platform developed by RStudio, which is used for this book.</p>
 </section>
 <section id="reactivity-baked-in" class="level3" data-number="3.1.2">
 <h3 data-number="3.1.2" class="anchored" data-anchor-id="reactivity-baked-in"><span class="header-section-number">3.1.2</span> Reactivity baked in</h3>
-<p>Generally, each cell in an Observable notebook returns a value that is bound to a variable. Here’s a straightforward example:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> <span class="dv">3</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="sourceCode" id="cb2"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>If we change the first cell, such that <code>a = 4</code>, the value of <code>b</code> is automatically updated; we don’t need to run any other cells.</p>
-<p>Although an Observable notebook appears like a Jupyter notebook, or like an RMarkdown document, there are some important differences:</p>
-<ul>
-<li><p>As mentioned above, values of cells are updated automatically, much like an Excel spreadsheet.</p></li>
-<li><p>One consequence of this is that notebooks need not follow a linear order from top to bottom. A value set later in the notebook can be referenced earlier in the notebook.</p></li>
-<li><p>Just about everything you do in an Observable notebook is in a cell. A cell can be JavaScript, Markdown, HTML, TeX, or SQL. (The vast majority of cells in my notebooks are Markdown or JavaScript.)</p></li>
-</ul>
+<p>Observable is like a “traditional” notebook (e.g.&nbsp;RMarkdown or Jupyter), crossed with Excel, and powered by JavaScript. How hard can that be? 😅</p>
+<p>Following one of Mike Bostock’s <a href="https://observablehq.com/@observablehq/introduction-to-generators#cell-844">examples</a>, let’s define a variable where the value is updated every second. Don’t worry about the JS syntax just yet; for now, let’s just trust that it works:</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb1" data-startfrom="45" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 44;"><span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>a <span class="op">=</span> {</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="kw">let</span> i <span class="op">=</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (<span class="kw">true</span>) {</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="cf">await</span> Promises<span class="op">.</span><span class="fu">delay</span>(<span class="dv">1000</span>)<span class="op">;</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">yield</span> <span class="op">++</span>i<span class="op">;</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-1" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>The code runs in your browser, you should see the value of <code>a</code> changing.</p>
+<p>If we define another variable and set it equal to <code>a</code>, its value updates <em>with</em> <code>a</code>:</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb2" data-startfrom="60" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 59;"><span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>b <span class="op">=</span> a</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-2" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>Furthermore, the order of execution depends on the reactive dependencies, not the order of appearance:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3" data-startfrom="66" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 65;"><span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a>c</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-3" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb4" data-startfrom="71" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 70;"><span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> a <span class="op">+</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-4" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>This ordering (or lack thereof) gives us great freedom, but also freedom to confuse ourselves. Often times, I put the headline result right at the top of an Observable notebook, then work backwards to show the supporting work.</p>
 </section>
 <section id="javascript" class="level3" data-number="3.1.3">
 <h3 data-number="3.1.3" class="anchored" data-anchor-id="javascript"><span class="header-section-number">3.1.3</span> JavaScript</h3>
@@ -336,18 +372,23 @@
 <section id="viewof-is-a-useful-construct" class="level3" data-number="3.1.5">
 <h3 data-number="3.1.5" class="anchored" data-anchor-id="viewof-is-a-useful-construct"><span class="header-section-number">3.1.5</span> <code>viewof</code> is a useful construct</h3>
 <p>This is something particular to Observable, not JavaScript in general. Once I started to get comfortable with <code>viewof</code>, Observable got easier for me.</p>
-<p>We’ll see this pattern used many times in the example, but it may be useful to Consider an Observable input (not operable in this book):</p>
+<p>Consider an Observable input:</p>
 <div class="cell">
+<div class="sourceCode" id="cb5" data-startfrom="110" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 109;"><span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>viewof clicks <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">"OK"</span><span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Click me"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/observable-button-example.png" class="img-fluid figure-img" width="640"></p>
-<p></p><figcaption aria-hidden="true" class="figure-caption">Observable button</figcaption><p></p>
-</figure>
+<div id="ojs-cell-5" data-nodetype="declaration">
+
 </div>
 </div>
 </div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>viewof clicks <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">"OK"</span><span class="op">,</span> {<span class="dt">label</span><span class="op">:</span> <span class="st">"Click me"</span>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb6" data-startfrom="114" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 113;"><span id="cb6-114"><a href="#cb6-114" aria-hidden="true" tabindex="-1"></a>clicks</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-6" data-nodetype="expression">
+
+</div>
+</div>
+</div>
 <p>In this context, the variable <code>clicks</code>:</p>
 <ul>
 <li>has a <em>value</em>: number of times the button has been clicked.</li>
@@ -365,7 +406,7 @@
 <section id="demonstration-app" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="demonstration-app"><span class="header-section-number">3.2</span> Demonstration app</h2>
 <p>Here’s the link to the now-familar <a href="https://observablehq.com/@ijlyttle/aggregate-local">aggregator app</a>.</p>
-<p>In Observable, there is not a clear distiction between an input and an output. I find it helpful to think of <em>everything</em> in Observable as a reactive varriable.</p>
+<p>In Observable, there is not a clear distiction between an input and an output. I find it helpful to think of <em>everything</em> in Observable as a reactive variable.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="images/observable-aggregate-local.svg" class="filter img-fluid figure-img"></p>
@@ -389,7 +430,14 @@
 <section id="appendix" class="level3" data-number="3.2.1">
 <h3 data-number="3.2.1" class="anchored" data-anchor-id="appendix"><span class="header-section-number">3.2.1</span> Appendix</h3>
 <p>Here’s where we import stuff into our notebook.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { aq<span class="op">,</span> op } <span class="im">from</span> <span class="st">"@uwdata/arquero"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell">
+<div class="sourceCode" id="cb7" data-startfrom="159" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 158;"><span id="cb7-159"><a href="#cb7-159" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> { aq<span class="op">,</span> op } <span class="im">from</span> <span class="st">"@uwdata/arquero"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-7" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
 <p>Here, we’re importing objects from another notebook, in this case, a notebook that features the arquero library.</p>
 <p>Arquero contains functionality along the lines of dplyr and tidyr.</p>
 <p>Also tidyjs does much the same thing - it’s a matter of preference which you use. Tidyjs is designed to be familiar to tidyverse users.</p>
@@ -399,39 +447,48 @@
 <h3 data-number="3.2.2" class="anchored" data-anchor-id="workshop"><span class="header-section-number">3.2.2</span> Workshop</h3>
 <p>Our first step is to import our data into the notebook. One way to do that is to use a file attachment, one of the few times we interact with Observable not using a cell.</p>
 <p>If we have the result of a multi-step process that we want to put into a variable, we can make put the code in some curly braces, then <code>return</code> the result:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> {</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> text <span class="op">=</span> <span class="cf">await</span> <span class="fu">FileAttachment</span>(<span class="st">"penguins.csv"</span>)<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> textRemoveNA <span class="op">=</span> text<span class="op">.</span><span class="fu">replaceAll</span>(<span class="ss">/,NA/gi</span><span class="op">,</span> <span class="st">","</span>)<span class="op">;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> aq<span class="op">.</span><span class="fu">fromCSV</span>(textRemoveNA)<span class="op">;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Here, we see that we import the text, then remove instances of <code>"NA"</code>. This puts the text in a format that can be parsed by <code>arquero.fromCSV()</code>, which returns an arquero <code>Table</code>.</p>
-<p>The notebook is designed such that we can bind <code>inp</code> to any arquero <code>Table</code>, not just <code>penguins</code>, and it should work equally well.</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb8" data-startfrom="181" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 180;"><span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a>inp <span class="op">=</span> {</span>
+<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> text <span class="op">=</span> <span class="cf">await</span> <span class="fu">FileAttachment</span>(<span class="st">"penguins.csv"</span>)<span class="op">.</span><span class="fu">text</span>()<span class="op">;</span></span>
+<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> textRemoveNA <span class="op">=</span> text<span class="op">.</span><span class="fu">replaceAll</span>(<span class="ss">/,NA/gi</span><span class="op">,</span> <span class="st">","</span>)<span class="op">;</span></span>
+<span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> aq<span class="op">.</span><span class="fu">fromCSV</span>(textRemoveNA)<span class="op">;</span></span>
+<span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-8" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>Here, we see that we import the text, then remove instances of <code>"NA"</code>. This puts the text in a format that can be parsed by <code>arquero.fromCSV()</code>, which returns an arquero <code>Table</code>. Observable offers a table input for easier digestion:</p>
+<div class="cell">
+<div class="sourceCode" id="cb9" data-startfrom="194" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 193;"><span id="cb9-194"><a href="#cb9-194" aria-hidden="true" tabindex="-1"></a>Inputs<span class="op">.</span><span class="fu">table</span>(inp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-9" data-nodetype="expression">
+
+</div>
+</div>
+</div>
 <p>Next, we need a function to help us determine which columns can be used for grouping, and which for aggregation.</p>
 <p>This is a personal habit since trying to be more aware of functional programming, but whenever I make a function in Observable, I like to make the signature as prominent as possible. I use a variation of <a href="https://drboolean.gitbooks.io/mostly-adequate-guide-old/content/ch7.html">Hindley-Miller notation</a>, which is a fancy way of saying that I want to keep track of the types for the parameters and return-value:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* (Table, (* -&gt; Boolean)) -&gt; [String]</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"> * Given an arquero table and a predicate-function,</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"> * return an array of strings corresponding to names of</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * columns that satisfy the predicate.</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co"> * This can be useful to identify which columns are strings</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"> * or numbers, etc.</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co"> * Note that null values are removed before the predicate</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"> * is applied.</span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>columnNamesPredicate <span class="op">=</span> <span class="kw">function</span> (data<span class="op">,</span> predicate) {</span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> colNames <span class="op">=</span> data<span class="op">.</span><span class="fu">columnNames</span>()<span class="op">;</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> keep <span class="op">=</span> colNames<span class="op">.</span><span class="fu">filter</span>((x) <span class="kw">=&gt;</span></span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    data</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">array</span>(x)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">filter</span>((x) <span class="kw">=&gt;</span> <span class="op">!</span>_<span class="op">.</span><span class="fu">isNull</span>(x))</span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">every</span>(predicate)</span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> keep<span class="op">;</span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Note that the second parameter, <code>predicate</code>, is a function that takes any type of value and returns a boolean. If I wanted to return the names of string-columns, I would supply the Lodash function <code>_.isString</code>.</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb10" data-startfrom="216" data-source-offset="-350"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 215;"><span id="cb10-216"><a href="#cb10-216" aria-hidden="true" tabindex="-1"></a>columnNamesPredicate <span class="op">=</span> <span class="kw">function</span> (data<span class="op">,</span> predicate) {</span>
+<span id="cb10-217"><a href="#cb10-217" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> colNames <span class="op">=</span> data<span class="op">.</span><span class="fu">columnNames</span>()<span class="op">;</span></span>
+<span id="cb10-218"><a href="#cb10-218" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> keep <span class="op">=</span> colNames<span class="op">.</span><span class="fu">filter</span>((x) <span class="kw">=&gt;</span></span>
+<span id="cb10-219"><a href="#cb10-219" aria-hidden="true" tabindex="-1"></a>    data</span>
+<span id="cb10-220"><a href="#cb10-220" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">array</span>(x)</span>
+<span id="cb10-221"><a href="#cb10-221" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">filter</span>((x) <span class="kw">=&gt;</span> <span class="op">!</span>_<span class="op">.</span><span class="fu">isNull</span>(x))</span>
+<span id="cb10-222"><a href="#cb10-222" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">every</span>(predicate)</span>
+<span id="cb10-223"><a href="#cb10-223" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb10-224"><a href="#cb10-224" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> keep<span class="op">;</span></span>
+<span id="cb10-225"><a href="#cb10-225" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-10" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>Note that the second parameter, <code>predicate</code>, is a function that takes any type of value and returns a boolean. If I wanted to return the names of string-columns, I would supply the Lodash function <code>_.isString</code>. (Also note that <a href="https://lodash.com/">Lodash</a>, which includes some functional tools, is a part of the Observable standard library.)</p>
 <p>An arquero table is a object of arrays, just like R’s data frame is a list of (most-often) vectors; it’s a column-based approach.</p>
 <p>First, we get an array of <code>colNames</code>. Then we filter this array using another predicate function:</p>
 <ul>
@@ -440,45 +497,70 @@
 <li><code>.every(predicate)</code>: return <code>true</code> if every value in the array satisfies the <code>predicate</code> function we supply.</li>
 </ul>
 <p>We return only those column names where our predicate function returns <code>true</code>.</p>
+<p>Let’s try it out:</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb11" data-startfrom="246" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 245;"><span id="cb11-246"><a href="#cb11-246" aria-hidden="true" tabindex="-1"></a><span class="fu">columnNamesPredicate</span>(inp<span class="op">,</span> _<span class="op">.</span><span class="at">isString</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-11" data-nodetype="expression">
+
+</div>
+</div>
+</div>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb12" data-startfrom="252" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 251;"><span id="cb12-252"><a href="#cb12-252" aria-hidden="true" tabindex="-1"></a><span class="fu">columnNamesPredicate</span>(inp<span class="op">,</span> _<span class="op">.</span><span class="at">isNumber</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-12" data-nodetype="expression">
+
+</div>
+</div>
+</div>
 <p>We also need a function to build an arquero query-object based on our specification.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">/* ([String], [String], String) -&gt; Object</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"> * Given an array of column names for grouping, an array of</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"> * column names for aggregations, and the name of an aggregation</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"> * function, return an object used to construct an Arquero query.</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"> *</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"> * The query will group by `cols_group`, then rollup (aggregate)</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"> * over `cols_agg`, using the function identified using `func_agg`.</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>buildQueryObject <span class="op">=</span> <span class="kw">function</span> (cols_group<span class="op">,</span> cols_agg<span class="op">,</span> func_agg) {</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> values <span class="op">=</span> cols_agg<span class="op">.</span><span class="fu">reduce</span>(</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    (acc<span class="op">,</span> val) <span class="kw">=&gt;</span> ({</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>acc<span class="op">,</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>      [val]<span class="op">:</span> { <span class="dt">expr</span><span class="op">:</span> <span class="vs">`(d) =&gt; op.</span><span class="sc">${</span>func_agg<span class="sc">}</span><span class="vs">(d["</span><span class="sc">${</span>val<span class="sc">}</span><span class="vs">"])`</span><span class="op">,</span> <span class="dt">func</span><span class="op">:</span> <span class="kw">true</span> }</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    {}</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> queryObject <span class="op">=</span> {</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="dt">verbs</span><span class="op">:</span> [</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">verb</span><span class="op">:</span> <span class="st">"groupby"</span><span class="op">,</span> <span class="dt">keys</span><span class="op">:</span> cols_group }<span class="op">,</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">verb</span><span class="op">:</span> <span class="st">"rollup"</span><span class="op">,</span> <span class="dt">values</span><span class="op">:</span> values }</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> queryObject<span class="op">;</span></span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb13" data-startfrom="268" data-source-offset="-374"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 267;"><span id="cb13-268"><a href="#cb13-268" aria-hidden="true" tabindex="-1"></a>buildQueryObject <span class="op">=</span> <span class="kw">function</span> (cols_group<span class="op">,</span> cols_agg<span class="op">,</span> func_agg) {</span>
+<span id="cb13-269"><a href="#cb13-269" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> values <span class="op">=</span> cols_agg<span class="op">.</span><span class="fu">reduce</span>(</span>
+<span id="cb13-270"><a href="#cb13-270" aria-hidden="true" tabindex="-1"></a>    (acc<span class="op">,</span> val) <span class="kw">=&gt;</span> ({</span>
+<span id="cb13-271"><a href="#cb13-271" aria-hidden="true" tabindex="-1"></a>      <span class="op">...</span>acc<span class="op">,</span></span>
+<span id="cb13-272"><a href="#cb13-272" aria-hidden="true" tabindex="-1"></a>      [val]<span class="op">:</span> { <span class="dt">expr</span><span class="op">:</span> <span class="vs">`(d) =&gt; op.</span><span class="sc">${</span>func_agg<span class="sc">}</span><span class="vs">(d["</span><span class="sc">${</span>val<span class="sc">}</span><span class="vs">"])`</span><span class="op">,</span> <span class="dt">func</span><span class="op">:</span> <span class="kw">true</span> }</span>
+<span id="cb13-273"><a href="#cb13-273" aria-hidden="true" tabindex="-1"></a>    })<span class="op">,</span></span>
+<span id="cb13-274"><a href="#cb13-274" aria-hidden="true" tabindex="-1"></a>    {}</span>
+<span id="cb13-275"><a href="#cb13-275" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb13-276"><a href="#cb13-276" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-277"><a href="#cb13-277" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> queryObject <span class="op">=</span> {</span>
+<span id="cb13-278"><a href="#cb13-278" aria-hidden="true" tabindex="-1"></a>    <span class="dt">verbs</span><span class="op">:</span> [</span>
+<span id="cb13-279"><a href="#cb13-279" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">verb</span><span class="op">:</span> <span class="st">"groupby"</span><span class="op">,</span> <span class="dt">keys</span><span class="op">:</span> cols_group }<span class="op">,</span></span>
+<span id="cb13-280"><a href="#cb13-280" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">verb</span><span class="op">:</span> <span class="st">"rollup"</span><span class="op">,</span> <span class="dt">values</span><span class="op">:</span> values }</span>
+<span id="cb13-281"><a href="#cb13-281" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb13-282"><a href="#cb13-282" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb13-283"><a href="#cb13-283" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-284"><a href="#cb13-284" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> queryObject<span class="op">;</span></span>
+<span id="cb13-285"><a href="#cb13-285" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-13" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
 <p>There are two operations in this query:</p>
 <ul>
 <li><code>"groupby"</code>, where we use the <code>cols_group</code>.</li>
 <li><code>"rollup"</code>, where we build another object to specify the aggregation.</li>
 </ul>
-<p>If our aggregation function is <code>min</code>, and our aggregtion columns are <code>["bill_length_mm", "bill_depth_mm"]</code>, then the rollup specification should be:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bill_length_mm</span><span class="op">:</span> {<span class="dt">expr</span><span class="op">:</span> <span class="vs">`(d) =&gt; op.min(d["bill_length_mm"])`</span><span class="op">,</span> <span class="dt">func</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bill_depth_mm</span><span class="op">:</span> {<span class="dt">expr</span><span class="op">:</span> <span class="vs">`(d) =&gt; op.min(d["bill_depth_mm"])`</span><span class="op">,</span> <span class="dt">func</span><span class="op">:</span> <span class="kw">true</span> }</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Using the object above and example, here’s how we describe rollup (aggregation) operations:</p>
+<p>The rollup component is the one we want to make sure of. If our aggregation function is <code>min</code>, and our aggregtion columns are <code>["bill_length_mm", "bill_depth_mm"]</code>, then the rollup specification should be:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bill_length_mm</span><span class="op">:</span> {<span class="dt">expr</span><span class="op">:</span> <span class="vs">`(d) =&gt; op.min(d["bill_length_mm"])`</span><span class="op">,</span> <span class="dt">func</span><span class="op">:</span> <span class="kw">true</span> }<span class="op">,</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">bill_depth_mm</span><span class="op">:</span> {<span class="dt">expr</span><span class="op">:</span> <span class="vs">`(d) =&gt; op.min(d["bill_depth_mm"])`</span><span class="op">,</span> <span class="dt">func</span><span class="op">:</span> <span class="kw">true</span> }</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>First we’ll test the function, then I’ll (try to) explain it:</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb15" data-startfrom="307" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 306;"><span id="cb15-307"><a href="#cb15-307" aria-hidden="true" tabindex="-1"></a>testQuery <span class="op">=</span> <span class="fu">buildQueryObject</span>([<span class="st">"island"</span>]<span class="op">,</span> [<span class="st">"bill_length_mm"</span><span class="op">,</span> <span class="st">"bill_depth_mm"</span>]<span class="op">,</span> <span class="st">"min"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-14" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<p>The <code>"rollup"</code> element seems to be working well.</p>
+<p>In arquero, for rollup (aggregation) operations:</p>
 <ul>
 <li>The object’s names are column names in the resulting table.</li>
 <li>The object’s values are expressed as functions.
@@ -497,59 +579,157 @@
 </ul>
 <p>It can be a lot to absorb JavaScript, functional programming, and the peculiarities of arquero <em>all at once</em>. Keep in mind that you can apply the functional programming you learned using purrr, and your knowledge of how <code>group_by()</code> and <code>summarise()</code> work in dplyr.</p>
 <p>Here’s the equivalent in R, using purrr and rlang:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>reducer <span class="ot">&lt;-</span> <span class="cf">function</span>(acc, val, func) {</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  mapped <span class="ot">&lt;-</span> </span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    rlang<span class="sc">::</span><span class="fu">list2</span>(</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"{val}"</span> <span class="sc">:</span><span class="er">=</span> <span class="fu">list</span>(</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">expr =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'(d) =&gt; op.{func}(d["{val}"])'</span>), </span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">func =</span> <span class="cn">TRUE</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>      )</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(acc, mapped)</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">reduce</span>(cols_agg, reducer, <span class="at">func =</span> func_agg, <span class="at">.init =</span> <span class="fu">list</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>reducer <span class="ot">&lt;-</span> <span class="cf">function</span>(acc, val, func) {</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  mapped <span class="ot">&lt;-</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>    rlang<span class="sc">::</span><span class="fu">list2</span>(</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="st">"{val}"</span> <span class="sc">:</span><span class="er">=</span> <span class="fu">list</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">expr =</span> glue<span class="sc">::</span><span class="fu">glue</span>(<span class="st">'(d) =&gt; op.{func}(d["{val}"])'</span>), </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">func =</span> <span class="cn">TRUE</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      )</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">c</span>(acc, mapped)</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> purrr<span class="sc">::</span><span class="fu">reduce</span>(cols_agg, reducer, <span class="at">func =</span> func_agg, <span class="at">.init =</span> <span class="fu">list</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>This gets heavy because we have to use <code>rlang::list2()</code> to interpolate the names: <code>"{val}" :=</code>.</p>
+<p>Let’s try out this query, evaluating it using our <code>inp</code> data:</p>
+<div class="cell" data-output="all">
+<div class="sourceCode" id="cb17" data-startfrom="353" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 352;"><span id="cb17-353"><a href="#cb17-353" aria-hidden="true" tabindex="-1"></a>testAgg <span class="op">=</span> aq</span>
+<span id="cb17-354"><a href="#cb17-354" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">queryFrom</span>(testQuery)</span>
+<span id="cb17-355"><a href="#cb17-355" aria-hidden="true" tabindex="-1"></a>  <span class="op">.</span><span class="fu">evaluate</span>(inp)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-15" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb18" data-startfrom="359" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 358;"><span id="cb18-359"><a href="#cb18-359" aria-hidden="true" tabindex="-1"></a>Inputs<span class="op">.</span><span class="fu">table</span>(testAgg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="ojs-cell-16" data-nodetype="expression">
+
+</div>
+</div>
+</div>
 <p>We don’t have the same check here to validate the aggregation function. Security considerations are a little bit different when using Observable. Because Observable runs this app entirely in the user’s browser, there is no server component. Thus, the user is free to run whatever code they like - it’s a bit like an IDE in that respect.</p>
 <p>There are some considerations around protecting secrets, but these do not apply to this app.</p>
 </section>
 <section id="showcase" class="level3" data-number="3.2.3">
 <h3 data-number="3.2.3" class="anchored" data-anchor-id="showcase"><span class="header-section-number">3.2.3</span> Showcase</h3>
-<p>Here’s where we show what the notebook can do. First, we display the <code>inp</code> table, using Observable’s built-in <code>Inputs.Table()</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>viewof table_inp <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(inp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p><code>table_inp</code> has a value (we can select rows), but we don’t use it.</p>
-<p>Next, we have an input for the grouping columns. We are using the <code>columnNamesPredicate()</code> function using Lodash’s <code>_.isString</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>viewof cols_group <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(<span class="fu">columnNamesPredicate</span>(inp<span class="op">,</span> _<span class="op">.</span><span class="at">isString</span>)<span class="op">,</span> {</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Grouping columns"</span><span class="op">,</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">multiple</span><span class="op">:</span> <span class="kw">true</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>The input for <code>cols_agg</code> is almost identical; there, we use <code>_.isNumber</code> as a predicate.</p>
-<p>The input for <code>func_agg</code> is fairly straightforward:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>viewof func_agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"mean"</span><span class="op">,</span> <span class="st">"min"</span><span class="op">,</span> <span class="st">"max"</span>]<span class="op">,</span> {</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Aggregation function"</span><span class="op">,</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">multiple</span><span class="op">:</span> <span class="kw">false</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>For each of these inputs: <code>cols_group</code>, <code>cols_agg</code>, and <code>func_agg</code>, the value is the selection.</p>
+<p>Here’s where we show what the notebook can do.</p>
+<p>To give the full effect here, I’ll hide the code (you can unhide):</p>
+<section id="input-data" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="input-data">Input data</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb19" data-startfrom="379" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 378;"><span id="cb19-379"><a href="#cb19-379" aria-hidden="true" tabindex="-1"></a>viewof table_inp <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(inp)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="ojs-cell-17" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</section>
+<section id="controls" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="controls">Controls</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb20" data-startfrom="386" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 385;"><span id="cb20-386"><a href="#cb20-386" aria-hidden="true" tabindex="-1"></a>viewof cols_group <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(<span class="fu">columnNamesPredicate</span>(inp<span class="op">,</span> _<span class="op">.</span><span class="at">isString</span>)<span class="op">,</span> {</span>
+<span id="cb20-387"><a href="#cb20-387" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Grouping columns"</span><span class="op">,</span></span>
+<span id="cb20-388"><a href="#cb20-388" aria-hidden="true" tabindex="-1"></a>  <span class="dt">multiple</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb20-389"><a href="#cb20-389" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="ojs-cell-18" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb21" data-startfrom="394" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 393;"><span id="cb21-394"><a href="#cb21-394" aria-hidden="true" tabindex="-1"></a>viewof cols_agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>(<span class="fu">columnNamesPredicate</span>(inp<span class="op">,</span> _<span class="op">.</span><span class="at">isNumber</span>)<span class="op">,</span> {</span>
+<span id="cb21-395"><a href="#cb21-395" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Aggregation columns"</span><span class="op">,</span></span>
+<span id="cb21-396"><a href="#cb21-396" aria-hidden="true" tabindex="-1"></a>  <span class="dt">multiple</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb21-397"><a href="#cb21-397" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="ojs-cell-19" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb22" data-startfrom="402" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 401;"><span id="cb22-402"><a href="#cb22-402" aria-hidden="true" tabindex="-1"></a>viewof func_agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">select</span>([<span class="st">"mean"</span><span class="op">,</span> <span class="st">"min"</span><span class="op">,</span> <span class="st">"max"</span>]<span class="op">,</span> {</span>
+<span id="cb22-403"><a href="#cb22-403" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="st">"Aggregation function"</span><span class="op">,</span></span>
+<span id="cb22-404"><a href="#cb22-404" aria-hidden="true" tabindex="-1"></a>  <span class="dt">multiple</span><span class="op">:</span> <span class="kw">false</span></span>
+<span id="cb22-405"><a href="#cb22-405" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="ojs-cell-20" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb23" data-startfrom="410" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 409;"><span id="cb23-410"><a href="#cb23-410" aria-hidden="true" tabindex="-1"></a>viewof agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">"Submit"</span><span class="op">,</span> {</span>
+<span id="cb23-411"><a href="#cb23-411" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> aq<span class="op">.</span><span class="fu">table</span>()<span class="op">,</span></span>
+<span id="cb23-412"><a href="#cb23-412" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reduce</span><span class="op">:</span> () <span class="kw">=&gt;</span> {</span>
+<span id="cb23-413"><a href="#cb23-413" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aq</span>
+<span id="cb23-414"><a href="#cb23-414" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">queryFrom</span>(<span class="fu">buildQueryObject</span>(cols_group<span class="op">,</span> cols_agg<span class="op">,</span> func_agg))</span>
+<span id="cb23-415"><a href="#cb23-415" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">evaluate</span>(inp)<span class="op">;</span></span>
+<span id="cb23-416"><a href="#cb23-416" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb23-417"><a href="#cb23-417" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="ojs-cell-21" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+</section>
+<section id="output-data" class="level4 unnumbered">
+<h4 class="unnumbered anchored" data-anchor-id="output-data">Output data</h4>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode" id="cb24" data-startfrom="424" data-source-offset="-0"><pre class="sourceCode js cell-code code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 423;"><span id="cb24-424"><a href="#cb24-424" aria-hidden="true" tabindex="-1"></a>viewof table_agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div id="ojs-cell-22" data-nodetype="declaration">
+
+</div>
+</div>
+</div>
+<hr>
 <p>The button is less straightforward; we view is the button, but the value is the aggregated table. The two are joined by a <code>reduce</code> option, a function that is run whenever the button is clicked.</p>
 <p>In our case, the reduce function runs the query on the <code>inp</code> table, and returns the aggregated table.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>viewof agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">button</span>(<span class="st">"Submit"</span><span class="op">,</span> {</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> aq<span class="op">.</span><span class="fu">table</span>()<span class="op">,</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">reduce</span><span class="op">:</span> () <span class="kw">=&gt;</span> {</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aq</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">queryFrom</span>(<span class="fu">buildQueryObject</span>(cols_group<span class="op">,</span> cols_agg<span class="op">,</span> func_agg))</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>      <span class="op">.</span><span class="fu">evaluate</span>(inp)<span class="op">;</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>Finally, we display the <code>agg</code> table:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>viewof table_agg <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">table</span>(agg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 
+</section>
 </section>
 </section>
 </main> <!-- /main -->
+<script type="ojs-module-contents">
+{"contents":[{"methodName":"interpret","cellName":"ojs-cell-1","inline":false,"source":"a = {\n  let i = 0;\n  while (true) {\n    await Promises.delay(1000);\n    yield ++i;\n  }\n}"},{"methodName":"interpret","cellName":"ojs-cell-2","inline":false,"source":"b = a"},{"methodName":"interpret","cellName":"ojs-cell-3","inline":false,"source":"c"},{"methodName":"interpret","cellName":"ojs-cell-4","inline":false,"source":"c = a + 10"},{"methodName":"interpret","cellName":"ojs-cell-5","inline":false,"source":"viewof clicks = Inputs.button(\"OK\", {label: \"Click me\"})"},{"methodName":"interpret","cellName":"ojs-cell-6","inline":false,"source":"clicks"},{"methodName":"interpret","cellName":"ojs-cell-7","inline":false,"source":"import { aq, op } from \"@uwdata/arquero\""},{"methodName":"interpret","cellName":"ojs-cell-8","inline":false,"source":"inp = {\n  const text = await FileAttachment(\"penguins.csv\").text();\n  const textRemoveNA = text.replaceAll(/,NA/gi, \",\");\n\n  return aq.fromCSV(textRemoveNA);\n}"},{"methodName":"interpret","cellName":"ojs-cell-9","inline":false,"source":"Inputs.table(inp)"},{"methodName":"interpret","cellName":"ojs-cell-10","inline":false,"source":"/* Table, (* -> Boolean) -> [String]\n *\n * Given an arquero table and a predicate-function,\n * return an array of strings corresponding to names of\n * columns that satisfy the predicate.\n *\n * This can be useful to identify which columns are strings\n * or numbers, etc.\n *\n * Note that null values are removed before the predicate\n * is applied.\n */\ncolumnNamesPredicate = function (data, predicate) {\n  const colNames = data.columnNames();\n  const keep = colNames.filter((x) =>\n    data\n      .array(x)\n      .filter((x) => !_.isNull(x))\n      .every(predicate)\n  );\n  return keep;\n}"},{"methodName":"interpret","cellName":"ojs-cell-11","inline":false,"source":"columnNamesPredicate(inp, _.isString)"},{"methodName":"interpret","cellName":"ojs-cell-12","inline":false,"source":"columnNamesPredicate(inp, _.isNumber)"},{"methodName":"interpret","cellName":"ojs-cell-13","inline":false,"source":"/* [String], [String], String -> Object\n *\n * Given an array of column names for grouping, an array of\n * column names for aggregations, and the name of an aggregation\n * function, return an object used to construct an Arquero query.\n *\n * The query will group by `cols_group`, then rollup (aggregate)\n * over `cols_agg`, using the function identified using `func_agg`.\n */\nbuildQueryObject = function (cols_group, cols_agg, func_agg) {\n  const values = cols_agg.reduce(\n    (acc, val) => ({\n      ...acc,\n      [val]: { expr: `(d) => op.${func_agg}(d[\"${val}\"])`, func: true }\n    }),\n    {}\n  );\n\n  const queryObject = {\n    verbs: [\n      { verb: \"groupby\", keys: cols_group },\n      { verb: \"rollup\", values: values }\n    ]\n  };\n\n  return queryObject;\n}"},{"methodName":"interpret","cellName":"ojs-cell-14","inline":false,"source":"testQuery = buildQueryObject([\"island\"], [\"bill_length_mm\", \"bill_depth_mm\"], \"min\")"},{"methodName":"interpret","cellName":"ojs-cell-15","inline":false,"source":"testAgg = aq\n  .queryFrom(testQuery)\n  .evaluate(inp);"},{"methodName":"interpret","cellName":"ojs-cell-16","inline":false,"source":"Inputs.table(testAgg)"},{"methodName":"interpret","cellName":"ojs-cell-17","inline":false,"source":"viewof table_inp = Inputs.table(inp)"},{"methodName":"interpret","cellName":"ojs-cell-18","inline":false,"source":"viewof cols_group = Inputs.select(columnNamesPredicate(inp, _.isString), {\n  label: \"Grouping columns\",\n  multiple: true\n})"},{"methodName":"interpret","cellName":"ojs-cell-19","inline":false,"source":"viewof cols_agg = Inputs.select(columnNamesPredicate(inp, _.isNumber), {\n  label: \"Aggregation columns\",\n  multiple: true\n})"},{"methodName":"interpret","cellName":"ojs-cell-20","inline":false,"source":"viewof func_agg = Inputs.select([\"mean\", \"min\", \"max\"], {\n  label: \"Aggregation function\",\n  multiple: false\n})"},{"methodName":"interpret","cellName":"ojs-cell-21","inline":false,"source":"viewof agg = Inputs.button(\"Submit\", {\n  value: aq.table(),\n  reduce: () => {\n    return aq\n      .queryFrom(buildQueryObject(cols_group, cols_agg, func_agg))\n      .evaluate(inp);\n  }\n})"},{"methodName":"interpret","cellName":"ojs-cell-22","inline":false,"source":"viewof table_agg = Inputs.table(agg)"},{"methodName":"interpretQuiet","source":"shinyInput('clicks')"},{"methodName":"interpretQuiet","source":"shinyInput('table_inp')"},{"methodName":"interpretQuiet","source":"shinyInput('cols_group')"},{"methodName":"interpretQuiet","source":"shinyInput('cols_agg')"},{"methodName":"interpretQuiet","source":"shinyInput('func_agg')"},{"methodName":"interpretQuiet","source":"shinyInput('agg')"},{"methodName":"interpretQuiet","source":"shinyInput('table_agg')"}]}
+</script>
+<script type="module">
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const disableStylesheet = (stylesheets) => {
