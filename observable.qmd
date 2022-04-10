@@ -122,10 +122,9 @@ In this context, the variable `clicks`:
 When we use `viewof clicks = ...`, we are telling Observable:
 
 -   we want to view the button **here**
--   we want to bind the value of the button to the variable `clicks`
+-   we want to access value of the button using the variable `clicks`
 
-We can use the variable `clicks` elsewhere in the notebook.
-
+Thus, we can use the variable `clicks` elsewhere in the notebook.
 The *view* is a side-effect; the *value* is, well, a value.
 
 ## Demonstration app
@@ -155,10 +154,10 @@ In this chapter, we'll go over this "backwards".
 
 Here's where we import stuff into our notebook.
 
-```{ojs}
-import { aq, op } from "@uwdata/arquero"
-```
+    // import { aq } from "@uwdata/arquero"
 
+This is how you would import from another notebook.
+Arquero is already a part of the Observable standard library, so we'll use it as it is rather than import it.
 Here, we're importing objects from another notebook, in this case, a notebook that features the arquero library.
 
 Arquero contains functionality along the lines of dplyr and tidyr.
@@ -180,7 +179,7 @@ If we have the result of a multi-step process that we want to put into a variabl
 //| output: all
 inp = {
   const text = await FileAttachment("penguins.csv").text();
-  const textRemoveNA = text.replaceAll(/,NA/gi, ",");
+  const textRemoveNA = text.replace(/,NA/gi, ",");
 
   return aq.fromCSV(textRemoveNA);
 }
@@ -190,9 +189,11 @@ Here, we see that we import the text, then remove instances of `"NA"`.
 This puts the text in a format that can be parsed by `arquero.fromCSV()`, which returns an arquero `Table`.
 Observable offers a table input for easier digestion:
 
+::: nocheckbox
 ```{ojs}
 Inputs.table(inp)
 ```
+:::
 
 Next, we need a function to help us determine which columns can be used for grouping, and which for aggregation.
 
@@ -213,7 +214,10 @@ I use a variation of [Hindley-Miller notation](https://drboolean.gitbooks.io/mos
  * Note that null values are removed before the predicate
  * is applied.
  */
+ 
+// comments disappear here
 columnNamesPredicate = function (data, predicate) {
+  // but they seem to appear here
   const colNames = data.columnNames();
   const keep = colNames.filter((x) =>
     data
@@ -226,7 +230,8 @@ columnNamesPredicate = function (data, predicate) {
 ```
 
 Note that the second parameter, `predicate`, is a function that takes any type of value and returns a boolean.
-If I wanted to return the names of string-columns, I would supply the Lodash function `_.isString`. (Also note that [Lodash](https://lodash.com/), which includes some functional tools, is a part of the Observable standard library.)
+If I wanted to return the names of string-columns, I would supply the Lodash function `_.isString`.
+(Also note that [Lodash](https://lodash.com/), which includes some functional tools, is a part of the Observable standard library.)
 
 An arquero table is a object of arrays, just like R's data frame is a list of (most-often) vectors; it's a column-based approach.
 
@@ -246,7 +251,6 @@ Let's try it out:
 columnNamesPredicate(inp, _.isString)
 ```
 
-
 ```{ojs}
 //| output: all
 columnNamesPredicate(inp, _.isNumber)
@@ -256,6 +260,7 @@ We also need a function to build an arquero query-object based on our specificat
 
 ```{ojs}
 //| output: all
+
 /* [String], [String], String -> Object
  *
  * Given an array of column names for grouping, an array of
@@ -269,7 +274,7 @@ buildQueryObject = function (cols_group, cols_agg, func_agg) {
   const values = cols_agg.reduce(
     (acc, val) => ({
       ...acc,
-      [val]: { expr: `(d) => op.${func_agg}(d["${val}"])`, func: true }
+      [val]: { expr: `(d) => aq.op.${func_agg}(d["${val}"])`, func: true }
     }),
     {}
   );
@@ -290,13 +295,13 @@ There are two operations in this query:
 -   `"groupby"`, where we use the `cols_group`.
 -   `"rollup"`, where we build another object to specify the aggregation.
 
-The rollup component is the one we want to make sure of. 
+The rollup component is the one we want to make sure of.
 If our aggregation function is `min`, and our aggregtion columns are `["bill_length_mm", "bill_depth_mm"]`, then the rollup specification should be:
 
 ``` js
 {
-  bill_length_mm: {expr: `(d) => op.min(d["bill_length_mm"])`, func: true },
-  bill_depth_mm: {expr: `(d) => op.min(d["bill_depth_mm"])`, func: true }
+  bill_length_mm: {expr: `(d) => aq.op.min(d["bill_length_mm"])`, func: true },
+  bill_depth_mm: {expr: `(d) => aq.op.min(d["bill_depth_mm"])`, func: true }
 }
 ```
 
@@ -333,7 +338,7 @@ reducer <- function(acc, val, func) {
   mapped <- 
     rlang::list2(
       "{val}" := list(
-        expr = glue::glue('(d) => op.{func}(d["{val}"])'), 
+        expr = glue::glue('(d) => aq.op.{func}(d["{val}"])'), 
         func = TRUE
       )
     )
@@ -355,9 +360,11 @@ testAgg = aq
   .evaluate(inp);
 ```
 
+::: nocheckbox
 ```{ojs}
 Inputs.table(testAgg)
 ```
+:::
 
 We don't have the same check here to validate the aggregation function.
 Security considerations are a little bit different when using Observable.
@@ -368,16 +375,18 @@ There are some considerations around protecting secrets, but these do not apply 
 
 ### Showcase
 
-Here's where we show what the notebook can do. 
+Here's where we show what the notebook can do.
 
 To give the full effect here, I'll hide the code (you can unhide):
 
 #### Input data {.unnumbered}
 
+::: {.nocheckbox}
 ```{ojs}
 //| code-fold: true
 viewof table_inp = Inputs.table(inp)
 ```
+:::
 
 #### Controls {.unnumbered}
 
@@ -419,17 +428,16 @@ viewof agg = Inputs.button("Submit", {
 
 #### Output data {.unnumbered}
 
+::: nocheckbox
 ```{ojs}
 //| code-fold: true
 viewof table_agg = Inputs.table(agg)
 ```
+:::
 
----
+------------------------------------------------------------------------
 
 The button is less straightforward; we view is the button, but the value is the aggregated table.
 The two are joined by a `reduce` option, a function that is run whenever the button is clicked.
 
 In our case, the reduce function runs the query on the `inp` table, and returns the aggregated table.
-
-
-

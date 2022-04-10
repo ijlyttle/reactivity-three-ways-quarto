@@ -21,6 +21,7 @@ bibliography: references.bib
 
 format:
   html:
+    css: nocheckbox.css
     theme:
       light: sandstone
       dark: [slate, theme-dark.scss]
