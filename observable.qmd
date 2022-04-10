@@ -437,7 +437,14 @@ viewof table_agg = Inputs.table(agg)
 
 ------------------------------------------------------------------------
 
-The button is less straightforward; we view is the button, but the value is the aggregated table.
+The only new concept here is the button.
+The *view* is the button, but the *value* is the aggregated table.
 The two are joined by a `reduce` option, a function that is run whenever the button is clicked.
 
-In our case, the reduce function runs the query on the `inp` table, and returns the aggregated table.
+The reduce function:
+
+  - builds the query
+  - runs the query on the `inp` table
+  - returns the aggregated table
+  
+We delay the execution of the query by "hiding" it in a function.
