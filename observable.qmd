@@ -381,7 +381,7 @@ To give the full effect here, I'll hide the code (you can unhide):
 
 #### Input data {.unnumbered}
 
-::: {.nocheckbox}
+::: nocheckbox
 ```{ojs}
 //| code-fold: true
 viewof table_inp = Inputs.table(inp)
@@ -443,8 +443,8 @@ The two are joined by a `reduce` option, a function that is run whenever the but
 
 The reduce function:
 
-  - builds the query
-  - runs the query on the `inp` table
-  - returns the aggregated table
-  
+-   builds the query
+-   runs the query on the `inp` table
+-   returns the aggregated table
+
 We delay the execution of the query by "hiding" it in a function.
