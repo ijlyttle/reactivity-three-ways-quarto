@@ -713,8 +713,14 @@
 </div>
 </div>
 <hr>
-<p>The button is less straightforward; we view is the button, but the value is the aggregated table. The two are joined by a <code>reduce</code> option, a function that is run whenever the button is clicked.</p>
-<p>In our case, the reduce function runs the query on the <code>inp</code> table, and returns the aggregated table.</p>
+<p>The only new concept here is the button. The <em>view</em> is the button, but the <em>value</em> is the aggregated table. The two are joined by a <code>reduce</code> option, a function that is run whenever the button is clicked.</p>
+<p>The reduce function:</p>
+<ul>
+<li>builds the query</li>
+<li>runs the query on the <code>inp</code> table</li>
+<li>returns the aggregated table</li>
+</ul>
+<p>We delay the execution of the query by “hiding” it in a function.</p>
 
 
 
