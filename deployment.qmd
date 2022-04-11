@@ -4,14 +4,159 @@ In time, I will reconstruct from my code (and my notes) the tricks and sorcery I
 
 ## Shiny
 
-Not a lot of trickery here; I got an shinyapps account and I used the deployment service built into the RStudio IDE.
+Not a lot of trickery here; I got an [shinyapps.io](https://www.shinyapps.io/) account and used the [deployment service](https://shiny.rstudio.com/articles/shinyapps.html) built into the RStudio IDE.
 
 ## Dash
 
-Some trickery here to deploy to Heroku.
+Plotly offers a [Dash Enterprise](https://plotly.com/dash) service.
+However, if you want deploy a publicly-available app for free, you can deploy to Heroku.
+
+The process is descibed in the [Dash deployment documentation](https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free), but I found that I needed to implement a few workarounds to get things to work. 
+Your mileage may vary.
+
+The overall process is:
+
+- Establish your Heroku account, once.
+- Configure your Dash app, once per app.
+- Create your app on Heroku, once per app.
+- Git-push your app to Heroku, once per deployment.
+
+### Establish Heroku account
+
+- Sign up at [Heroku](https://signup.heroku.com/).
+- Install the [Heroku CLI](https://devcenter.heroku.com/categories/command-line).
+
+The Heroku CLI is used to create your (Heroku) apps and deploy them.
+
+From time to time, you will need to authenticate to Heroku from the terminal.
+
+The easiest thing to do (from the terminal) is:
+
+```
+heroku login
+```
+
+This does not work for me, so (following this [SO post](https://stackoverflow.com/questions/63363085/ip-address-mismatch-on-signing-into-heroku-cli)) I use:
+
+```
+heroku login -i
+```
+
+Heroku asks for your email (account) and password.
+Because I use two-factor authentication with Heroku, I need to create a token to allow me to authenticate using the CLI:
+
+- [Create an authorization](https://dashboard.heroku.com/account/applications) for Heroku CLI:
+  - Hit the "Create authorization" button.
+  - Provide a description, something like "Heroku CLI".
+  - Provide an expiry duration, if you like.
+  
+Heroku will generate a token that you can use to log in from the command line.
+
+😅
+
+### Configure Dash app
+
+Following the [Dash instructions](https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free), there's a few things we need to to, once per app:
+
+- create a local git repository
+- use a Python virtual environment
+- install `gunicorn`
+- adapt your app's Python file
+- create a `Procfile`
+
+Using git and creating a repository may be familiar to you already; if not, [Happy Git with R](https://happygitwithr.com/) is highly recommended.
+
+To get started with Python virtual environments, see the [Appendix: Field Guide to Python](field-guide-python.html).
+
+You will have to install "gunicorn" in your virtual environment, as Heroku uses this [to serve Python apps](https://devcenter.heroku.com/articles/python-gunicorn).
+From the terminal:
+
+```
+pip install gunicorn
+```
+
+The next step is to define a `server` variable in your app, as Heroko (gunicorn) will need to use it.
+In your app's Python file, after you have defined `app`:
+
+```py
+# make `server` available to Heroku
+server = app.server
+```
+
+Finally (at least for this section), we will need to tell Heroku how to use gunicorn to serve your app.
+In your repo's root directory, create a file named `Procfile` with a line like this:
+
+```
+web: gunicorn app-aggregate-local:server
+```
+
+**Note**:
+
+- `app-aggregate-local` refers to the file `app-aggregate-local.py`; use the name of *your* app file.
+- `server` refers to the `server` object in `app-aggregate-local.py`, the variable you just made available. 
+
+### Create Heroku app
+
+Once you have authenticated on the Heroku CLI, there's a couple of steps to create the app on Heroku:
+
+```
+heroku create aggregate-local 
+```
+
+**Note**: use the name for *your* app, rather than `aggregate-local`.
+
+This command [does two things](https://devcenter.heroku.com/articles/creating-apps):
+
+- creates the app at Heroku
+- creates a git remote
+
+### Git-push Heroku app
+
+When you're ready to deploy, or redeploy, it's a three-step process:
+
+- Update your `requirements.txt`, so Heroku will know how to create the Python virtual environment.
+- Commit your changes to git, locally.
+- Push your branch to Heroku.
+
+From the terminal:
+
+```
+pip freeze > requirements.txt
+```
+
+Git-commit your changes, then:
+
+```
+git push heroku main
+```
+
+Or whatever your branch happens to be named.
+
+All being well, your app should be deployed and operational. 
+You can go to your [Heroku apps dashboard](https://dashboard.heroku.com/apps) to keep track of all of your deployed apps.
+
+### Multiple apps per git remote
+
+The baseline assumption is that you have one app per git repo.
+
+If you want to have more than one app per repo, [there's a way](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile).
+For each app in a given repo, you'll need:
+
+- a separate Procfile.
+- a `PROCFILE` environment-variable for each Heroku app, specifying the location of its `Procfile`.
+- a separate Heroku git-remote.
+
+I have not done this yet, myself.
+
+### References
+
+- [Dash deployment](https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free)
+- [Heroku CLI Authentication](https://devcenter.heroku.com/articles/authentication)
+- [Stack Overflow on "IP Address Mismatch on signing into Heroku CLI"](https://stackoverflow.com/questions/63363085/ip-address-mismatch-on-signing-into-heroku-cli)
+- [Heroku Multi Procfile buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile)
 
 ## Observable
 
-The code is developed in a "deployed" state; I hit the "Publish" button.
+At the [Observable site](https://observablehq.com/), code is "deployed" once you hit the "Publish" button.
 
-That said, there are some interesting embedding possibilities and, as of Spring 2021, capability to run interactively via Quarto.
+That said, there are some interesting possibilities to [incorporate Observable into Quarto documents](https://quarto.org/docs/interactive/ojs/).
