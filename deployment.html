@@ -268,7 +268,7 @@
 <li><a href="#configure-dash-app" id="toc-configure-dash-app" class="nav-link" data-scroll-target="#configure-dash-app"> <span class="header-section-number">B.2.2</span> Configure Dash app</a></li>
 <li><a href="#create-heroku-app" id="toc-create-heroku-app" class="nav-link" data-scroll-target="#create-heroku-app"> <span class="header-section-number">B.2.3</span> Create Heroku app</a></li>
 <li><a href="#git-push-heroku-app" id="toc-git-push-heroku-app" class="nav-link" data-scroll-target="#git-push-heroku-app"> <span class="header-section-number">B.2.4</span> Git-push Heroku app</a></li>
-<li><a href="#multiple-apps-per-git-remote" id="toc-multiple-apps-per-git-remote" class="nav-link" data-scroll-target="#multiple-apps-per-git-remote"> <span class="header-section-number">B.2.5</span> Multiple apps per git remote</a></li>
+<li><a href="#miscellany" id="toc-miscellany" class="nav-link" data-scroll-target="#miscellany"> <span class="header-section-number">B.2.5</span> Miscellany</a></li>
 <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">B.2.6</span> References</a></li>
 </ul></li>
 <li><a href="#observable" id="toc-observable" class="nav-link" data-scroll-target="#observable"> <span class="header-section-number">B.3</span> Observable</a></li>
@@ -282,7 +282,7 @@
 
 <div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix B — Deployment</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-11</p></div></div></div></header>
 
-<p>In time, I will reconstruct from my code (and my notes) the tricks and sorcery I used to deploy these apps.</p>
+<p>If you want to share your app with the world, there are free options for each alternative. The free route I found for Dash has proven to be more complicated than the other two.</p>
 <section id="shiny" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="shiny"><span class="header-section-number">B.1</span> Shiny</h2>
 <p>Not a lot of trickery here; I got an <a href="https://www.shinyapps.io/">shinyapps.io</a> account and used the <a href="https://shiny.rstudio.com/articles/shinyapps.html">deployment service</a> built into the RStudio IDE.</p>
@@ -330,7 +330,7 @@
 <li>use a Python virtual environment</li>
 <li>install <code>gunicorn</code></li>
 <li>adapt your app’s Python file</li>
-<li>create a <code>Procfile</code></li>
+<li>create a <code>Procfile</code> in your app repo’s root directory.</li>
 </ul>
 <p>Using git and creating a repository may be familiar to you already; if not, <a href="https://happygitwithr.com/">Happy Git with R</a> is highly recommended.</p>
 <p>To get started with Python virtual environments, see the <a href="field-guide-python.html">Appendix: Field Guide to Python</a>.</p>
@@ -373,9 +373,13 @@
 <p>Or whatever your branch happens to be named.</p>
 <p>All being well, your app should be deployed and operational. You can go to your <a href="https://dashboard.heroku.com/apps">Heroku apps dashboard</a> to keep track of all of your deployed apps.</p>
 </section>
-<section id="multiple-apps-per-git-remote" class="level3" data-number="B.2.5">
-<h3 data-number="B.2.5" class="anchored" data-anchor-id="multiple-apps-per-git-remote"><span class="header-section-number">B.2.5</span> Multiple apps per git remote</h3>
-<p>The baseline assumption is that you have one app per git repo.</p>
+<section id="miscellany" class="level3" data-number="B.2.5">
+<h3 data-number="B.2.5" class="anchored" data-anchor-id="miscellany"><span class="header-section-number">B.2.5</span> Miscellany</h3>
+<p>In the <a href="https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free">Dash instructions</a>, there is a command they suggest running, after you have made you have made your first deployment:</p>
+<p>From the terminal:</p>
+<pre><code>heroku ps:scale web=1 </code></pre>
+<p>I have read <a href="https://stackoverflow.com/a/30326031/1523865">this is not scrictly necessary</a>, as it is setting the value to the default.</p>
+<p>As well, the <a href="https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free">Dash instructions</a> assume that you have one app per git repo.</p>
 <p>If you want to have more than one app per repo, <a href="https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile">there’s a way</a>. For each app in a given repo, you’ll need:</p>
 <ul>
 <li>a separate Procfile.</li>
@@ -389,7 +393,10 @@
 <ul>
 <li><a href="https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free">Dash deployment</a></li>
 <li><a href="https://devcenter.heroku.com/articles/authentication">Heroku CLI Authentication</a></li>
+<li><a href="https://devcenter.heroku.com/articles/python-gunicorn">Heroku Python Apps</a></li>
+<li><a href="https://devcenter.heroku.com/articles/creating-apps">Heroku app creation</a></li>
 <li><a href="https://stackoverflow.com/questions/63363085/ip-address-mismatch-on-signing-into-heroku-cli">Stack Overflow on “IP Address Mismatch on signing into Heroku CLI”</a></li>
+<li><a href="https://dashboard.heroku.com/apps">Heroku apps dashboard</a></li>
 <li><a href="https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile">Heroku Multi Procfile buildpack</a></li>
 </ul>
 </section>
