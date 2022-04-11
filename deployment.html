@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.227">
+  <meta name="generator" content="quarto-0.9.228">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
   <title>Data-Science Reactivity: Three Ways - Appendix B — Deployment</title>
   <style>
@@ -11,6 +11,69 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
 
   <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -199,7 +262,15 @@
 <h2 id="toc-title">Table of contents</h2>
 <ul>
 <li><a href="#shiny" id="toc-shiny" class="nav-link active" data-scroll-target="#shiny"> <span class="header-section-number">B.1</span> Shiny</a></li>
-<li><a href="#dash" id="toc-dash" class="nav-link" data-scroll-target="#dash"> <span class="header-section-number">B.2</span> Dash</a></li>
+<li><a href="#dash" id="toc-dash" class="nav-link" data-scroll-target="#dash"> <span class="header-section-number">B.2</span> Dash</a>
+<ul class="collapse">
+<li><a href="#establish-heroku-account" id="toc-establish-heroku-account" class="nav-link" data-scroll-target="#establish-heroku-account"> <span class="header-section-number">B.2.1</span> Establish Heroku account</a></li>
+<li><a href="#configure-dash-app" id="toc-configure-dash-app" class="nav-link" data-scroll-target="#configure-dash-app"> <span class="header-section-number">B.2.2</span> Configure Dash app</a></li>
+<li><a href="#create-heroku-app" id="toc-create-heroku-app" class="nav-link" data-scroll-target="#create-heroku-app"> <span class="header-section-number">B.2.3</span> Create Heroku app</a></li>
+<li><a href="#git-push-heroku-app" id="toc-git-push-heroku-app" class="nav-link" data-scroll-target="#git-push-heroku-app"> <span class="header-section-number">B.2.4</span> Git-push Heroku app</a></li>
+<li><a href="#multiple-apps-per-git-remote" id="toc-multiple-apps-per-git-remote" class="nav-link" data-scroll-target="#multiple-apps-per-git-remote"> <span class="header-section-number">B.2.5</span> Multiple apps per git remote</a></li>
+<li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references"> <span class="header-section-number">B.2.6</span> References</a></li>
+</ul></li>
 <li><a href="#observable" id="toc-observable" class="nav-link" data-scroll-target="#observable"> <span class="header-section-number">B.3</span> Observable</a></li>
 </ul>
 </nav>
@@ -209,21 +280,124 @@
 <header id="title-block-header" class="quarto-title-block default">
 
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix B — Deployment</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-10</p></div></div></div></header>
+<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix B — Deployment</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-11</p></div></div></div></header>
 
 <p>In time, I will reconstruct from my code (and my notes) the tricks and sorcery I used to deploy these apps.</p>
 <section id="shiny" class="level2" data-number="B.1">
 <h2 data-number="B.1" class="anchored" data-anchor-id="shiny"><span class="header-section-number">B.1</span> Shiny</h2>
-<p>Not a lot of trickery here; I got an shinyapps account and I used the deployment service built into the RStudio IDE.</p>
+<p>Not a lot of trickery here; I got an <a href="https://www.shinyapps.io/">shinyapps.io</a> account and used the <a href="https://shiny.rstudio.com/articles/shinyapps.html">deployment service</a> built into the RStudio IDE.</p>
 </section>
 <section id="dash" class="level2" data-number="B.2">
 <h2 data-number="B.2" class="anchored" data-anchor-id="dash"><span class="header-section-number">B.2</span> Dash</h2>
-<p>Some trickery here to deploy to Heroku.</p>
+<p>Plotly offers a <a href="https://plotly.com/dash">Dash Enterprise</a> service. However, if you want deploy a publicly-available app for free, you can deploy to Heroku.</p>
+<p>The process is descibed in the <a href="https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free">Dash deployment documentation</a>, but I found that I needed to implement a few workarounds to get things to work. Your mileage may vary.</p>
+<p>The overall process is:</p>
+<ul>
+<li>Establish your Heroku account, once.</li>
+<li>Configure your Dash app, once per app.</li>
+<li>Create your app on Heroku, once per app.</li>
+<li>Git-push your app to Heroku, once per deployment.</li>
+</ul>
+<section id="establish-heroku-account" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="establish-heroku-account"><span class="header-section-number">B.2.1</span> Establish Heroku account</h3>
+<ul>
+<li>Sign up at <a href="https://signup.heroku.com/">Heroku</a>.</li>
+<li>Install the <a href="https://devcenter.heroku.com/categories/command-line">Heroku CLI</a>.</li>
+</ul>
+<p>The Heroku CLI is used to create your (Heroku) apps and deploy them.</p>
+<p>From time to time, you will need to authenticate to Heroku from the terminal.</p>
+<p>The easiest thing to do (from the terminal) is:</p>
+<pre><code>heroku login</code></pre>
+<p>This does not work for me, so (following this <a href="https://stackoverflow.com/questions/63363085/ip-address-mismatch-on-signing-into-heroku-cli">SO post</a>) I use:</p>
+<pre><code>heroku login -i</code></pre>
+<p>Heroku asks for your email (account) and password. Because I use two-factor authentication with Heroku, I need to create a token to allow me to authenticate using the CLI:</p>
+<ul>
+<li><a href="https://dashboard.heroku.com/account/applications">Create an authorization</a> for Heroku CLI:
+<ul>
+<li>Hit the “Create authorization” button.</li>
+<li>Provide a description, something like “Heroku CLI”.</li>
+<li>Provide an expiry duration, if you like.</li>
+</ul></li>
+</ul>
+<p>Heroku will generate a token that you can use to log in from the command line.</p>
+<p>😅</p>
+</section>
+<section id="configure-dash-app" class="level3" data-number="B.2.2">
+<h3 data-number="B.2.2" class="anchored" data-anchor-id="configure-dash-app"><span class="header-section-number">B.2.2</span> Configure Dash app</h3>
+<p>Following the <a href="https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free">Dash instructions</a>, there’s a few things we need to to, once per app:</p>
+<ul>
+<li>create a local git repository</li>
+<li>use a Python virtual environment</li>
+<li>install <code>gunicorn</code></li>
+<li>adapt your app’s Python file</li>
+<li>create a <code>Procfile</code></li>
+</ul>
+<p>Using git and creating a repository may be familiar to you already; if not, <a href="https://happygitwithr.com/">Happy Git with R</a> is highly recommended.</p>
+<p>To get started with Python virtual environments, see the <a href="field-guide-python.html">Appendix: Field Guide to Python</a>.</p>
+<p>You will have to install “gunicorn” in your virtual environment, as Heroku uses this <a href="https://devcenter.heroku.com/articles/python-gunicorn">to serve Python apps</a>. From the terminal:</p>
+<pre><code>pip install gunicorn</code></pre>
+<p>The next step is to define a <code>server</code> variable in your app, as Heroko (gunicorn) will need to use it. In your app’s Python file, after you have defined <code>app</code>:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode py code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># make `server` available to Heroku</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>server <span class="op">=</span> app.server</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Finally (at least for this section), we will need to tell Heroku how to use gunicorn to serve your app. In your repo’s root directory, create a file named <code>Procfile</code> with a line like this:</p>
+<pre><code>web: gunicorn app-aggregate-local:server</code></pre>
+<p><strong>Note</strong>:</p>
+<ul>
+<li><code>app-aggregate-local</code> refers to the file <code>app-aggregate-local.py</code>; use the name of <em>your</em> app file.</li>
+<li><code>server</code> refers to the <code>server</code> object in <code>app-aggregate-local.py</code>, the variable you just made available.</li>
+</ul>
+</section>
+<section id="create-heroku-app" class="level3" data-number="B.2.3">
+<h3 data-number="B.2.3" class="anchored" data-anchor-id="create-heroku-app"><span class="header-section-number">B.2.3</span> Create Heroku app</h3>
+<p>Once you have authenticated on the Heroku CLI, there’s a couple of steps to create the app on Heroku:</p>
+<pre><code>heroku create aggregate-local </code></pre>
+<p><strong>Note</strong>: use the name for <em>your</em> app, rather than <code>aggregate-local</code>.</p>
+<p>This command <a href="https://devcenter.heroku.com/articles/creating-apps">does two things</a>:</p>
+<ul>
+<li>creates the app at Heroku</li>
+<li>creates a git remote</li>
+</ul>
+</section>
+<section id="git-push-heroku-app" class="level3" data-number="B.2.4">
+<h3 data-number="B.2.4" class="anchored" data-anchor-id="git-push-heroku-app"><span class="header-section-number">B.2.4</span> Git-push Heroku app</h3>
+<p>When you’re ready to deploy, or redeploy, it’s a three-step process:</p>
+<ul>
+<li>Update your <code>requirements.txt</code>, so Heroku will know how to create the Python virtual environment.</li>
+<li>Commit your changes to git, locally.</li>
+<li>Push your branch to Heroku.</li>
+</ul>
+<p>From the terminal:</p>
+<pre><code>pip freeze &gt; requirements.txt</code></pre>
+<p>Git-commit your changes, then:</p>
+<pre><code>git push heroku main</code></pre>
+<p>Or whatever your branch happens to be named.</p>
+<p>All being well, your app should be deployed and operational. You can go to your <a href="https://dashboard.heroku.com/apps">Heroku apps dashboard</a> to keep track of all of your deployed apps.</p>
+</section>
+<section id="multiple-apps-per-git-remote" class="level3" data-number="B.2.5">
+<h3 data-number="B.2.5" class="anchored" data-anchor-id="multiple-apps-per-git-remote"><span class="header-section-number">B.2.5</span> Multiple apps per git remote</h3>
+<p>The baseline assumption is that you have one app per git repo.</p>
+<p>If you want to have more than one app per repo, <a href="https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile">there’s a way</a>. For each app in a given repo, you’ll need:</p>
+<ul>
+<li>a separate Procfile.</li>
+<li>a <code>PROCFILE</code> environment-variable for each Heroku app, specifying the location of its <code>Procfile</code>.</li>
+<li>a separate Heroku git-remote.</li>
+</ul>
+<p>I have not done this yet, myself.</p>
+</section>
+<section id="references" class="level3" data-number="B.2.6">
+<h3 data-number="B.2.6" class="anchored" data-anchor-id="references"><span class="header-section-number">B.2.6</span> References</h3>
+<ul>
+<li><a href="https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free">Dash deployment</a></li>
+<li><a href="https://devcenter.heroku.com/articles/authentication">Heroku CLI Authentication</a></li>
+<li><a href="https://stackoverflow.com/questions/63363085/ip-address-mismatch-on-signing-into-heroku-cli">Stack Overflow on “IP Address Mismatch on signing into Heroku CLI”</a></li>
+<li><a href="https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile">Heroku Multi Procfile buildpack</a></li>
+</ul>
+</section>
 </section>
 <section id="observable" class="level2" data-number="B.3">
 <h2 data-number="B.3" class="anchored" data-anchor-id="observable"><span class="header-section-number">B.3</span> Observable</h2>
-<p>The code is developed in a “deployed” state; I hit the “Publish” button.</p>
-<p>That said, there are some interesting embedding possibilities and, as of Spring 2021, capability to run interactively via Quarto.</p>
+<p>At the <a href="https://observablehq.com/">Observable site</a>, code is “deployed” once you hit the “Publish” button.</p>
+<p>That said, there are some interesting possibilities to <a href="https://quarto.org/docs/interactive/ojs/">incorporate Observable into Quarto documents</a>.</p>
 
 
 
