@@ -1,6 +1,7 @@
 # Deployment
 
-In time, I will reconstruct from my code (and my notes) the tricks and sorcery I used to deploy these apps.
+If you want to share your app with the world, there are free options for each alternative.
+The free route I found for Dash has proven to be more complicated than the other two.
 
 ## Shiny
 
@@ -62,7 +63,7 @@ Following the [Dash instructions](https://dash.plotly.com/deployment#heroku-for-
 - use a Python virtual environment
 - install `gunicorn`
 - adapt your app's Python file
-- create a `Procfile`
+- create a `Procfile` in your app repo's root directory.
 
 Using git and creating a repository may be familiar to you already; if not, [Happy Git with R](https://happygitwithr.com/) is highly recommended.
 
@@ -135,9 +136,19 @@ Or whatever your branch happens to be named.
 All being well, your app should be deployed and operational. 
 You can go to your [Heroku apps dashboard](https://dashboard.heroku.com/apps) to keep track of all of your deployed apps.
 
-### Multiple apps per git remote
+### Miscellany
 
-The baseline assumption is that you have one app per git repo.
+In the [Dash instructions](https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free), there is a command they suggest running, after you have made you have made your first deployment:
+
+From the terminal:
+
+```
+heroku ps:scale web=1 
+```
+
+I have read [this is not scrictly necessary](https://stackoverflow.com/a/30326031/1523865), as it is setting the value to the default.
+
+As well, the [Dash instructions](https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free) assume that you have one app per git repo.
 
 If you want to have more than one app per repo, [there's a way](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile).
 For each app in a given repo, you'll need:
@@ -152,7 +163,10 @@ I have not done this yet, myself.
 
 - [Dash deployment](https://dash.plotly.com/deployment#heroku-for-sharing-public-dash-apps-for-free)
 - [Heroku CLI Authentication](https://devcenter.heroku.com/articles/authentication)
+- [Heroku Python Apps](https://devcenter.heroku.com/articles/python-gunicorn)
+- [Heroku app creation](https://devcenter.heroku.com/articles/creating-apps)
 - [Stack Overflow on "IP Address Mismatch on signing into Heroku CLI"](https://stackoverflow.com/questions/63363085/ip-address-mismatch-on-signing-into-heroku-cli)
+- [Heroku apps dashboard](https://dashboard.heroku.com/apps)
 - [Heroku Multi Procfile buildpack](https://elements.heroku.com/buildpacks/heroku/heroku-buildpack-multi-procfile)
 
 ## Observable
