@@ -104,7 +104,7 @@ To reproduce it, a colleague (perhaps you!) will have to create and activate a v
 ```
 
 These are the very basics for how to set up and maintain a Python project. 
-As you gain experience, you will likely adpat these ideas to your evolving needs.
+As you gain experience, you will likely adapt these ideas to your evolving needs.
 
 
 

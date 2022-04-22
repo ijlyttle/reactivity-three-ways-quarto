@@ -280,6 +280,7 @@ Our first step is to get a look at the `penguins` dataset, to verify it's the sa
 # importing into RMarkdown environment for exposition
 import pandas as pd
 from palmerpenguins import load_penguins
+import pprint
 
 penguins = load_penguins()
 print(penguins)
@@ -289,7 +290,7 @@ Because we will tell Dash to move data back and forth using a dictionary, we'll 
 
 ```{python}
 penguins_records = penguins.to_dict('records')
-print(penguins_records[0:2]) # just to get a flavor
+pprint.pp(penguins_records[0:2]) # just to get a flavor
 ```
 
 The first function we'll verify is used to tell us, for a given a data frame and a given Pandas type, which columns are of that type.
