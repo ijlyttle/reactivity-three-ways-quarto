@@ -1,183 +1,189 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Data-Science Reactivity: Three Ways - 2&nbsp; Dash</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-    pre > code.sourceCode { white-space: pre; position: relative; }
-    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-    pre > code.sourceCode > span:empty { height: 1.2em; }
-    .sourceCode { overflow: visible; }
-    code.sourceCode > span { color: inherit; text-decoration: inherit; }
-    div.sourceCode { margin: 1em 0; }
-    pre.sourceCode { margin: 0; }
-    @media screen {
-    div.sourceCode { overflow: auto; }
-    }
-    @media print {
-    pre > code.sourceCode { white-space: pre-wrap; }
-    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-    }
-    pre.numberSource code
-      { counter-reset: source-line 0; }
-    pre.numberSource code > span
-      { position: relative; left: -4em; counter-increment: source-line; }
-    pre.numberSource code > span > a:first-child::before
-      { content: counter(source-line);
-        position: relative; left: -1em; text-align: right; vertical-align: baseline;
-        border: none; display: inline-block;
-        -webkit-touch-callout: none; -webkit-user-select: none;
-        -khtml-user-select: none; -moz-user-select: none;
-        -ms-user-select: none; user-select: none;
-        padding: 0 4px; width: 4em;
-        color: #aaaaaa;
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.298">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2022-04-22">
+
+<title>Data-Science Reactivity: Three Ways - 2&nbsp; Dash</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./observable.html" rel="next">
+<link href="./shiny.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script>
+  // wait for the DOM to finish loading, then run function
+  window.addEventListener('DOMContentLoaded', (event) => {
+
+    // This document uses SVG images: line diagrams with transparent background.
+    // I want to serve the document natively in either light-mode or dark-mode,
+    // so I want to "invert" these images according to the mode.
+    //
+    // I need a way to:
+    //  - determine the mode of the document
+    //  - invert an image, if needed
+    //  - run this function whenever the mode changes
+
+    // In Quarto, the mode of the document can be determined by looking at the
+    // class of the elmenent that has a class "quarto-color-scheme-toggle":
+    //
+    //  - if that class contains "alternate", the document uses dark-mode
+    //  - otherwise, it uses light-mode
+
+    // To invert an image, use a CSS filter:
+    //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+    // We apply the CSS filter to all <img> elements with a class "filter".
+
+    // To execute a function in response to something changing, use an observer:
+    //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+
+    // identify an element to observe
+    const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
+
+    const observer = new MutationObserver(function() {
+
+      // img elements with class "filter"
+      const selImageSvg = 'img.filter';
+
+      // create a callback function for an element to change its style.filter
+      const setFilter = (x) => {
+        return (element) => element.style.filter = x;
       }
-    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-    div.sourceCode
-      {   }
-    @media screen {
-    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-    }
-    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-    code span.at { color: #7d9029; } /* Attribute */
-    code span.bn { color: #40a070; } /* BaseN */
-    code span.bu { } /* BuiltIn */
-    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-    code span.ch { color: #4070a0; } /* Char */
-    code span.cn { color: #880000; } /* Constant */
-    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-    code span.dt { color: #902000; } /* DataType */
-    code span.dv { color: #40a070; } /* DecVal */
-    code span.er { color: #ff0000; font-weight: bold; } /* Error */
-    code span.ex { } /* Extension */
-    code span.fl { color: #40a070; } /* Float */
-    code span.fu { color: #06287e; } /* Function */
-    code span.im { } /* Import */
-    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-    code span.op { color: #666666; } /* Operator */
-    code span.ot { color: #007020; } /* Other */
-    code span.pp { color: #bc7a00; } /* Preprocessor */
-    code span.sc { color: #4070a0; } /* SpecialChar */
-    code span.ss { color: #bb6688; } /* SpecialString */
-    code span.st { color: #4070a0; } /* String */
-    code span.va { color: #19177c; } /* Variable */
-    code span.vs { color: #4070a0; } /* VerbatimString */
-    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-  </style>
 
-  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-  <script src="site_libs/quarto-nav/headroom.min.js"></script>
-  <script src="site_libs/clipboard/clipboard.min.js"></script>
-  <meta name="quarto:offset" content="./">
-  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-  <script src="site_libs/quarto-search/fuse.min.js"></script>
-  <script src="site_libs/quarto-search/quarto-search.js"></script>
-  <link href="./observable.html" rel="next">
-  <link href="./shiny.html" rel="prev">
-  <script src="site_libs/quarto-html/quarto.js"></script>
-  <script src="site_libs/quarto-html/popper.min.js"></script>
-  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="site_libs/quarto-html/anchor.min.js"></script>
-  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-  <link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
-  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
-  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-  <link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
-  <script id="quarto-search-options" type="application/json">{
-    "location": "sidebar",
-    "copy-button": false,
-    "collapse-after": 3,
-    "panel-placement": "start",
-    "type": "textbox",
-    "limit": 20,
-    "language": {
-      "search-no-results-text": "No results",
-      "search-matching-documents-text": "matching documents",
-      "search-copy-link-title": "Copy link to search",
-      "search-hide-matches-text": "Hide additional matches",
-      "search-more-match-text": "more match in this document",
-      "search-more-matches-text": "more matches in this document",
-      "search-clear-button-title": "Clear",
-      "search-detached-cancel-button-title": "Cancel",
-      "search-submit-button-title": "Submit"
-    }
-  }</script>
-  <script>
-    // wait for the DOM to finish loading, then run function
-    window.addEventListener('DOMContentLoaded', (event) => {
+      let filter = 'invert(0%)';
+      if (elementToObserve.classList.contains('alternate')) {
+        // console.log('i am dark mode');
+        filter = 'invert(100%)';
+      }
 
-      // This document uses SVG images: line diagrams with transparent background.
-      // I want to serve the document natively in either light-mode or dark-mode,
-      // so I want to "invert" these images according to the mode.
-      //
-      // I need a way to:
-      //  - determine the mode of the document
-      //  - invert an image, if needed
-      //  - run this function whenever the mode changes
-
-      // In Quarto, the mode of the document can be determined by looking at the
-      // class of the elmenent that has a class "quarto-color-scheme-toggle":
-      //
-      //  - if that class contains "alternate", the document uses dark-mode
-      //  - otherwise, it uses light-mode
-
-      // To invert an image, use a CSS filter:
-      //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
-      // We apply the CSS filter to all <img> elements with a class "filter".
-
-      // To execute a function in response to something changing, use an observer:
-      //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
-
-      // identify an element to observe
-      const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
-
-      const observer = new MutationObserver(function() {
-
-        // img elements with class "filter"
-        const selImageSvg = 'img.filter';
-
-        // create a callback function for an element to change its style.filter
-        const setFilter = (x) => {
-          return (element) => element.style.filter = x;
-        }
-
-        let filter = 'invert(0%)';
-        if (elementToObserve.classList.contains('alternate')) {
-          // console.log('i am dark mode');
-          filter = 'invert(100%)';
-        }
-
-        // apply filter to images
-        document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
-      });
-
-      // attach observer to element
-      observer.observe(elementToObserve, {attributeFilter: ['class']});
-
-      // touch class to initiate observe event
-      elementToObserve.classList = elementToObserve.classList;
-
+      // apply filter to images
+      document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
     });
-  </script>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-  <link rel="stylesheet" href="nocheckbox.css">
+
+    // attach observer to element
+    observer.observe(elementToObserve, {attributeFilter: ['class']});
+
+    // touch class to initiate observe event
+    elementToObserve.classList = elementToObserve.classList;
+
+  });
+</script>
+
+
+<link rel="stylesheet" href="nocheckbox.css">
 </head>
+
 <body class="floating">
+
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -259,32 +265,53 @@
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc">
-<h2 id="toc-title">Table of contents</h2>
-<ul>
-<li><a href="#principles" id="toc-principles" class="nav-link active" data-scroll-target="#principles"> <span class="header-section-number">2.1</span> Principles</a>
-<ul class="collapse">
-<li><a href="#everything-that-exists-is-a-component" id="toc-everything-that-exists-is-a-component" class="nav-link" data-scroll-target="#everything-that-exists-is-a-component"> <span class="header-section-number">2.1.1</span> Everything that exists is a component</a></li>
-<li><a href="#everything-that-happens-is-a-callback" id="toc-everything-that-happens-is-a-callback" class="nav-link" data-scroll-target="#everything-that-happens-is-a-callback"> <span class="header-section-number">2.1.2</span> Everything that happens is a callback</a></li>
-<li><a href="#server-cannot-store-state" id="toc-server-cannot-store-state" class="nav-link" data-scroll-target="#server-cannot-store-state"> <span class="header-section-number">2.1.3</span> Server cannot store state</a></li>
-<li><a href="#use-json-or-base64" id="toc-use-json-or-base64" class="nav-link" data-scroll-target="#use-json-or-base64"> <span class="header-section-number">2.1.4</span> Use JSON or base64</a></li>
-</ul></li>
-<li><a href="#demonstration-app" id="toc-demonstration-app" class="nav-link" data-scroll-target="#demonstration-app"> <span class="header-section-number">2.2</span> Demonstration app</a>
-<ul class="collapse">
-<li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"> <span class="header-section-number">2.2.1</span> Description</a></li>
-<li><a href="#prelims" id="toc-prelims" class="nav-link" data-scroll-target="#prelims"> <span class="header-section-number">2.2.2</span> Prelims</a></li>
-<li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions"> <span class="header-section-number">2.2.3</span> Helper functions</a></li>
-<li><a href="#compmonent-layout" id="toc-compmonent-layout" class="nav-link" data-scroll-target="#compmonent-layout"> <span class="header-section-number">2.2.4</span> Compmonent layout</a></li>
-<li><a href="#callback-functions" id="toc-callback-functions" class="nav-link" data-scroll-target="#callback-functions"> <span class="header-section-number">2.2.5</span> Callback functions</a></li>
-</ul></li>
-</ul>
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#principles" id="toc-principles" class="nav-link active" data-scroll-target="#principles"> <span class="header-section-number">2.1</span> Principles</a>
+  <ul class="collapse">
+  <li><a href="#everything-that-exists-is-a-component" id="toc-everything-that-exists-is-a-component" class="nav-link" data-scroll-target="#everything-that-exists-is-a-component"> <span class="header-section-number">2.1.1</span> Everything that exists is a component</a></li>
+  <li><a href="#everything-that-happens-is-a-callback" id="toc-everything-that-happens-is-a-callback" class="nav-link" data-scroll-target="#everything-that-happens-is-a-callback"> <span class="header-section-number">2.1.2</span> Everything that happens is a callback</a></li>
+  <li><a href="#server-cannot-store-state" id="toc-server-cannot-store-state" class="nav-link" data-scroll-target="#server-cannot-store-state"> <span class="header-section-number">2.1.3</span> Server cannot store state</a></li>
+  <li><a href="#use-json-or-base64" id="toc-use-json-or-base64" class="nav-link" data-scroll-target="#use-json-or-base64"> <span class="header-section-number">2.1.4</span> Use JSON or base64</a></li>
+  </ul></li>
+  <li><a href="#demonstration-app" id="toc-demonstration-app" class="nav-link" data-scroll-target="#demonstration-app"> <span class="header-section-number">2.2</span> Demonstration app</a>
+  <ul class="collapse">
+  <li><a href="#description" id="toc-description" class="nav-link" data-scroll-target="#description"> <span class="header-section-number">2.2.1</span> Description</a></li>
+  <li><a href="#prelims" id="toc-prelims" class="nav-link" data-scroll-target="#prelims"> <span class="header-section-number">2.2.2</span> Prelims</a></li>
+  <li><a href="#helper-functions" id="toc-helper-functions" class="nav-link" data-scroll-target="#helper-functions"> <span class="header-section-number">2.2.3</span> Helper functions</a></li>
+  <li><a href="#compmonent-layout" id="toc-compmonent-layout" class="nav-link" data-scroll-target="#compmonent-layout"> <span class="header-section-number">2.2.4</span> Compmonent layout</a></li>
+  <li><a href="#callback-functions" id="toc-callback-functions" class="nav-link" data-scroll-target="#callback-functions"> <span class="header-section-number">2.2.5</span> Callback functions</a></li>
+  </ul></li>
+  </ul>
 </nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></h1>
+</div>
 
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Dash</span></h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-11</p></div></div></div></header>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-04-22</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
 
 <p>Although it is a gross oversimplification, at first glance Dash seems like Python’s answer to Shiny.</p>
 <p>Accordingly, the goals of this chapter are:</p>
@@ -327,13 +354,13 @@
 <p>Similarly, everything that exists on Dash app’s web page is a component.</p>
 <p>As we’ll see in the demo, a Dash app contains a layout that you specify:</p>
 <div class="cell">
-<div class="sourceCode" id="cb1"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>app.layout <span class="op">=</span> html.div(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>app.layout <span class="op">=</span> html.div(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You need to fill in the <code>...</code>. A component might be a straightforward HTML element, or it might be a Dash component, where you define the attributes.</p>
 <p>The <code>html</code> object (imported from the <code>dash</code> package) behaves very similarly to R’s htmltools package; they are both based on the HTML5 spec.</p>
 <p>We’ll see more in the demo, but here’s an example of a Dash component:</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-group'</span>, multi<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-group'</span>, multi<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This is a <a href="https://dash.plotly.com/dash-core-components/dropdown">dropdown component</a>; we define the <code>id</code> and <code>multi</code> properties at definition. In this case, we don’t define the <code>options</code> or <code>value</code> properties. We’ll update the <code>options</code> dynamically, and let the user set the <code>value</code>.</p>
 <p>Like other components, dropdowns have a number of <a href="https://dash.plotly.com/dash-core-components/dropdown#dropdown-properties">properties</a>; we can set them either at initialization, as we did here, or we can set them using a callback.</p>
@@ -343,7 +370,7 @@
 <p>If you want something to happen in a Dash app, it has to happen in a callback function. Dash lets you write callbacks using Python. It also lets you write callbacks in JavaScript, but that gets beyond the scope of this book.</p>
 <p>We’ll see this in more detail in the demo app, but a callback is a standard Python function with a decorator:</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'cols-group'</span>, <span class="st">'options'</span>),</span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'cols-group'</span>, <span class="st">'options'</span>),</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'inp'</span>, <span class="st">'data'</span>))</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_cols_group(data_records):</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cols_choice(data_records, <span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -366,7 +393,7 @@
 </ul>
 <p>We’ll use the first option here. Here’s one of the components in our layout:</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'inp'</span>, data<span class="op">=</span>penguins.to_dict(<span class="st">'records'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'inp'</span>, data<span class="op">=</span>penguins.to_dict(<span class="st">'records'</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note that this component is initialized using the <code>penguins</code> data, but that we are using pandas’ <code>to_dict()</code> method. This is because the component will receive the data using JSON; it is stored in the DOM as a JavaScript object.</p>
 </section>
@@ -433,7 +460,7 @@ helpers/
   cols.py</code></pre>
 <p>Here’s the app file, <code>app-aggregate-local.py</code>, with the components and callbacks removed:</p>
 <div class="cell">
-<div class="sourceCode" id="cb8"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this app with `python app-aggregate-local.py` and</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Run this app with `python app-aggregate-local.py` and</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># visit http://127.0.0.1:8050/ in your web browser.</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> dash</span>
@@ -482,7 +509,7 @@ helpers/
 <h3 data-number="2.2.3" class="anchored" data-anchor-id="helper-functions"><span class="header-section-number">2.2.3</span> Helper functions</h3>
 <p>Just like in R, I like to write as much “vanilla” Python code as I can. I want to demonstrate to myself, as much as I can, that the “guts” of the app behaves as I expect. That way, when I’m building the components and the callbacks, I can narrow down the things that might be going wrong.</p>
 <div class="cell">
-<div class="sourceCode" id="cb10"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using only to demonstrate code; not used in Python Dash.</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># using only to demonstrate code; not used in Python Dash.</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(<span class="st">"reticulate"</span>)</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">use_virtualenv</span>(<span class="st">"./venv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -490,13 +517,14 @@ helpers/
 <p>In fact, if you are newish to Python, you might find the “Field Guide” appendix useful to get things set up. For Python programming, there is a great introduction at reticulate.</p>
 <p>Our first step is to get a look at the <code>penguins</code> dataset, to verify it’s the same as we use in R.</p>
 <div class="cell">
-<div class="sourceCode" id="cb11"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing into RMarkdown environment for exposition</span></span>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># importing into RMarkdown environment for exposition</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> palmerpenguins <span class="im">import</span> load_penguins</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pprint</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>penguins <span class="op">=</span> load_penguins()</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>       species     island  bill_length_mm  ...  body_mass_g     sex  year
 0       Adelie  Torgersen            39.1  ...       3750.0    male  2007
 1       Adelie  Torgersen            39.5  ...       3800.0  female  2007
@@ -515,29 +543,44 @@ helpers/
 </div>
 <p>Because we will tell Dash to move data back and forth using a dictionary, we’ll make a variable that stores <code>penguins</code> as records:</p>
 <div class="cell">
-<div class="sourceCode" id="cb13"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>penguins_records <span class="op">=</span> penguins.to_dict(<span class="st">'records'</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(penguins_records[<span class="dv">0</span>:<span class="dv">2</span>]) <span class="co"># just to get a flavor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
-<pre><code>[{'species': 'Adelie', 'island': 'Torgersen', 'bill_length_mm': 39.1, 'bill_depth_mm': 18.7, 'flipper_length_mm': 181.0, 'body_mass_g': 3750.0, 'sex': 'male', 'year': 2007}, {'species': 'Adelie', 'island': 'Torgersen', 'bill_length_mm': 39.5, 'bill_depth_mm': 17.4, 'flipper_length_mm': 186.0, 'body_mass_g': 3800.0, 'sex': 'female', 'year': 2007}]</code></pre>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>penguins_records <span class="op">=</span> penguins.to_dict(<span class="st">'records'</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>pprint.pp(penguins_records[<span class="dv">0</span>:<span class="dv">2</span>]) <span class="co"># just to get a flavor</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[{'species': 'Adelie',
+  'island': 'Torgersen',
+  'bill_length_mm': 39.1,
+  'bill_depth_mm': 18.7,
+  'flipper_length_mm': 181.0,
+  'body_mass_g': 3750.0,
+  'sex': 'male',
+  'year': 2007},
+ {'species': 'Adelie',
+  'island': 'Torgersen',
+  'bill_length_mm': 39.5,
+  'bill_depth_mm': 17.4,
+  'flipper_length_mm': 186.0,
+  'body_mass_g': 3800.0,
+  'sex': 'female',
+  'year': 2007}]</code></pre>
 </div>
 </div>
 <p>The first function we’ll verify is used to tell us, for a given a data frame and a given Pandas type, which columns are of that type. (In the app, we’ll convert to records-format in the callback function.)</p>
 <div class="cell">
-<div class="sourceCode" id="cb15"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cols_choice (df, include):</span>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cols_choice (df, include):</span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df.select_dtypes(include<span class="op">=</span>include).columns.to_list()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s test the function. In Pandas, strings have type <code>'object'</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb16"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cols_choice(penguins, <span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>cols_choice(penguins, <span class="st">'object'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>['species', 'island', 'sex']</code></pre>
 </div>
 </div>
 <p>Numbers have type <code>'number'</code>:</p>
 <div class="cell">
-<div class="sourceCode" id="cb18"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cols_choice(penguins, <span class="st">'number'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>cols_choice(penguins, <span class="st">'number'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>['bill_length_mm', 'bill_depth_mm', 'flipper_length_mm', 'body_mass_g', 'year']</code></pre>
 </div>
 </div>
@@ -545,7 +588,7 @@ helpers/
 <p>Next, we need a function to generate the (display) table properties. We need to return a list where each element is dictionary that describes a column in the data frame. As we’ll see later, this is the format we need to specify the table headers.</p>
 <p>Note that we are <em>not</em> using the data-frame format in this function, so we can keep everything in records format. We use a trick by looking at only the first (well, zeroth) record.</p>
 <div class="cell">
-<div class="sourceCode" id="cb20"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cols_header (data_records):</span>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> cols_header (data_records):</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  </span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (<span class="bu">len</span>(data_records) <span class="op">==</span> <span class="dv">0</span>):</span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> []</span>
@@ -554,25 +597,25 @@ helpers/
 </div>
 <p>There’s all sorts of ways to do this in Python. I’m a sucker for functional programming, so here’s how to use a <code>map()</code> function. This returns a map object, so we need to change it to a list.</p>
 <div class="cell">
-<div class="sourceCode" id="cb21"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(</span>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="bu">list</span>(</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">map</span>(<span class="kw">lambda</span> v: {<span class="st">'name'</span>: v, <span class="st">'id'</span>: v}, data_records[<span class="dv">0</span>].keys())</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>This works largely like R’s <code>purrr::map()</code>, but in Python, we provide the function first, then the thing we are iterating over. Here’s a purrr equivalent:</p>
 <div class="cell">
-<div class="sourceCode" id="cb22"><pre class="sourceCode r cell-code code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map</span>(<span class="fu">names</span>(data_records[<span class="dv">1</span>]), <span class="sc">~</span><span class="fu">list</span>(<span class="at">name =</span> .x, <span class="at">id =</span> .x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>purrr<span class="sc">::</span><span class="fu">map</span>(<span class="fu">names</span>(data_records[<span class="dv">1</span>]), <span class="sc">~</span><span class="fu">list</span>(<span class="at">name =</span> .x, <span class="at">id =</span> .x))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Anyhow, let’s try out our Python function:</p>
 <div class="cell">
-<div class="sourceCode" id="cb23"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cols_header(penguins_records)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>cols_header(penguins_records)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
 <pre><code>[{'name': 'species', 'id': 'species'}, {'name': 'island', 'id': 'island'}, {'name': 'bill_length_mm', 'id': 'bill_length_mm'}, {'name': 'bill_depth_mm', 'id': 'bill_depth_mm'}, {'name': 'flipper_length_mm', 'id': 'flipper_length_mm'}, {'name': 'body_mass_g', 'id': 'body_mass_g'}, {'name': 'sex', 'id': 'sex'}, {'name': 'year', 'id': 'year'}]</code></pre>
 </div>
 </div>
 <p>This seems OK.</p>
 <p>Finally, we need an aggregation function. We send a data frame, then some lists of column-names, and a string naming an aggregation-function. This is an exercise in Pandas - I think this works, but my lack of experience in Pandas suggests there may be a “better” way. We’ll write this as in terms of data frames; we’ll convert to/from records-format in the callback function.</p>
 <div class="cell">
-<div class="sourceCode" id="cb25"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>agg_function_choices <span class="op">=</span> [<span class="st">'mean'</span>, <span class="st">'min'</span>, <span class="st">'max'</span>]</span>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>agg_function_choices <span class="op">=</span> [<span class="st">'mean'</span>, <span class="st">'min'</span>, <span class="st">'max'</span>]</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> aggregate_df (df, cols_group, cols_agg, func_agg,</span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                  str_fn_choices <span class="op">=</span> agg_function_choices):</span>
@@ -599,7 +642,7 @@ helpers/
 <span id="cb25-25"><a href="#cb25-25" aria-hidden="true" tabindex="-1"></a>  cols_agg <span class="op">=</span> [<span class="st">"bill_length_mm"</span>, <span class="st">"bill_depth_mm"</span>],</span>
 <span id="cb25-26"><a href="#cb25-26" aria-hidden="true" tabindex="-1"></a>  func_agg <span class="op">=</span> <span class="st">"mean"</span></span>
 <span id="cb25-27"><a href="#cb25-27" aria-hidden="true" tabindex="-1"></a>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-stdout">
+<div class="cell-output cell-output-stdout">
 <pre><code>      island  bill_length_mm  bill_depth_mm
 0     Biscoe       45.257485      15.874850
 1      Dream       44.167742      18.344355
@@ -608,11 +651,11 @@ helpers/
 </div>
 <p>This may be interesting only to me, but there is a more “functional” way to write the statement:</p>
 <div class="cell">
-<div class="sourceCode" id="cb27"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dict_agg <span class="op">=</span> {i: func_agg <span class="cf">for</span> i <span class="kw">in</span> cols_agg}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>dict_agg <span class="op">=</span> {i: func_agg <span class="cf">for</span> i <span class="kw">in</span> cols_agg}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Using a reducer:</p>
 <div class="cell">
-<div class="sourceCode" id="cb28"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></span>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> functools <span class="im">import</span> <span class="bu">reduce</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>dict_agg <span class="op">=</span> <span class="bu">reduce</span>(<span class="kw">lambda</span> acc, val: <span class="bu">dict</span>(acc, <span class="op">**</span>{val: func_agg}), cols_agg, {})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -624,7 +667,7 @@ helpers/
 <p>Let’s start with the formatting. In the app, we need to create an <code>app.layout</code>, which will be the HTML used to render our app in the browser. Just like with Shiny, we’re using Bootstrap, but we have to be a little more explicit. In Shiny, Bootstrap is “baked in”; in Dash, it’s an add-on.</p>
 <p>Here’s the “formatting” bits of the layout; the <code>...</code> represent Dash components that we’ll discuss presently:</p>
 <div class="cell">
-<div class="sourceCode" id="cb29"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>app.layout <span class="op">=</span> html.Div(</span>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>app.layout <span class="op">=</span> html.Div(</span>
 <span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    className<span class="op">=</span><span class="st">'container-fluid'</span>,</span>
 <span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    children<span class="op">=</span>[</span>
 <span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>        ...</span>
@@ -662,7 +705,7 @@ helpers/
 <h4 data-number="2.2.4.1" class="anchored" data-anchor-id="data-stores"><span class="header-section-number">2.2.4.1</span> Data stores</h4>
 <p>The first parts I want to highlight are the data stores:</p>
 <div class="cell">
-<div class="sourceCode" id="cb30"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'inp'</span>, data<span class="op">=</span>penguins.to_dict(<span class="st">'records'</span>)),</span>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'inp'</span>, data<span class="op">=</span>penguins.to_dict(<span class="st">'records'</span>)),</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>dcc.Store(<span class="bu">id</span><span class="op">=</span><span class="st">'agg'</span>, data<span class="op">=</span>[])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Recall that the server part of a Dash app cannot store its state. Instead, we will store the state, in our case: the input and aggregated data, in the DOM. Dash provides a <code>dcc.Store()</code> component; in its <code>data</code> property, we store the records-based data (note the use of <code>.to_dict('records')</code>. Also note that, just like Shiny, components each have an <code>id</code> property.</p>
@@ -671,7 +714,7 @@ helpers/
 <h4 data-number="2.2.4.2" class="anchored" data-anchor-id="inputs"><span class="header-section-number">2.2.4.2</span> Inputs</h4>
 <p>Let’s look at the components that specify the aggregation:</p>
 <div class="cell">
-<div class="sourceCode" id="cb31"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-group'</span>, multi<span class="op">=</span><span class="va">True</span>),</span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-group'</span>, multi<span class="op">=</span><span class="va">True</span>),</span>
 <span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>dcc.Dropdown(<span class="bu">id</span><span class="op">=</span><span class="st">'cols-agg'</span>, multi<span class="op">=</span><span class="va">True</span>),</span>
 <span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>dbc.Select(</span>
 <span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>    <span class="bu">id</span><span class="op">=</span><span class="st">'func-agg'</span>,</span>
@@ -689,7 +732,7 @@ helpers/
 <h4 data-number="2.2.4.3" class="anchored" data-anchor-id="outputs"><span class="header-section-number">2.2.4.3</span> Outputs</h4>
 <p>It remains to look at the data tables. There are two tables, identical in form; we will examine only one of them:</p>
 <div class="cell">
-<div class="sourceCode" id="cb32"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dash_table.DataTable(</span>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>dash_table.DataTable(</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="bu">id</span><span class="op">=</span><span class="st">'table-inp'</span>,</span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>    page_size<span class="op">=</span><span class="dv">10</span>,</span>
 <span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>    sort_action<span class="op">=</span><span class="st">'native'</span></span>
@@ -703,7 +746,7 @@ helpers/
 <h3 data-number="2.2.5" class="anchored" data-anchor-id="callback-functions"><span class="header-section-number">2.2.5</span> Callback functions</h3>
 <p>In Dash, callback functions are just regular functions with decorators. Here’s a very generic example:</p>
 <div class="cell">
-<div class="sourceCode" id="cb33"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'output-component'</span>, <span class="st">'output-property'</span>),</span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'output-component'</span>, <span class="st">'output-property'</span>),</span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'input-component'</span>, <span class="st">'input-property'</span>))</span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> some_function_name(x):</span>
 <span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> some_function(x)</span>
@@ -726,7 +769,7 @@ helpers/
 <h4 data-number="2.2.5.1" class="anchored" data-anchor-id="inputs-1"><span class="header-section-number">2.2.5.1</span> Inputs</h4>
 <p>We have a couple of input components that need updating: the grouping columns and the aggregation columns. Each has its own callback, but they are virtually identical, so I’ll describe only one.</p>
 <div class="cell">
-<div class="sourceCode" id="cb34"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'cols-group'</span>, <span class="st">'options'</span>),</span>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'cols-group'</span>, <span class="st">'options'</span>),</span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'inp'</span>, <span class="st">'data'</span>))</span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_cols_group(data_records):</span>
 <span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>    df <span class="op">=</span> pd.DataFrame.from_dict(data_records)</span>
@@ -744,7 +787,7 @@ helpers/
 <h4 data-number="2.2.5.2" class="anchored" data-anchor-id="calculations"><span class="header-section-number">2.2.5.2</span> Calculations</h4>
 <p>The callback that performs the aggregation has more going on, but we’ll get to the bottom of it.</p>
 <div class="cell">
-<div class="sourceCode" id="cb35"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'agg'</span>, <span class="st">'data'</span>),</span>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'agg'</span>, <span class="st">'data'</span>),</span>
 <span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'button-agg'</span>, <span class="st">'n_clicks'</span>),</span>
 <span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>              State(<span class="st">'inp'</span>, <span class="st">'data'</span>),</span>
 <span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>              State(<span class="st">'cols-group'</span>, <span class="st">'value'</span>),</span>
@@ -774,7 +817,7 @@ helpers/
 <h4 data-number="2.2.5.3" class="anchored" data-anchor-id="outputs-1"><span class="header-section-number">2.2.5.3</span> Outputs</h4>
 <p>The final set of callbacks is for our data tables. Again, although we have two data tables, the callbacks are virtually identical, so I’ll highlight only one.</p>
 <div class="cell">
-<div class="sourceCode" id="cb36"><pre class="sourceCode python cell-code code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'table-inp'</span>, <span class="st">'columns'</span>),</span>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="at">@app.callback</span>(Output(<span class="st">'table-inp'</span>, <span class="st">'columns'</span>),</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>              Output(<span class="st">'table-inp'</span>, <span class="st">'data'</span>),</span>
 <span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>              Input(<span class="st">'inp'</span>, <span class="st">'data'</span>))</span>
 <span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> update_table_inp(data_records):</span>
@@ -785,10 +828,10 @@ helpers/
 <p>Certainly, you could write two callbacks to do the same things; writing a single callback made more sense to me. Of course, you should do what makes sense to you.</p>
 
 
+</section>
+</section>
+</section>
 
-</section>
-</section>
-</section>
 </main> <!-- /main -->
 <script type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
@@ -908,7 +951,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.blur();
     // flash "checked"
     button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
     setTimeout(function() {
+      button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
     // clear code selection
@@ -976,6 +1022,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 </body></html>

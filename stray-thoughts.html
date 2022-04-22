@@ -1,119 +1,125 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.228">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>Data-Science Reactivity: Three Ways - Appendix C — Stray Thoughts</title>
-  <style>
-    code{white-space: pre-wrap;}
-    span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
-    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
-    ul.task-list{list-style: none;}
-  </style>
 
-  <script src="site_libs/quarto-nav/quarto-nav.js"></script>
-  <script src="site_libs/quarto-nav/headroom.min.js"></script>
-  <script src="site_libs/clipboard/clipboard.min.js"></script>
-  <meta name="quarto:offset" content="./">
-  <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-  <script src="site_libs/quarto-search/fuse.min.js"></script>
-  <script src="site_libs/quarto-search/quarto-search.js"></script>
-  <link href="./deployment.html" rel="prev">
-  <script src="site_libs/quarto-html/quarto.js"></script>
-  <script src="site_libs/quarto-html/popper.min.js"></script>
-  <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-  <script src="site_libs/quarto-html/anchor.min.js"></script>
-  <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-  <link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
-  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
-  <script src="site_libs/bootstrap/bootstrap.min.js"></script>
-  <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-  <link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
-  <link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
-  <script id="quarto-search-options" type="application/json">{
-    "location": "sidebar",
-    "copy-button": false,
-    "collapse-after": 3,
-    "panel-placement": "start",
-    "type": "textbox",
-    "limit": 20,
-    "language": {
-      "search-no-results-text": "No results",
-      "search-matching-documents-text": "matching documents",
-      "search-copy-link-title": "Copy link to search",
-      "search-hide-matches-text": "Hide additional matches",
-      "search-more-match-text": "more match in this document",
-      "search-more-matches-text": "more matches in this document",
-      "search-clear-button-title": "Clear",
-      "search-detached-cancel-button-title": "Cancel",
-      "search-submit-button-title": "Submit"
-    }
-  }</script>
-  <script>
-    // wait for the DOM to finish loading, then run function
-    window.addEventListener('DOMContentLoaded', (event) => {
+<meta charset="utf-8">
+<meta name="generator" content="quarto-0.9.298">
 
-      // This document uses SVG images: line diagrams with transparent background.
-      // I want to serve the document natively in either light-mode or dark-mode,
-      // so I want to "invert" these images according to the mode.
-      //
-      // I need a way to:
-      //  - determine the mode of the document
-      //  - invert an image, if needed
-      //  - run this function whenever the mode changes
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-      // In Quarto, the mode of the document can be determined by looking at the
-      // class of the elmenent that has a class "quarto-color-scheme-toggle":
-      //
-      //  - if that class contains "alternate", the document uses dark-mode
-      //  - otherwise, it uses light-mode
+<meta name="dcterms.date" content="2022-04-22">
 
-      // To invert an image, use a CSS filter:
-      //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
-      // We apply the CSS filter to all <img> elements with a class "filter".
+<title>Data-Science Reactivity: Three Ways - Appendix C — Stray Thoughts</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
 
-      // To execute a function in response to something changing, use an observer:
-      //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<link href="./deployment.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link class="quarto-color-scheme" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" id="quarto-text-highlighting-styles" href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link class="quarto-color-scheme" href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link class="quarto-color-scheme quarto-color-alternate" rel="prefetch" href="site_libs/bootstrap/bootstrap-dark.min.css">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script>
+  // wait for the DOM to finish loading, then run function
+  window.addEventListener('DOMContentLoaded', (event) => {
 
-      // identify an element to observe
-      const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
+    // This document uses SVG images: line diagrams with transparent background.
+    // I want to serve the document natively in either light-mode or dark-mode,
+    // so I want to "invert" these images according to the mode.
+    //
+    // I need a way to:
+    //  - determine the mode of the document
+    //  - invert an image, if needed
+    //  - run this function whenever the mode changes
 
-      const observer = new MutationObserver(function() {
+    // In Quarto, the mode of the document can be determined by looking at the
+    // class of the elmenent that has a class "quarto-color-scheme-toggle":
+    //
+    //  - if that class contains "alternate", the document uses dark-mode
+    //  - otherwise, it uses light-mode
 
-        // img elements with class "filter"
-        const selImageSvg = 'img.filter';
+    // To invert an image, use a CSS filter:
+    //   https://developer.mozilla.org/en-US/docs/Web/CSS/filter
+    // We apply the CSS filter to all <img> elements with a class "filter".
 
-        // create a callback function for an element to change its style.filter
-        const setFilter = (x) => {
-          return (element) => element.style.filter = x;
-        }
+    // To execute a function in response to something changing, use an observer:
+    //   https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe#examples
 
-        let filter = 'invert(0%)';
-        if (elementToObserve.classList.contains('alternate')) {
-          // console.log('i am dark mode');
-          filter = 'invert(100%)';
-        }
+    // identify an element to observe
+    const elementToObserve = document.querySelector(".quarto-color-scheme-toggle");
 
-        // apply filter to images
-        document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
-      });
+    const observer = new MutationObserver(function() {
 
-      // attach observer to element
-      observer.observe(elementToObserve, {attributeFilter: ['class']});
+      // img elements with class "filter"
+      const selImageSvg = 'img.filter';
 
-      // touch class to initiate observe event
-      elementToObserve.classList = elementToObserve.classList;
+      // create a callback function for an element to change its style.filter
+      const setFilter = (x) => {
+        return (element) => element.style.filter = x;
+      }
 
+      let filter = 'invert(0%)';
+      if (elementToObserve.classList.contains('alternate')) {
+        // console.log('i am dark mode');
+        filter = 'invert(100%)';
+      }
+
+      // apply filter to images
+      document.querySelectorAll(selImageSvg).forEach(setFilter(filter));
     });
-  </script>
-  <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
-  <![endif]-->
-  <link rel="stylesheet" href="nocheckbox.css">
+
+    // attach observer to element
+    observer.observe(elementToObserve, {attributeFilter: ['class']});
+
+    // touch class to initiate observe event
+    elementToObserve.classList = elementToObserve.classList;
+
+  });
+</script>
+
+
+<link rel="stylesheet" href="nocheckbox.css">
 </head>
+
 <body class="floating">
+
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
@@ -198,10 +204,31 @@
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
+
 <header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Appendix C — Stray Thoughts</h1>
+</div>
 
 
-<div class="quarto-title"><h1 class="title d-none d-lg-block display-7">Appendix C — Stray Thoughts</h1></div><div class="quarto-title-meta"><div><div class="quarto-title-meta-heading">Published</div><div class="quarto-title-meta-contents"><p class="date">2022-04-11</p></div></div></div></header>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2022-04-22</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
 <p>Putting the code together, I have had a lot of stray thoughts that I want to get into the text. I’m thinking to collect them here, then remove them as they get expressed more concretely elsewhere in this book.</p>
 <p>Shiny and Observable are more opinionated than Dash.</p>
 <p>Shiny and Observable manage the reactive graph for you; Dash makes you spell it out explicitly.</p>
@@ -332,7 +359,10 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.blur();
     // flash "checked"
     button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
     setTimeout(function() {
+      button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
     // clear code selection
@@ -397,6 +427,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
 </nav>
 </div> <!-- /content -->
+
 
 
 </body></html>
