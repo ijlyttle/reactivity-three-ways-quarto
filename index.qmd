@@ -1,4 +1,4 @@
-# Preface {.unnumbered}
+# Preface {.unnumbered} 
 
 The purpose of this book is to compare and contrast reactive data-science apps using three languages/frameworks:
 
