@@ -1,0 +1,7 @@
+div.observablehq table thead tr th {
+    background-color: var(--bs-body-bg);
+}
+
+input, button, select, optgroup, textarea {
+    background-color: var(--bs-body-bg);
+}
