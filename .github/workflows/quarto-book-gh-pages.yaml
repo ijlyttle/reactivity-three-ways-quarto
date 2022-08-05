@@ -15,7 +15,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-        # maybe needs this, too?
+      # additional dependencies
+      - name: Install additional libraries on Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y libcurl4-openssl-dev
+
+      # R dependencies
       - uses: r-lib/actions/setup-renv@v2
 
       - name: Install Quarto
